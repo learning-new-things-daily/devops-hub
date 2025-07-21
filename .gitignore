@@ -20,9 +20,3 @@ gh-pages/
 # Logs
 *.log
 
-# Optional: keep build.js and template.html out of deployed branch
-build.js
-template.html
-
-# Optional: exclude all includes from deploy
-includes/
