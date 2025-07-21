@@ -1,0 +1,10 @@
+{
+  "name": "devops-hub",
+  "version": "1.0.0",
+  "description": "Modular GitHub Pages site with manual HTML build",
+  "scripts": {
+    "build": "node build.js"
+  },
+  "author": "mukulmj",
+  "license": "MIT"
+}
