@@ -1,62 +1,150 @@
-<!-- index.html - Starter Monetized GitHub Pages Site -->
+<!-- index.html - Starter Monetized GitHub Pages Site with Enhanced CSS -->
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DevOps Hub - Tools, Tips & Scripts</title>
-  <meta name="description" content="Free DevOps tutorials, tools, and premium scripts for automation.">
+  <title>DevOps Hub - Automate Everything</title>
+  <meta name="description" content="Master DevOps with powerful automation scripts, premium tools, and expert insights.">
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-  <!-- Google AdSense Placeholder -->
-  <!-- <script data-ad-client="ca-pub-XXXXXXXXX" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script> -->
+  <style>
+    html.dark body {
+      background-color: #111827;
+      color: #e5e7eb;
+    }
+    html.dark .section-card {
+      background-color: #1f2937;
+      color: #e5e7eb;
+    }
+    html.dark footer {
+      background-color: #1f2937;
+      color: #9ca3af;
+    }
+    body {
+      scroll-behavior: smooth;
+    }
+    nav a {
+      transition: all 0.2s ease-in-out;
+    }
+    nav a:hover {
+      text-decoration: underline;
+      transform: scale(1.05);
+    }
+    .section-card {
+      background-color: white;
+      border-radius: 1rem;
+      padding: 2rem;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+      transition: transform 0.3s ease;
+    }
+    .section-card:hover {
+      transform: translateY(-4px);
+    }
+    .btn {
+      transition: transform 0.2s ease-in-out;
+    }
+    .btn:hover {
+      transform: scale(1.05);
+    }
+    #backToTop {
+      position: fixed;
+      bottom: 1.5rem;
+      right: 1.5rem;
+      display: none;
+      background: #4f46e5;
+      color: white;
+      border-radius: 50%;
+      padding: 0.75rem;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      z-index: 1000;
+    }
+    #loader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: white;
+      z-index: 2000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .spinner {
+      border: 4px solid #e5e7eb;
+      border-top: 4px solid #6366f1;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+  </style>
 </head>
-<body class="bg-gray-50 text-gray-800">
-  <header class="bg-indigo-600 text-white p-4">
-    <div class="max-w-5xl mx-auto flex justify-between items-center">
-      <h1 class="text-xl font-bold">DevOps Hub</h1>
-      <nav>
-        <a href="/blog" class="mr-4 hover:underline">Blog</a>
-        <a href="/scripts" class="mr-4 hover:underline">Scripts</a>
-        <a href="/contact.html" class="hover:underline">Contact</a>
+<body class="bg-gradient-to-br from-gray-50 to-white text-gray-800 min-h-screen">
+  <div id="loader"><div class="spinner"></div></div>
+  <header class="bg-indigo-700 text-white p-5 shadow">
+    <div class="max-w-6xl mx-auto flex justify-between items-center">
+      <h1 class="text-2xl font-bold tracking-tight">🚀 DevOps Hub</h1>
+      <nav class="space-x-6">
+        <a href="/blog">Blog</a>
+        <a href="/scripts">Scripts</a>
+        <a href="/contact.html">Hire Me</a>
+        <button onclick="toggleDarkMode()" class="ml-4 bg-gray-800 text-white px-3 py-1 rounded">🌓</button>
       </nav>
     </div>
   </header>
 
-  <main class="max-w-5xl mx-auto py-8 px-4">
-    <section class="mb-8">
-      <h2 class="text-2xl font-semibold mb-2">Latest Blog Posts</h2>
-      <ul class="list-disc pl-6">
-        <li><a href="/blog/ansible-tricks.html" class="text-blue-600 hover:underline">10 Ansible Tricks for Automation</a></li>
-        <li><a href="/blog/ci-cd-pipeline.html" class="text-blue-600 hover:underline">How to Build a CI/CD Pipeline with GitHub Actions</a></li>
+  <main class="max-w-6xl mx-auto py-10 px-4 space-y-10">
+    <section class="section-card">
+      <h2 class="text-3xl font-bold mb-4">✨ Welcome to DevOps Hub</h2>
+      <p class="text-lg leading-relaxed">Level up your automation skills, explore powerful DevOps tools, and unlock premium scripts to turbocharge your workflow. Whether you're a beginner or pro — this is your launchpad.</p>
+    </section>
+
+    <section class="section-card">
+      <h2 class="text-2xl font-semibold mb-2">📰 Latest Blog Posts</h2>
+      <ul class="list-disc pl-6 text-blue-600 space-y-2">
+        <li><a href="/blog/ansible-tricks.html">10 Ansible Tricks for Seamless Automation</a></li>
+        <li><a href="/blog/ci-cd-pipeline.html">CI/CD with GitHub Actions: A Hands-On Guide</a></li>
       </ul>
     </section>
 
-    <section class="mb-8">
-      <h2 class="text-2xl font-semibold mb-2">Premium Scripts</h2>
-      <p>Check out our Gumroad store to download premium Ansible and Bash scripts.</p>
-      <a href="https://gumroad.com/yourlink" class="mt-2 inline-block bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">View on Gumroad</a>
+    <section class="section-card">
+      <h2 class="text-2xl font-semibold mb-2">💾 Premium DevOps Scripts</h2>
+      <p>Save hours of work. Use pre-built, production-ready scripts crafted for real-world deployments.</p>
+      <a href="https://gumroad.com/yourlink" class="btn mt-3 inline-block bg-green-600 text-white px-5 py-2 rounded-full shadow hover:bg-green-700">Get Scripts on Gumroad</a>
     </section>
 
-    <section class="mb-8">
-      <h2 class="text-2xl font-semibold mb-2">Hire Me</h2>
-      <p>I offer DevOps consulting, Ansible playbook creation, and automation services.</p>
-      <a href="/contact.html" class="mt-2 inline-block bg-indigo-500 text-white px-4 py-2 rounded hover:bg-indigo-600">Get in Touch</a>
+    <section class="section-card">
+      <h2 class="text-2xl font-semibold mb-2">🧑‍💻 Freelance DevOps Consulting</h2>
+      <p>Need help with automation, CI/CD pipelines, infrastructure-as-code, or anything DevOps? Let's collaborate!</p>
+      <a href="/contact.html" class="btn mt-3 inline-block bg-indigo-600 text-white px-5 py-2 rounded-full shadow hover:bg-indigo-700">Schedule a Call</a>
     </section>
-
-    <!-- Ad Placeholder -->
-    <!-- <ins class="adsbygoogle"
-         style="display:block"
-         data-ad-client="ca-pub-XXXXXXX"
-         data-ad-slot="YYYYYY"
-         data-ad-format="auto"
-         data-full-width-responsive="true"></ins>
-    <script>
-         (adsbygoogle = window.adsbygoogle || []).push({});
-    </script> -->
   </main>
 
-  <footer class="bg-gray-200 p-4 text-center text-sm">
-    © 2025 DevOps Hub | Powered by GitHub Pages
+  <button id="backToTop" onclick="window.scrollTo({ top: 0, behavior: 'smooth' });">⬆️</button>
+
+  <footer class="bg-gray-100 border-t py-4 text-center text-sm text-gray-600">
+    © 2025 DevOps Hub | Built with ❤️ on GitHub Pages | <a href="https://github.com/yourname" class="text-blue-600 hover:underline">GitHub</a>
   </footer>
+
+  <script>
+    window.addEventListener("load", () => {
+      document.getElementById("loader").style.display = "none";
+    });
+
+    const backToTop = document.getElementById("backToTop");
+    window.addEventListener("scroll", () => {
+      backToTop.style.display = window.scrollY > 300 ? "block" : "none";
+    });
+
+    function toggleDarkMode() {
+      const html = document.documentElement;
+      html.classList.toggle("dark");
+    }
+  </script>
 </body>
 </html>
