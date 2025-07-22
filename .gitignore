@@ -8,7 +8,7 @@ package-lock.json
 Thumbs.db
 
 # Build output (optional if only committing via GitHub Actions)
-# index.html
+index.html
 
 # GitHub Pages branch shouldn't exist locally
 gh-pages/
