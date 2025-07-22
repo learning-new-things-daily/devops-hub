@@ -1,0 +1,28 @@
+/* Navigation */
+nav a {
+  transition: all 0.2s ease-in-out;
+}
+nav a:hover {
+  text-decoration: underline;
+  transform: scale(1.05);
+}
+
+/* Section Cards */
+.section-card {
+  background-color: white;
+  border-radius: 1rem;
+  padding: 2rem;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease;
+}
+.section-card:hover {
+  transform: translateY(-4px);
+}
+
+/* Buttons */
+.btn {
+  transition: transform 0.2s ease-in-out;
+}
+.btn:hover {
+  transform: scale(1.05);
+}

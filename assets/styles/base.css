@@ -1,0 +1,25 @@
+/* Reset & Typography */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  scroll-behavior: smooth;
+  font-family: system-ui, sans-serif;
+  line-height: 1.6;
+}
+
+/* Light/Dark Themes */
+html.dark body {
+  background-color: #111827;
+  color: #e5e7eb;
+}
+html.dark .section-card {
+  background-color: #1f2937;
+  color: #e5e7eb;
+}
+html.dark footer {
+  background-color: #1f2937;
+  color: #9ca3af;
+}
