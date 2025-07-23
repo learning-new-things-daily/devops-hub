@@ -12,7 +12,6 @@ const parts = {
   intro: fs.readFileSync('includes/sections/intro.html', 'utf8'),
   blog: fs.readFileSync('includes/sections/blog.html', 'utf8'),
   scripts: fs.readFileSync('includes/sections/scripts.html', 'utf8'),
-  quiz: fs.readFileSync('includes/sections/quiz.html', 'utf8'),
   hire: fs.readFileSync('includes/sections/hire.html', 'utf8'),
   footer: fs.readFileSync('includes/footer.html', 'utf8'),
 };
