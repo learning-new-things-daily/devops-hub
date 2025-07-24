@@ -1,10 +1,10 @@
 {
   "name": "devops-hub",
   "version": "1.0.0",
-  "description": "Modular GitHub Pages site with manual HTML build",
+  "description": "Devops Hub is a dynamic website that serves markdown files as HTML, allowing users to view different editions of the content.",
   "scripts": {
     "build": "node build.js"
   },
-  "author": "mukulmj",
+  "author": "Mukul Joshi",
   "license": "MIT"
 }
