@@ -21,4 +21,4 @@ gh-pages/
 *.log
 
 # Remove CNAME
-CNAME
+#CNAME
