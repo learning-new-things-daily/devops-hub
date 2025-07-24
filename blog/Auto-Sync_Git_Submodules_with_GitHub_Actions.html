@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Automate Git submodule updates using GitHub Actions"/>
+  <title>Auto-Sync Git Submodules with GitHub Actions</title>
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      background: #f9fafb;
+      color: #111827;
+      line-height: 1.6;
+      padding: 2rem;
+      max-width: 860px;
+      margin: auto;
+    }
+    h1, h2, h3 {
+      color: #111;
+    }
+    pre {
+      background: #f3f4f6;
+      padding: 1rem;
+      overflow-x: auto;
+      border-left: 4px solid #3b82f6;
+    }
+    code {
+      font-family: monospace;
+    }
+    a {
+      color: #3b82f6;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    blockquote {
+      border-left: 4px solid #d1d5db;
+      padding-left: 1rem;
+      color: #6b7280;
+    }
+  </style>
+</head>
+<body>
+
+<h1>🔁 Auto-Sync Git Submodules with GitHub Actions</h1>
+<p><strong>Automate Git submodule updates between repositories with GitHub Actions.</strong> Real-world setup using:</p>
+
+<ul>
+  <li><a href="https://github.com/learning-new-things-daily/git-modules-repo" target="_blank">git-modules-repo</a></li>
+  <li><a href="https://github.com/learning-new-things-daily/main-repo" target="_blank">main-repo</a></li>
+</ul>
+
+<h2>⚙️ Real Scenario</h2>
+<p>You want changes in <strong>git-modules-repo</strong> to automatically sync into <strong>main-repo</strong> where it's used as a submodule.</p>
+
+<h2>🚀 Step-by-Step Setup</h2>
+
+<h3>📁 1. Create the Submodule Repo</h3>
+<pre><code>git clone https://github.com/learning-new-things-daily/git-modules-repo.git
+cd git-modules-repo
+echo "echo Hello from submodule!" > module-script.sh
+chmod +x module-script.sh
+git add .
+git commit -m "Initial commit"
+git push</code></pre>
+
+<h3>📁 2. Create the Main Repo and Add Submodule</h3>
+<pre><code>git clone https://github.com/learning-new-things-daily/main-repo.git
+cd main-repo
+git submodule add https://github.com/learning-new-things-daily/git-modules-repo.git modules
+git commit -m "Added submodule"
+git push</code></pre>
+
+<h3>🔐 3. Create GitHub Secret (PAT)</h3>
+<ol>
+  <li>Generate a <strong>Personal Access Token</strong> from <a href="https://github.com/settings/tokens" target="_blank">GitHub Developer Settings</a></li>
+  <li>Go to <code>git-modules-repo → Settings → Secrets → Actions</code></li>
+  <li>Add a secret named <code>MAIN_REPO_TOKEN</code> with the token as value</li>
+</ol>
+
+<h3>📜 4. Add GitHub Workflow in <code>git-modules-repo</code></h3>
+<p>Create <code>.github/workflows/update-main-repo.yml</code>:</p>
+
+<pre><code>name: Update Submodule in Main Repo
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  update-submodule:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout This Repo
+        uses: actions/checkout@v3
+
+      - name: Configure Git Identity
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+
+      - name: Clone Main Repo & Update Submodule
+        run: |
+          git clone https://x-access-token:${{ secrets.MAIN_REPO_TOKEN }}@github.com/learning-new-things-daily/main-repo.git
+          cd main-repo
+
+          git submodule update --init --remote modules
+          git add modules
+          git commit -m "Auto-update submodule to latest commit" || echo "No changes to commit"
+          git push origin main</code></pre>
+
+<h3>🧪 5. Test</h3>
+<p>Make a change in <code>git-modules-repo</code>, push it, and watch GitHub Actions auto-update the submodule in <code>main-repo</code>.</p>
+
+<h2>✅ Benefits</h2>
+<ul>
+  <li>⛓ Keeps shared code synced automatically</li>
+  <li>💡 Zero manual updates in consuming repos</li>
+  <li>📦 Easy integration into CI/CD workflows</li>
+</ul>
+
+<h2>📦 Repositories</h2>
+<ul>
+  <li><a href="https://github.com/learning-new-things-daily/git-modules-repo" target="_blank">git-modules-repo</a></li>
+  <li><a href="https://github.com/learning-new-things-daily/main-repo" target="_blank">main-repo</a></li>
+</ul>
+
+<h2>📌 Pro Tips</h2>
+<ul>
+  <li>Want PR-based updates? Replace <code>git push</code> with <code>gh pr create</code></li>
+  <li>Use <code>cron</code> in Actions to check for updates weekly</li>
+  <li>Add this badge to your README:</li>
+</ul>
+
+<pre><code>![Submodule Sync](https://github.com/learning-new-things-daily/git-modules-repo/actions/workflows/update-main-repo.yml/badge.svg)</code></pre>
+
+<h2>📣 Share It!</h2>
+<p>If this guide helped you, feel free to ⭐️ the repos and share it with your team.</p>
+
+</body>
+</html>
