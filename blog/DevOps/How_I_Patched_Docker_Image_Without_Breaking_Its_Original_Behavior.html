@@ -34,16 +34,34 @@
     hr {
       margin: 2rem 0;
     }
+    .copy-btn {
+      position: absolute;
+      top: 0.5em;
+      right: 0.5em;
+      background: #0d6efd;
+      color: white;
+      border: none;
+      padding: 0.3em 0.6em;
+      font-size: 0.8em;
+      border-radius: 4px;
+      cursor: pointer;
+      opacity: 0.8;
+      transition: opacity 0.2s ease-in-out;
+    }
+    .copy-btn:hover {
+      opacity: 1;
+    }
+    .code-block {
+      position: relative;
+      margin-bottom: 1.5rem;
+    }
   </style>
 </head>
 <body>
   <h1>🔧 How I Patched a Docker Image Without Breaking Its Original Behavior</h1>
 
   <blockquote>“When you want to tweak a Docker image but treat its structure like a sacred temple.”</blockquote>
-  <!-- <img src="assets/how_i_pactched_docker_image.png" alt="Docker patching process" style="max-width:100%; height:auto; border-radius:10px; margin-bottom:1.5rem;" /> -->
   <img src="assets/docker-patch-thumbnail.svg" alt="Docker patch blog thumbnail" />
-
-
 
   <hr/>
 
@@ -76,44 +94,44 @@
   <h2>🧭 The Step-by-Step Journey</h2>
 
   <h3>🔍 Step 1: Find the Original ENTRYPOINT and CMD</h3>
-  <pre><code>docker inspect nginx:latest --format='ENTRYPOINT={{json .Config.Entrypoint}} CMD={{json .Config.Cmd}}'</code></pre>
+  <div class="code-block"><button class="copy-btn">Copy</button><pre><code>docker inspect nginx:latest --format='ENTRYPOINT={{json .Config.Entrypoint}} CMD={{json .Config.Cmd}}'</code></pre></div>
 
   <p>Let’s say the output was:</p>
-  <pre><code>ENTRYPOINT=["/docker-entrypoint.sh"]
-CMD=["nginx","-g","daemon off;"]</code></pre>
+  <div class="code-block"><button class="copy-btn">Copy</button><pre><code>ENTRYPOINT=["/docker-entrypoint.sh"]
+CMD=["nginx","-g","daemon off;"]</code></pre></div>
 
   <h3>🧱 Step 2: Create a Container Without Triggering ENTRYPOINT</h3>
-  <pre><code>docker create --name temp-container --entrypoint /bin/sh nginx:latest</code></pre>
+  <div class="code-block"><button class="copy-btn">Copy</button><pre><code>docker create --name temp-container --entrypoint /bin/sh nginx:latest</code></pre></div>
   <p>OR</p>
-  <pre><code>docker run -itd --name temp-container --entrypoint=sh nginx:latest</code></pre>
+  <div class="code-block"><button class="copy-btn">Copy</button><pre><code>docker run -itd --name temp-container --entrypoint=sh nginx:latest</code></pre></div>
 
   <h3>🔧 Step 3: Start the Container and Patch /etc/hosts</h3>
-  <pre><code>docker start temp-container
-docker exec -it temp-container /bin/sh</code></pre>
+  <div class="code-block"><button class="copy-btn">Copy</button><pre><code>docker start temp-container
+docker exec -it temp-container /bin/sh</code></pre></div>
   <p>Inside the container:</p>
-  <pre><code>echo "192.168.1.100 mycustomhost" >> /etc/hosts
-exit</code></pre>
+  <div class="code-block"><button class="copy-btn">Copy</button><pre><code>echo "192.168.1.100 mycustomhost" >> /etc/hosts
+exit</code></pre></div>
 
   <h3>📦 Step 4: Commit It — With ENTRYPOINT and CMD Restored</h3>
-  <pre><code>docker commit --change 'ENTRYPOINT ["/docker-entrypoint.sh"]' \
+  <div class="code-block"><button class="copy-btn">Copy</button><pre><code>docker commit --change 'ENTRYPOINT ["/docker-entrypoint.sh"]' \
   --change 'CMD ["nginx","-g","daemon off;"]' \
-  temp-container nginx:latest-new</code></pre>
+  temp-container nginx:latest-new</code></pre></div>
 
   <h3>🧹 Step 5: Cleanup</h3>
-  <pre><code>docker rm -f temp-container</code></pre>
+  <div class="code-block"><button class="copy-btn">Copy</button><pre><code>docker rm -f temp-container</code></pre></div>
 
   <hr/>
 
   <h2>✅ Verification: Trust, But Verify</h2>
 
   <h3>🔸 Check ENTRYPOINT and CMD</h3>
-  <pre><code>docker inspect nginx:latest-new --format='ENTRYPOINT={{json .Config.Entrypoint}} CMD={{json .Config.Cmd}}'</code></pre>
+  <div class="code-block"><button class="copy-btn">Copy</button><pre><code>docker inspect nginx:latest-new --format='ENTRYPOINT={{json .Config.Entrypoint}} CMD={{json .Config.Cmd}}'</code></pre></div>
 
   <h3>🔸 Check the /etc/hosts</h3>
-  <pre><code>docker run --rm nginx:latest-new cat /etc/hosts</code></pre>
+  <div class="code-block"><button class="copy-btn">Copy</button><pre><code>docker run --rm nginx:latest-new cat /etc/hosts</code></pre></div>
 
   <h3>🔸 Full Behavior Test</h3>
-  <pre><code>docker run --rm nginx:latest-new</code></pre>
+  <div class="code-block"><button class="copy-btn">Copy</button><pre><code>docker run --rm nginx:latest-new</code></pre></div>
 
   <hr/>
 
@@ -130,7 +148,7 @@ exit</code></pre>
   <p>Here’s a teaser for a future post: I’ve built a shell script that automates this entire process — from inspecting to committing — for any image.</p>
 
   <h3>🐚 docker-image-patcher.sh</h3>
-  <pre><code>#!/bin/bash
+  <div class="code-block"><button class="copy-btn">Copy</button><pre><code>#!/bin/bash
 
 # Usage: ./docker-image-patcher.sh &lt;image-name&gt; &lt;new-image-tag&gt; &lt;host-entry&gt;
 # Example: ./docker-image-patcher.sh nginx:latest nginx:patched "192.168.1.100 mycustomhost"
@@ -172,8 +190,7 @@ docker commit \
 echo "🧹 Cleaning up temp container"
 docker rm -f "$TEMP_CONTAINER" &gt; /dev/null
 
-echo "✅ Image $NEW_IMAGE_TAG created with patched /etc/hosts"
-</code></pre>
+echo "✅ Image $NEW_IMAGE_TAG created with patched /etc/hosts"</code></pre></div>
 
   <hr/>
 
@@ -184,5 +201,18 @@ echo "✅ Image $NEW_IMAGE_TAG created with patched /etc/hosts"
   <p>
     This technique lets you make surgical tweaks <strong>without blowing up the image’s original purpose</strong> — a powerful skill when you're working with shared base images in large CI/CD pipelines.
   </p>
+
+  <script>
+    document.querySelectorAll('.copy-btn').forEach(button => {
+      button.addEventListener('click', () => {
+        const code = button.nextElementSibling.querySelector('code').innerText;
+        navigator.clipboard.writeText(code).then(() => {
+          const originalText = button.innerText;
+          button.innerText = '✔ Copied!';
+          setTimeout(() => button.innerText = originalText, 1500);
+        });
+      });
+    });
+  </script>
 </body>
 </html>
