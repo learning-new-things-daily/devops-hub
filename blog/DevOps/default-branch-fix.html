@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Changing the Default Branch Name in GitHub</title>
+  <style>
+    body {
+      font-family: "Segoe UI", sans-serif;
+      line-height: 1.6;
+      background: #e6f2fa; /* Light blue background */
+      margin: 0;
+      padding: 2rem;
+      color: #333;
+    }
+    h1, h2 {
+      color: #045c84;
+    }
+    pre {
+      background: #d9ecf7; /* Softer blue code background */
+      padding: 1rem;
+      overflow-x: auto;
+      border-left: 4px solid #0288d1;
+      border-radius: 6px;
+    }
+    code {
+      font-family: monospace;
+      color: #004b6b;
+    }
+    .container {
+      max-width: 800px;
+      margin: auto;
+      background: #ffffff;
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 0 8px rgba(0, 90, 120, 0.1);
+      border: 1px solid #cce7f5;
+    }
+    p {
+      margin-bottom: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Changing the Default Branch Name in GitHub: A Step-by-Step Fix</h1>
+    <img src="assets/default_branch_fix.svg" alt="Changing Default Branch Thumbnail" style="width:100%; max-height:300px; object-fit:contain; border-radius:8px; margin-bottom:1.5rem;">
+
+    <h2>Introduction</h2>
+    <p>
+      When I initially created a new repository, I set the default branch name as <code>test/dev</code>.
+      At the time, it seemed fine, but later, I realized that having a more standard name like
+      <code>main</code> or <code>master</code> would make it easier for other users to recognize and work with.
+    </p>
+    <p>
+      However, GitHub doesn’t allow renaming the default branch directly with a simple <code>git branch -m</code> command like we do for local branches. Instead, I needed a proper sequence of commands to update the default branch name without breaking anything.
+    </p>
+
+    <h2>Step 1: Installing GitHub CLI</h2>
+    <pre><code>bash: gh: command not found</code></pre>
+    <p>To fix this, I installed <code>gh</code>:</p>
+    <pre><code># Debian/Ubuntu
+sudo apt update && sudo apt install gh
+
+# Red Hat
+sudo dnf install gh
+
+# macOS
+brew install gh
+    </code></pre>
+
+    <p>Verify installation:</p>
+    <pre><code>gh --version</code></pre>
+
+    <h2>Step 2: Authenticating with GitHub</h2>
+    <pre><code>gh auth login</code></pre>
+    <p>Chose GitHub.com, SSH, uploaded key, and authenticated via browser.</p>
+    <pre><code>gh auth status</code></pre>
+
+    <h2>Step 3: Changing the Default Branch Name</h2>
+    <pre><code>gh repo edit --default-branch main</code></pre>
+
+    <h2>Step 4: Deleting the Old Branch from Remote</h2>
+    <pre><code>git push origin --delete test/dev</code></pre>
+
+    <h2>Step 5: Updating Local Branch to Track the New Default</h2>
+    <pre><code>
+git branch --unset-upstream
+git branch --set-upstream-to=origin/main
+    </code></pre>
+
+    <h2>Conclusion</h2>
+    <p>
+      Renaming the default branch in GitHub isn’t as straightforward as renaming a local branch,
+      but with the right commands, it can be done smoothly.
+    </p>
+
+    <p>🚀 Happy GitHub-ing!</p>
+  </div>
+</body>
+</html>
