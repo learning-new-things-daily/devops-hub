@@ -7,20 +7,20 @@
   <meta name="description" content="Explore DevOps guides, GitHub workflows, and real-world CI/CD tips." />
   <meta property="og:title" content="DevOps Hub Blog" />
   <meta property="og:description" content="Explore DevOps guides, GitHub workflows, and real-world CI/CD tips." />
-  <meta property="og:image" content="../assets/logo.png" />
+  <meta property="og:image" content="https://yourdomain.com/assets/logo.png" />
   <link rel="stylesheet" href="../assets/styles/main.css" />
 </head>
 
 <body class="bg-white text-gray-900 dark:bg-gray-900 dark:text-gray-100 transition-colors duration-300">
 
-  <header class="bg-indigo-700 text-white p-5 shadow">
+  <header class="bg-indigo-700 text-white p-5 shadow sticky top-0 z-50">
     <div class="max-w-6xl mx-auto flex justify-between items-center">
       <h1 class="text-2xl font-bold tracking-tight">🚀 DevOps Hub</h1>
       <nav class="space-x-6">
         <a href="/index.html" class="hover:underline">Home</a>
         <a href="../scripts/index.html" class="hover:underline">Scripts</a>
         <a href="../contact.html" class="hover:underline">Hire Me</a>
-        <button onclick="toggleDarkMode()" class="ml-4 bg-gray-800 text-white px-3 py-1 rounded">🌓</button>
+        <button onclick="toggleDarkMode()" class="ml-4 bg-gray-800 text-white px-3 py-1 rounded" id="themeToggle">🌚</button>
       </nav>
     </div>
   </header>
@@ -30,56 +30,68 @@
 
     <input type="text" placeholder="Search posts..." oninput="filterPosts(this.value)" class="w-full p-3 mb-6 rounded border dark:border-gray-700 bg-gray-50 dark:bg-gray-800 dark:text-gray-100"/>
 
-    <div id="blogList" class="grid md:grid-cols-2 gap-6">
-      <!-- Blog Card 1 -->
-      <div class="bg-white dark:bg-gray-800 p-5 rounded shadow hover:shadow-lg transition group">
+    <div id="blogList" class="grid md:grid-cols-2 sm:grid-cols-1 gap-6">
+
+      <!-- Blog Cards -->
+      <div class="bg-white dark:bg-gray-800 p-5 rounded shadow hover:shadow-lg transition group transform hover:scale-105 border-l-4 border-transparent hover:border-indigo-500">
+        <img src="DevOps/assets/blog/ansible.svg" alt="Ansible Tricks" class="rounded w-full h-40 object-cover mb-4" loading="lazy"/>
         <h3 class="text-xl font-semibold text-indigo-600 group-hover:underline mb-2">
-          <a href="../blog/ansible-tricks.html">10 Ansible Tricks for Seamless Automation</a>
+          <a href="ansible-tricks.html">10 Ansible Tricks for Seamless Automation</a>
         </h3>
+        <p class="text-xs text-gray-500 dark:text-gray-400 mb-1">📅 June 18, 2025 · 🏷️ Ansible, Automation · ⏱️ 3 min read</p>
         <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">Boost your automation workflows with these clever tips.</p>
       </div>
 
-      <!-- Blog Card 2 -->
-      <div class="bg-white dark:bg-gray-800 p-5 rounded shadow hover:shadow-lg transition group">
+      <div class="bg-white dark:bg-gray-800 p-5 rounded shadow hover:shadow-lg transition group transform hover:scale-105 border-l-4 border-transparent hover:border-indigo-500">
+        <img src="DevOps/assets/blog/ci-cd.png" alt="CI/CD Guide" class="rounded w-full h-40 object-cover mb-4" loading="lazy"/>
         <h3 class="text-xl font-semibold text-indigo-600 group-hover:underline mb-2">
-          <a href="../blog/ci-cd-pipeline.html">CI/CD with GitHub Actions: A Hands-On Guide</a>
+          <a href="ci-cd-pipeline.html">CI/CD with GitHub Actions: A Hands-On Guide</a>
         </h3>
+        <p class="text-xs text-gray-500 dark:text-gray-400 mb-1">📅 June 22, 2025 · 🏷️ CI/CD, GitHub Actions · ⏱️ 4 min read</p>
         <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">Build modern delivery pipelines from scratch.</p>
       </div>
 
-      <!-- Blog Card 3 -->
-      <div class="bg-white dark:bg-gray-800 p-5 rounded shadow hover:shadow-lg transition group">
+      <div class="bg-white dark:bg-gray-800 p-5 rounded shadow hover:shadow-lg transition group transform hover:scale-105 border-l-4 border-transparent hover:border-indigo-500">
+        <img src="DevOps/assets/blog/git-submodules.png" alt="Git Submodules" class="rounded w-full h-40 object-cover mb-4" loading="lazy"/>
         <h3 class="text-xl font-semibold text-indigo-600 group-hover:underline mb-2">
-          <a href="../blog/Auto-Sync_Git_Submodules_with_GitHub_Actions.html">Auto-Sync Git Submodules with GitHub Actions</a>
+          <a href="Auto-Sync_Git_Submodules_with_GitHub_Actions.html">Auto-Sync Git Submodules with GitHub Actions</a>
         </h3>
+        <p class="text-xs text-gray-500 dark:text-gray-400 mb-1">📅 June 25, 2025 · 🏷️ Git, Submodules · ⏱️ 2 min read</p>
         <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">Automate submodule syncing without breaking your builds.</p>
       </div>
 
-      <!-- Blog Card 4 -->
-      <div class="bg-white dark:bg-gray-800 p-5 rounded shadow hover:shadow-lg transition group">
+      <div class="bg-white dark:bg-gray-800 p-5 rounded shadow hover:shadow-lg transition group transform hover:scale-105 border-l-4 border-transparent hover:border-indigo-500">
+        <img src="DevOps/assets/blog/docker-patch.png" alt="Docker Patch" class="rounded w-full h-40 object-cover mb-4" loading="lazy"/>
         <h3 class="text-xl font-semibold text-indigo-600 group-hover:underline mb-2">
-          <a href="../blog/DevOps/How_I_Patched_Docker_Image_Without_Breaking_Its_Original_Behavior.html">
-            How I Patched a Docker Image Without Breaking Its Original Behavior
-          </a>
+          <a href="DevOps/How_I_Patched_Docker_Image_Without_Breaking_Its_Original_Behavior.html">How I Patched a Docker Image Without Breaking Its Original Behavior</a>
         </h3>
+        <p class="text-xs text-gray-500 dark:text-gray-400 mb-1">📅 July 1, 2025 · 🏷️ Docker, Containers · ⏱️ 5 min read</p>
         <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">Use safe overrides to patch base Docker images.</p>
+        <span class="text-xs bg-yellow-300 text-black px-2 py-0.5 rounded">🌟 Featured</span>
       </div>
 
-      <!-- Blog Card 5 -->
-      <div class="bg-white dark:bg-gray-800 p-5 rounded shadow hover:shadow-lg transition group">
+      <div class="bg-white dark:bg-gray-800 p-5 rounded shadow hover:shadow-lg transition group transform hover:scale-105 border-l-4 border-transparent hover:border-indigo-500">
+        <img src="DevOps/assets/blog/invisible-devops.png" alt="Invisible DevOps" class="rounded w-full h-40 object-cover mb-4" loading="lazy"/>
         <h3 class="text-xl font-semibold text-indigo-600 group-hover:underline mb-2">
-          <a href="../blog/DevOps/DevOps_The_Invisible_Force_Behind_Seamless_Tech.html">DevOps: The Invisible Force Behind Seamless Tech</a>
+          <a href="DevOps/DevOps_The_Invisible_Force_Behind_Seamless_Tech.html">DevOps: The Invisible Force Behind Seamless Tech</a>
         </h3>
+        <p class="text-xs text-gray-500 dark:text-gray-400 mb-1">📅 July 7, 2025 · 🏷️ DevOps, Culture · ⏱️ 4 min read</p>
         <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">Explore how DevOps silently powers your digital experiences.</p>
       </div>
 
-      <!-- Blog Card 6 -->
-      <div class="bg-white dark:bg-gray-800 p-5 rounded shadow hover:shadow-lg transition group">
+      <div class="bg-white dark:bg-gray-800 p-5 rounded shadow hover:shadow-lg transition group transform hover:scale-105 border-l-4 border-transparent hover:border-indigo-500">
+        <img src="DevOps/assets/blog/github-default-branch.png" alt="GitHub Branch Rename" class="rounded w-full h-40 object-cover mb-4" loading="lazy"/>
         <h3 class="text-xl font-semibold text-indigo-600 group-hover:underline mb-2">
-          <a href="../blog/DevOps/github_default_branch_change_blog.html">Changing the Default Branch Name in GitHub</a>
+          <a href="DevOps/github_default_branch_change_blog.html">Changing the Default Branch Name in GitHub</a>
         </h3>
+        <p class="text-xs text-gray-500 dark:text-gray-400 mb-1">📅 July 14, 2025 · 🏷️ GitHub, Git · ⏱️ 2 min read</p>
         <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">A step-by-step guide to renaming the default branch safely.</p>
       </div>
+
+    </div>
+
+    <div class="mt-10 bg-indigo-100 dark:bg-indigo-900 p-4 rounded text-center">
+      📬 Subscribe for updates! <input type="email" placeholder="you@example.com" class="p-2 rounded text-black dark:text-white bg-white dark:bg-gray-700" />
     </div>
   </main>
 
@@ -87,23 +99,31 @@
     &copy; 2025 DevOps Hub · <a href="/privacy.html" class="underline">Privacy</a>
   </footer>
 
+  <button onclick="scrollTo(0,0)" class="fixed bottom-6 right-6 bg-indigo-600 text-white p-3 rounded-full shadow-lg">↑</button>
+
   <script>
-    // Theme toggle
     function toggleDarkMode() {
       document.body.classList.toggle("dark");
-      localStorage.setItem("theme", document.body.classList.contains("dark") ? "dark" : "light");
+      const theme = document.body.classList.contains("dark") ? "dark" : "light";
+      localStorage.setItem("theme", theme);
+      document.getElementById("themeToggle").textContent = theme === "dark" ? "🌞" : "🌚";
     }
 
-    // Restore theme
     if (localStorage.getItem("theme") === "dark") {
       document.body.classList.add("dark");
+      document.getElementById("themeToggle").textContent = "🌞";
     }
 
-    // Filter posts
     function filterPosts(query) {
       query = query.toLowerCase();
       document.querySelectorAll('#blogList > div').forEach(card => {
-        card.style.display = card.innerText.toLowerCase().includes(query) ? '' : 'none';
+        const match = card.innerText.toLowerCase().includes(query);
+        card.style.display = match ? '' : 'none';
+        if (match) {
+          card.innerHTML = card.innerHTML.replace(/<mark>|<\/mark>/g, '');
+          const regex = new RegExp(`(${query})`, 'gi');
+          card.innerHTML = card.innerHTML.replace(regex, '<mark>$1</mark>');
+        }
       });
     }
   </script>
