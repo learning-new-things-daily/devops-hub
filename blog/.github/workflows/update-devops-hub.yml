@@ -1,0 +1,28 @@
+name: Update Submodule in Main Repo
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  update-submodule:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout This Repo
+        uses: actions/checkout@v3
+
+      - name: Configure Git Identity
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+
+      - name: Clone Devops Hub & Update Submodule
+        run: |
+          git clone https://x-access-token:${{ secrets.DEVOPS_HUB_TOKEN }}@github.com/mukulmj/devops-hub.git
+          cd devops-hub
+          git submodule update --init --remote blog
+          git add blog
+          git commit -m "Auto-update submodule to latest commit" || echo "No changes to commit"
+          git push origin main

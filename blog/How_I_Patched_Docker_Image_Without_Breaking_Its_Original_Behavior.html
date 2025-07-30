@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>🔧 How I Patched a Docker Image Without Breaking Its Original Behavior</title>
+  <style>
+    body {
+      font-family: "Segoe UI", sans-serif;
+      line-height: 1.7;
+      padding: 2rem;
+      background-color: #f8f9fa;
+      color: #212529;
+    }
+    h1, h2, h3 {
+      color: #0d6efd;
+    }
+    pre {
+      background-color: #212529;
+      color: #f8f9fa;
+      padding: 1em;
+      border-radius: 8px;
+      overflow-x: auto;
+    }
+    code {
+      font-family: monospace;
+    }
+    blockquote {
+      border-left: 5px solid #ccc;
+      padding-left: 1em;
+      color: #555;
+      font-style: italic;
+    }
+    hr {
+      margin: 2rem 0;
+    }
+  </style>
+</head>
+<body>
+  <h1>🔧 How I Patched a Docker Image Without Breaking Its Original Behavior</h1>
+
+  <blockquote>“When you want to tweak a Docker image but treat its structure like a sacred temple.”</blockquote>
+
+  <hr/>
+
+  <h2>🧩 The Problem</h2>
+  <p>
+    I had to make a <strong>minor update</strong> to an existing Docker image — just a small edit to the <code>/etc/hosts</code> file. Easy, right?
+  </p>
+  <p>But here’s the catch:</p>
+  <ul>
+    <li>I <strong>couldn’t modify the original image structure</strong>.</li>
+    <li>The image had a <strong>critical ENTRYPOINT and CMD</strong>, and I didn't want to break it.</li>
+    <li>I <strong>couldn’t run the container normally</strong>, because its <code>ENTRYPOINT</code> would kick in immediately.</li>
+    <li>I needed to <strong>make the change, verify it, and commit it</strong> — without disrupting the intended execution of the image.</li>
+  </ul>
+
+  <p>Classic case of “sneak in, do the job, leave no trace.”</p>
+
+  <hr/>
+
+  <h2>🛠️ My Goal</h2>
+  <ul>
+    <li><strong>Modify:</strong> <code>/etc/hosts</code> — Add a custom host entry.</li>
+    <li><strong>Preserve:</strong> The original <code>ENTRYPOINT</code> and <code>CMD</code>.</li>
+    <li><strong>Commit:</strong> Save it all into a <strong>new image</strong>.</li>
+    <li><strong>Verify:</strong> Make sure everything works exactly like the original.</li>
+  </ul>
+
+  <hr/>
+
+  <h2>🧭 The Step-by-Step Journey</h2>
+
+  <h3>🔍 Step 1: Find the Original ENTRYPOINT and CMD</h3>
+  <pre><code>docker inspect nginx:latest --format='ENTRYPOINT={{json .Config.Entrypoint}} CMD={{json .Config.Cmd}}'</code></pre>
+
+  <p>Let’s say the output was:</p>
+  <pre><code>ENTRYPOINT=["/docker-entrypoint.sh"]
+CMD=["nginx","-g","daemon off;"]</code></pre>
+
+  <h3>🧱 Step 2: Create a Container Without Triggering ENTRYPOINT</h3>
+  <pre><code>docker create --name temp-container --entrypoint /bin/sh nginx:latest</code></pre>
+  <p>OR</p>
+  <pre><code>docker run -itd --name temp-container --entrypoint=sh nginx:latest</code></pre>
+
+  <h3>🔧 Step 3: Start the Container and Patch /etc/hosts</h3>
+  <pre><code>docker start temp-container
+docker exec -it temp-container /bin/sh</code></pre>
+  <p>Inside the container:</p>
+  <pre><code>echo "192.168.1.100 mycustomhost" >> /etc/hosts
+exit</code></pre>
+
+  <h3>📦 Step 4: Commit It — With ENTRYPOINT and CMD Restored</h3>
+  <pre><code>docker commit --change 'ENTRYPOINT ["/docker-entrypoint.sh"]' \
+  --change 'CMD ["nginx","-g","daemon off;"]' \
+  temp-container nginx:latest-new</code></pre>
+
+  <h3>🧹 Step 5: Cleanup</h3>
+  <pre><code>docker rm -f temp-container</code></pre>
+
+  <hr/>
+
+  <h2>✅ Verification: Trust, But Verify</h2>
+
+  <h3>🔸 Check ENTRYPOINT and CMD</h3>
+  <pre><code>docker inspect nginx:latest-new --format='ENTRYPOINT={{json .Config.Entrypoint}} CMD={{json .Config.Cmd}}'</code></pre>
+
+  <h3>🔸 Check the /etc/hosts</h3>
+  <pre><code>docker run --rm nginx:latest-new cat /etc/hosts</code></pre>
+
+  <h3>🔸 Full Behavior Test</h3>
+  <pre><code>docker run --rm nginx:latest-new</code></pre>
+
+  <hr/>
+
+  <h2>🎯 Why This Approach Rocks</h2>
+  <ul>
+    <li>🔒 <strong>Safe:</strong> No changes to core image logic.</li>
+    <li>🔁 <strong>Repeatable:</strong> The process can be automated.</li>
+    <li>🧼 <strong>Clean:</strong> The final image is as lean and consistent as the original.</li>
+  </ul>
+
+  <hr/>
+
+  <h2>🧰 Bonus: Automate It with a Script?</h2>
+  <p>Here’s a teaser for a future post: I’ve built a shell script that automates this entire process — from inspecting to committing — for any image.</p>
+
+  <h3>🐚 docker-image-patcher.sh</h3>
+  <pre><code>#!/bin/bash
+
+# Usage: ./docker-image-patcher.sh &lt;image-name&gt; &lt;new-image-tag&gt; &lt;host-entry&gt;
+# Example: ./docker-image-patcher.sh nginx:latest nginx:patched "192.168.1.100 mycustomhost"
+
+set -e
+
+IMAGE_NAME="$1"
+NEW_IMAGE_TAG="$2"
+HOST_ENTRY="$3"
+
+if [[ -z "$IMAGE_NAME" || -z "$NEW_IMAGE_TAG" || -z "$HOST_ENTRY" ]]; then
+  echo "Usage: $0 &lt;image-name&gt; &lt;new-image-tag&gt; &lt;host-entry&gt;"
+  exit 1
+fi
+
+TEMP_CONTAINER="temp-container-$$"
+
+echo "🔍 Inspecting original image: $IMAGE_NAME"
+
+ORIGINAL_ENTRYPOINT=$(docker inspect "$IMAGE_NAME" --format='{{json .Config.Entrypoint}}')
+ORIGINAL_CMD=$(docker inspect "$IMAGE_NAME" --format='{{json .Config.Cmd}}')
+
+echo "📋 Original ENTRYPOINT: $ORIGINAL_ENTRYPOINT"
+echo "📋 Original CMD: $ORIGINAL_CMD"
+
+echo "🚧 Creating temp container: $TEMP_CONTAINER"
+docker create --name "$TEMP_CONTAINER" --entrypoint /bin/sh "$IMAGE_NAME" &gt; /dev/null
+
+echo "🚀 Starting and patching /etc/hosts"
+docker start "$TEMP_CONTAINER" &gt; /dev/null
+docker exec "$TEMP_CONTAINER" sh -c "echo '$HOST_ENTRY' &gt;&gt; /etc/hosts"
+
+echo "📦 Committing new image: $NEW_IMAGE_TAG"
+docker commit \
+  --change "ENTRYPOINT $ORIGINAL_ENTRYPOINT" \
+  --change "CMD $ORIGINAL_CMD" \
+  "$TEMP_CONTAINER" "$NEW_IMAGE_TAG" &gt; /dev/null
+
+echo "🧹 Cleaning up temp container"
+docker rm -f "$TEMP_CONTAINER" &gt; /dev/null
+
+echo "✅ Image $NEW_IMAGE_TAG created with patched /etc/hosts"
+</code></pre>
+
+  <hr/>
+
+  <h2>🏁 Final Thoughts</h2>
+  <p>
+    Sometimes, the best kind of Docker change is the one that’s <strong>invisible</strong> to the rest of your system.
+  </p>
+  <p>
+    This technique lets you make surgical tweaks <strong>without blowing up the image’s original purpose</strong> — a powerful skill when you're working with shared base images in large CI/CD pipelines.
+  </p>
+</body>
+</html>
