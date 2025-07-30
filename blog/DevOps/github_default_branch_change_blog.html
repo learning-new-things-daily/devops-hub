@@ -1,0 +1,172 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Changing the Default Branch Name in GitHub</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #e6f4f9;
+      color: #333;
+      line-height: 1.6;
+      margin: 0;
+      padding: 2rem;
+    }
+    h1, h2, h3 {
+      color: #005a8d;
+    }
+    .code-block {
+      position: relative;
+      background-color: #f3f3f3;
+      border-radius: 5px;
+      padding: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .code-block pre {
+      margin: 0;
+      overflow-x: auto;
+    }
+    .copy-btn {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      padding: 4px 8px;
+      font-size: 12px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    img.thumbnail {
+      width: 100%;
+      max-width: 800px;
+      border-radius: 10px;
+      margin-bottom: 2rem;
+    }
+  </style>
+</head>
+<body>
+
+  <img src="assets/github_branch_change_thumbnail.svg" alt="GitHub Branch Change Thumbnail" class="thumbnail" />
+
+  <h1>Changing the Default Branch Name in GitHub: A Step-by-Step Fix</h1>
+
+  <h2>Introduction</h2>
+  <p>
+    When I initially created a new repository, I set the default branch name as <code>test/dev</code>.
+    At the time, it seemed fine, but later, I realized that having a more standard name like
+    <code>main</code> or <code>master</code> would make it easier for other users to recognize and work with.
+  </p>
+  <p>
+    However, GitHub doesn’t allow renaming the default branch directly with a simple <code>git branch -m</code>
+    command like we do for local branches. Instead, I needed a proper sequence of commands to update the
+    default branch name without breaking anything. Along the way, I ran into a few issues—like missing
+    GitHub CLI (<code>gh</code>)—which I had to troubleshoot before successfully renaming my branch.
+  </p>
+
+  <p>In this blog, I’ll walk you through how I fixed this and share the exact commands that worked for me.</p>
+
+  <h2>Step 1: Installing GitHub CLI</h2>
+  <p>
+    Since I wanted to change the default branch using the GitHub CLI (<code>gh</code>), I first needed to install it.
+    I ran into an error:
+  </p>
+  <div class="code-block">
+    <button class="copy-btn">Copy</button>
+    <pre><code>bash: gh: command not found</code></pre>
+  </div>
+  <p>To fix this, I installed <code>gh</code> using the package manager:</p>
+
+  <p><strong>For Debian/Ubuntu-based systems:</strong></p>
+  <div class="code-block">
+    <button class="copy-btn">Copy</button>
+    <pre><code>sudo apt update &amp;&amp; sudo apt install gh</code></pre>
+  </div>
+
+  <p><strong>For Red Hat-based systems:</strong></p>
+  <div class="code-block">
+    <button class="copy-btn">Copy</button>
+    <pre><code>sudo dnf install gh</code></pre>
+  </div>
+
+  <p><strong>For MacOS (using Homebrew):</strong></p>
+  <div class="code-block">
+    <button class="copy-btn">Copy</button>
+    <pre><code>brew install gh</code></pre>
+  </div>
+
+  <p>Once installed, I verified it with:</p>
+  <div class="code-block">
+    <button class="copy-btn">Copy</button>
+    <pre><code>gh --version</code></pre>
+  </div>
+
+  <h2>Step 2: Authenticating with GitHub</h2>
+  <p>After installing <code>gh</code>, I had to log in to authenticate my GitHub access:</p>
+  <div class="code-block">
+    <button class="copy-btn">Copy</button>
+    <pre><code>gh auth login</code></pre>
+  </div>
+
+  <p>During authentication, I selected:</p>
+  <ul>
+    <li><strong>GitHub.com</strong> as the account</li>
+    <li><strong>SSH</strong> as the preferred protocol</li>
+    <li>Chose to <strong>upload my SSH key</strong></li>
+    <li><strong>Authenticated via a web browser</strong></li>
+  </ul>
+  <p>
+    GitHub provided a <strong>one-time code</strong> (<code>FDE4-3978</code> in my case), which I entered into my browser to complete authentication.
+  </p>
+  <p>To confirm authentication, I ran:</p>
+  <div class="code-block">
+    <button class="copy-btn">Copy</button>
+    <pre><code>gh auth status</code></pre>
+  </div>
+
+  <h2>Step 3: Changing the Default Branch Name</h2>
+  <p>Once I was authenticated, I changed the default branch name in GitHub using the following command:</p>
+  <div class="code-block">
+    <button class="copy-btn">Copy</button>
+    <pre><code>gh repo edit --default-branch main</code></pre>
+  </div>
+
+  <h2>Step 4: Deleting the Old Branch from Remote</h2>
+  <p>Since <code>test/dev</code> was no longer needed, I removed it from the remote repository:</p>
+  <div class="code-block">
+    <button class="copy-btn">Copy</button>
+    <pre><code>git push origin --delete test/dev</code></pre>
+  </div>
+
+  <h2>Step 5: Updating Local Branch to Track the New Default</h2>
+  <p>After changing the default branch, my local branch was still tracking <code>test/dev</code>. To fix this, I updated the upstream branch:</p>
+  <div class="code-block">
+    <button class="copy-btn">Copy</button>
+    <pre><code>git branch --unset-upstream
+git branch --set-upstream-to=origin/main</code></pre>
+  </div>
+
+  <h2>Conclusion</h2>
+  <p>
+    Renaming the default branch in GitHub isn’t as straightforward as renaming a local branch,
+    but with the right commands, it can be done smoothly. If you ever find yourself in a similar situation,
+    I hope this guide helps you! 🚀
+  </p>
+
+  <script>
+    document.querySelectorAll('.copy-btn').forEach(button => {
+      button.addEventListener('click', () => {
+        const code = button.nextElementSibling.innerText;
+        navigator.clipboard.writeText(code).then(() => {
+          button.textContent = 'Copied!';
+          setTimeout(() => button.textContent = 'Copy', 1500);
+        });
+      });
+    });
+  </script>
+
+</body>
+</html>
