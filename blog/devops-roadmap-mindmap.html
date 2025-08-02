@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DevOps Roadmap - Galaxy Mindmap</title>
+  <title>DevOps Galaxy Mindmap</title>
   <style>
     body {
       margin: 0;
@@ -217,10 +217,13 @@ function drawLine(x1, y1, x2, y2) {
   return line;
 }
 
-// --- EXPANSION WITH DEPTH-BASED ORBIT ---
+// --- EXPAND/COLLAPSE WITH DEPTH-BASED ORBIT ---
 function toggleExpand(node, children, depth = 1) {
   if (!node.dataset.expanded) {
+    // Expand
     node.dataset.expanded = "true";
+    node.dataset.children = JSON.stringify(Object.keys(children));
+
     const rect = node.getBoundingClientRect();
     const centerX = rect.left + rect.width / 2 - container.offsetLeft;
     const centerY = rect.top + rect.height / 2 - container.offsetTop;
@@ -235,12 +238,14 @@ function toggleExpand(node, children, depth = 1) {
       const y = centerY + radius * Math.sin(angle);
 
       const childNode = createNode(key, x, y);
+      childNode.dataset.parent = node.textContent; // link to parent
       const line = drawLine(centerX, centerY, x + 40, y + 20);
 
       // Orbit speed depends on depth (outer = faster)
       orbitingNodes.push({
         element: childNode,
         line: line,
+        parent: node.textContent,
         parentX: centerX,
         parentY: centerY,
         angle: angle,
@@ -250,43 +255,74 @@ function toggleExpand(node, children, depth = 1) {
 
       childNode.onclick = () => {
         if (Array.isArray(children[key])) {
-          expandArray(childNode, children[key], depth + 1);
+          toggleArray(childNode, children[key], depth + 1);
         } else {
           toggleExpand(childNode, children[key], depth + 1);
         }
       };
       i++;
     }
+  } else {
+    // Collapse
+    node.dataset.expanded = "";
+    const childrenKeys = JSON.parse(node.dataset.children || "[]");
+
+    // Remove child nodes and lines
+    orbitingNodes = orbitingNodes.filter(n => {
+      if (n.parent === node.textContent) {
+        mindmap.removeChild(n.element);
+        svg.removeChild(n.line);
+        return false;
+      }
+      return true;
+    });
   }
 }
 
-function expandArray(node, arr, depth = 1) {
-  if (node.dataset.expanded) return;
-  node.dataset.expanded = "true";
+function toggleArray(node, arr, depth = 1) {
+  if (!node.dataset.expanded) {
+    node.dataset.expanded = "true";
+    node.dataset.children = JSON.stringify(arr);
 
-  const rect = node.getBoundingClientRect();
-  const centerX = rect.left + rect.width / 2 - container.offsetLeft;
-  const centerY = rect.top + rect.height / 2 - container.offsetTop;
-  const radius = 100 + depth * 30;
-  const count = arr.length;
+    const rect = node.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2 - container.offsetLeft;
+    const centerY = rect.top + rect.height / 2 - container.offsetTop;
+    const radius = 100 + depth * 30;
+    const count = arr.length;
 
-  arr.forEach((item, i) => {
-    const angle = (i / count) * 2 * Math.PI;
-    const x = centerX + radius * Math.cos(angle);
-    const y = centerY + radius * Math.sin(angle);
-    const childNode = createNode(item, x, y);
-    const line = drawLine(centerX, centerY, x + 40, y + 20);
+    arr.forEach((item, i) => {
+      const angle = (i / count) * 2 * Math.PI;
+      const x = centerX + radius * Math.cos(angle);
+      const y = centerY + radius * Math.sin(angle);
+      const childNode = createNode(item, x, y);
+      childNode.dataset.parent = node.textContent;
+      const line = drawLine(centerX, centerY, x + 40, y + 20);
 
-    orbitingNodes.push({
-      element: childNode,
-      line: line,
-      parentX: centerX,
-      parentY: centerY,
-      angle: angle,
-      radius: radius,
-      speed: 0.002 * depth + Math.random() * 0.002
+      orbitingNodes.push({
+        element: childNode,
+        line: line,
+        parent: node.textContent,
+        parentX: centerX,
+        parentY: centerY,
+        angle: angle,
+        radius: radius,
+        speed: 0.002 * depth + Math.random() * 0.002
+      });
     });
-  });
+  } else {
+    // Collapse array children
+    node.dataset.expanded = "";
+    const childrenKeys = JSON.parse(node.dataset.children || "[]");
+
+    orbitingNodes = orbitingNodes.filter(n => {
+      if (n.parent === node.textContent) {
+        mindmap.removeChild(n.element);
+        svg.removeChild(n.line);
+        return false;
+      }
+      return true;
+    });
+  }
 }
 
 // Orbit animation
