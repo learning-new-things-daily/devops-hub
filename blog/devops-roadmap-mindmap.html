@@ -3,131 +3,280 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DevOps Roadmap Mindmap</title>
+  <title>DevOps Roadmap - Mindmap with Inertia</title>
   <style>
     body {
       margin: 0;
+      overflow: hidden;
       font-family: Arial, sans-serif;
       background: #0d1117;
       color: #fff;
-      overflow-x: hidden;
     }
 
-    h1 {
-      text-align: center;
-      padding: 20px;
-      color: #00c4ff;
+    #mindmap-container {
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      position: relative;
+      cursor: grab;
     }
 
-    .mindmap {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 20px;
+    #mindmap-container:active {
+      cursor: grabbing;
+    }
+
+    #mindmap {
+      position: absolute;
+      top: 0;
+      left: 0;
+      transform-origin: 0 0;
+    }
+
+    svg {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
     }
 
     .node {
+      position: absolute;
       background: #161b22;
       border: 1px solid #30363d;
       border-radius: 12px;
-      padding: 12px 18px;
-      margin: 8px 0;
-      cursor: pointer;
+      padding: 10px 18px;
       text-align: center;
-      min-width: 180px;
-      transition: all 0.3s;
+      cursor: pointer;
+      transition: transform 0.4s ease, background 0.3s;
+      white-space: nowrap;
+      opacity: 0;
+      transform: scale(0);
+    }
+
+    .node.show {
+      opacity: 1;
+      transform: scale(1);
     }
 
     .node:hover {
       background: #21262d;
-      transform: scale(1.03);
+      transform: scale(1.1);
     }
 
-    .children {
-      display: none;
-      flex-direction: column;
-      margin-left: 40px;
-      border-left: 2px dashed #30363d;
-      padding-left: 20px;
+    line {
+      stroke: #00c4ff;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-dasharray: 500;
+      stroke-dashoffset: 500;
+      animation: drawLine 1s forwards;
     }
 
-    .children.show {
-      display: flex;
-      animation: fadeIn 0.5s ease-in;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(-10px);}
-      to { opacity: 1; transform: translateY(0);}
+    @keyframes drawLine {
+      to { stroke-dashoffset: 0; }
     }
   </style>
 </head>
 <body>
 
-<h1>DevOps Roadmap Mindmap</h1>
-<div class="mindmap">
-  <div class="node" onclick="toggleChildren(this)">DevOps</div>
-  <div class="children">
-    <div class="node" onclick="toggleChildren(this)">Version Control</div>
-    <div class="children">
-      <div class="node">Git</div>
-      <div class="node">GitHub/GitLab/Bitbucket</div>
-    </div>
-
-    <div class="node" onclick="toggleChildren(this)">CI/CD</div>
-    <div class="children">
-      <div class="node">Jenkins</div>
-      <div class="node">GitHub Actions</div>
-      <div class="node">GitLab CI/CD</div>
-      <div class="node">BuildPiper</div>
-    </div>
-
-    <div class="node" onclick="toggleChildren(this)">Infrastructure</div>
-    <div class="children">
-      <div class="node" onclick="toggleChildren(this)">Cloud Providers</div>
-      <div class="children">
-        <div class="node">AWS</div>
-        <div class="node">Azure</div>
-        <div class="node">GCP</div>
-      </div>
-      <div class="node" onclick="toggleChildren(this)">IaC</div>
-      <div class="children">
-        <div class="node">Terraform</div>
-        <div class="node">CloudFormation</div>
-        <div class="node">Pulumi</div>
-      </div>
-    </div>
-
-    <div class="node" onclick="toggleChildren(this)">Containers & Orchestration</div>
-    <div class="children">
-      <div class="node">Docker</div>
-      <div class="node">Kubernetes</div>
-      <div class="node">Helm</div>
-    </div>
-
-    <div class="node" onclick="toggleChildren(this)">Monitoring & Logging</div>
-    <div class="children">
-      <div class="node">Prometheus & Grafana</div>
-      <div class="node">ELK/EFK Stack</div>
-      <div class="node">Datadog</div>
-    </div>
-
-    <div class="node" onclick="toggleChildren(this)">Security & DevSecOps</div>
-    <div class="children">
-      <div class="node">Snyk</div>
-      <div class="node">Trivy</div>
-      <div class="node">HashiCorp Vault</div>
-    </div>
-  </div>
+<div id="mindmap-container">
+  <svg id="lines"></svg>
+  <div id="mindmap"></div>
 </div>
 
 <script>
-  function toggleChildren(element) {
-    const next = element.nextElementSibling;
-    if (next && next.classList.contains('children')) {
-      next.classList.toggle('show');
+const roadmap = {
+  "DevOps": {
+    "Version Control": ["Git", "GitHub/GitLab/Bitbucket"],
+    "CI/CD": ["Jenkins", "GitHub Actions", "GitLab CI/CD", "BuildPiper"],
+    "Infrastructure": {
+      "Cloud Providers": ["AWS", "Azure", "GCP"],
+      "IaC": ["Terraform", "CloudFormation", "Pulumi"]
+    },
+    "Containers & Orchestration": ["Docker", "Kubernetes", "Helm"],
+    "Monitoring & Logging": ["Prometheus & Grafana", "ELK/EFK Stack", "Datadog"],
+    "Security & DevSecOps": ["Snyk", "Trivy", "HashiCorp Vault"]
+  }
+};
+
+const container = document.getElementById("mindmap-container");
+const mindmap = document.getElementById("mindmap");
+const svg = document.getElementById("lines");
+
+let scale = 1;
+let offsetX = 0;
+let offsetY = 0;
+let isDragging = false;
+let startX, startY;
+let velocityX = 0, velocityY = 0;
+let lastMoveTime = 0;
+let lastMouseX = 0, lastMouseY = 0;
+let inertiaFrame;
+
+// Apply transforms
+function updateTransform() {
+  mindmap.style.transform = `translate(${offsetX}px, ${offsetY}px) scale(${scale})`;
+  svg.style.transform = `translate(${offsetX}px, ${offsetY}px) scale(${scale})`;
+}
+
+// Handle drag start
+container.addEventListener('mousedown', e => {
+  isDragging = true;
+  cancelAnimationFrame(inertiaFrame);
+  startX = e.clientX - offsetX;
+  startY = e.clientY - offsetY;
+  lastMouseX = e.clientX;
+  lastMouseY = e.clientY;
+  lastMoveTime = Date.now();
+});
+
+container.addEventListener('mousemove', e => {
+  if (!isDragging) return;
+  offsetX = e.clientX - startX;
+  offsetY = e.clientY - startY;
+
+  // calculate velocity
+  const now = Date.now();
+  const deltaTime = now - lastMoveTime;
+  velocityX = (e.clientX - lastMouseX) / deltaTime * 16;
+  velocityY = (e.clientY - lastMouseY) / deltaTime * 16;
+  lastMoveTime = now;
+  lastMouseX = e.clientX;
+  lastMouseY = e.clientY;
+
+  updateTransform();
+});
+
+function startInertia() {
+  function step() {
+    offsetX += velocityX;
+    offsetY += velocityY;
+    velocityX *= 0.95;
+    velocityY *= 0.95;
+
+    updateTransform();
+
+    if (Math.abs(velocityX) > 0.1 || Math.abs(velocityY) > 0.1) {
+      inertiaFrame = requestAnimationFrame(step);
     }
   }
+  inertiaFrame = requestAnimationFrame(step);
+}
+
+// End drag
+container.addEventListener('mouseup', () => {
+  isDragging = false;
+  startInertia();
+});
+
+container.addEventListener('mouseleave', () => {
+  if (isDragging) {
+    isDragging = false;
+    startInertia();
+  }
+});
+
+// Zoom
+container.addEventListener('wheel', e => {
+  e.preventDefault();
+  const zoomFactor = 0.1;
+  const mouseX = e.clientX;
+  const mouseY = e.clientY;
+
+  const prevScale = scale;
+  if (e.deltaY < 0) scale *= 1 + zoomFactor;
+  else scale *= 1 - zoomFactor;
+  scale = Math.min(Math.max(scale, 0.2), 3);
+
+  // Zoom towards mouse pointer
+  offsetX -= (mouseX - offsetX) * (scale / prevScale - 1);
+  offsetY -= (mouseY - offsetY) * (scale / prevScale - 1);
+
+  updateTransform();
+});
+
+function createNode(text, x, y) {
+  const div = document.createElement("div");
+  div.className = "node";
+  div.textContent = text;
+  div.style.left = `${x}px`;
+  div.style.top = `${y}px`;
+  mindmap.appendChild(div);
+  setTimeout(() => div.classList.add("show"), 50);
+  return div;
+}
+
+function drawLine(x1, y1, x2, y2) {
+  const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+  line.setAttribute("x1", x1);
+  line.setAttribute("y1", y1);
+  line.setAttribute("x2", x2);
+  line.setAttribute("y2", y2);
+  svg.appendChild(line);
+  return line;
+}
+
+function toggleExpand(node, children) {
+  if (!node.dataset.expanded) {
+    node.dataset.expanded = "true";
+    const rect = node.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2 - container.offsetLeft;
+    const centerY = rect.top + rect.height / 2 - container.offsetTop;
+
+    const count = Object.keys(children).length;
+    const radius = 180;
+    let i = 0;
+
+    for (const key in children) {
+      const angle = (i / count) * 2 * Math.PI;
+      const x = centerX + radius * Math.cos(angle);
+      const y = centerY + radius * Math.sin(angle);
+
+      const childNode = createNode(key, x, y);
+      drawLine(centerX, centerY, x + 40, y + 20);
+
+      childNode.onclick = () => {
+        if (Array.isArray(children[key])) {
+          expandArray(childNode, children[key]);
+        } else {
+          toggleExpand(childNode, children[key]);
+        }
+      };
+      i++;
+    }
+  }
+}
+
+function expandArray(node, arr) {
+  if (node.dataset.expanded) return;
+  node.dataset.expanded = "true";
+
+  const rect = node.getBoundingClientRect();
+  const centerX = rect.left + rect.width / 2 - container.offsetLeft;
+  const centerY = rect.top + rect.height / 2 - container.offsetTop;
+  const radius = 120;
+  const count = arr.length;
+
+  arr.forEach((item, i) => {
+    const angle = (i / count) * 2 * Math.PI;
+    const x = centerX + radius * Math.cos(angle);
+    const y = centerY + radius * Math.sin(angle);
+    const childNode = createNode(item, x, y);
+    drawLine(centerX, centerY, x + 40, y + 20);
+  });
+}
+
+// Initialize
+function initMindmap() {
+  const centerX = window.innerWidth / 2 - 50;
+  const centerY = window.innerHeight / 2 - 20;
+  const root = createNode("DevOps", centerX, centerY);
+  root.onclick = () => toggleExpand(root, roadmap["DevOps"]);
+}
+
+initMindmap();
+updateTransform();
 </script>
 
 </body>
