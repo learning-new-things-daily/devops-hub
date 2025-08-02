@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DevOps Hierarchical Roadmap</title>
+  <title>Interactive DevOps Learning Roadmap</title>
   <style>
     body {
       margin: 0;
@@ -41,14 +41,39 @@
       padding: 6px 12px;
       text-align: center;
       cursor: pointer;
-      transition: transform 0.2s ease, background 0.2s;
+      transition: transform 0.2s ease, background 0.2s, color 0.2s;
       white-space: nowrap;
     }
-    .node:hover { background: #21262d; transform: scale(1.05); }
+    .node.not-started { background: #2f3136; color: #b9bbbe; }
+    .node.learning { background: #f1c40f; color: black; }
+    .node.completed { background: #2ecc71; color: black; }
+    .node:hover { transform: scale(1.05); }
     line {
       stroke: #00c4ff;
       stroke-width: 2;
       stroke-linecap: round;
+    }
+    /* Tooltip/Modal */
+    #tooltip {
+      position: fixed;
+      background: #161b22;
+      border: 1px solid #30363d;
+      padding: 10px;
+      border-radius: 8px;
+      display: none;
+      z-index: 10;
+      max-width: 250px;
+      font-size: 14px;
+    }
+    #tooltip a { color: #00c4ff; text-decoration: none; }
+    #tooltip a:hover { text-decoration: underline; }
+    #tooltip button {
+      margin-top: 5px;
+      padding: 2px 5px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 12px;
     }
   </style>
 </head>
@@ -59,82 +84,59 @@
   <div id="mindmap"></div>
 </div>
 
+<div id="tooltip"></div>
+
 <script>
 const roadmap = {
   "DevOps": {
-    "Version Control": [
-      "Git Basics",
-      "Branching Strategies",
-      "GitHub/GitLab/Bitbucket",
-      "Git Hooks & Git Flow"
-    ],
-    "CI/CD": [
-      "Jenkins",
-      "GitHub Actions",
-      "GitLab CI/CD",
-      "BuildPiper",
-      "CircleCI / Argo Workflows",
-      "Canary & Blue/Green Deployments"
-    ],
-    "Infrastructure": {
-      "Cloud Providers": {
-        "AWS": ["EC2","S3","IAM","Lambda"],
-        "Azure": ["VM","Blob Storage","Functions"],
-        "GCP": ["Compute Engine","Cloud Storage","Cloud Functions"]
+    description: "Master DevOps by learning version control, CI/CD, cloud, containers, and automation.",
+    time: "90 days",
+    docs: "https://roadmap.sh/devops",
+    tutorial: "https://www.youtube.com/watch?v=j5Zsa_eOXeY",
+    children: {
+      "Version Control": {
+        description: "Manage source code and collaborate using Git.",
+        time: "5 days",
+        docs: "https://git-scm.com/doc",
+        tutorial: "https://www.youtube.com/watch?v=USjZcfj8yxE",
+        children: {
+          "Git Basics": { description: "Learn commits, branches, merges.", time: "2 days", docs:"https://git-scm.com/book/en/v2", tutorial:"https://youtu.be/2ReR1YJrNOM" },
+          "Branching Strategies": { description: "Understand Git Flow, trunk-based dev.", time: "1 day" },
+          "GitHub/GitLab": { description: "Learn hosting repos and PRs.", time: "1 day", docs:"https://docs.github.com/en" },
+        }
       },
-      "IaC": ["Terraform","CloudFormation","Pulumi","Ansible (Infra)"]
-    },
-    "Containers & Orchestration": [
-      "Docker",
-      "Kubernetes (Pods, Services, Ingress, CRDs)",
-      "Helm Charts",
-      "OpenShift / Rancher",
-      "Container Security (Trivy, Falco)"
-    ],
-    "Monitoring & Logging": [
-      "Prometheus & Grafana",
-      "ELK/EFK Stack",
-      "Datadog",
-      "New Relic",
-      "Jaeger / OpenTelemetry"
-    ],
-    "Security & DevSecOps": [
-      "Snyk",
-      "Trivy",
-      "HashiCorp Vault",
-      "SonarQube",
-      "OWASP ZAP",
-      "Secret Scanning (Gitleaks)"
-    ],
-    "Automation & Scripting": [
-      "Python (Automation)",
-      "Bash / Shell",
-      "PowerShell (Windows)",
-      "Cron Jobs / Schedulers"
-    ],
-    "Collaboration & Project Management": [
-      "Jira / Azure DevOps Boards",
-      "Confluence / Documentation",
-      "ChatOps (Slack, Teams)"
-    ],
-    "Observability & Incident Response": [
-      "Alertmanager",
-      "PagerDuty / OpsGenie",
-      "ServiceNow ITSM",
-      "SLOs / SLIs / SLAs"
-    ]
+      "CI/CD": {
+        description: "Automate build and deployments.",
+        time: "10 days",
+        docs: "https://www.jenkins.io/doc/",
+        tutorial: "https://youtu.be/FwfwWfkb6SY",
+        children: {
+          "Jenkins": { description:"Popular CI/CD tool", time:"3 days", docs:"https://www.jenkins.io/doc/" },
+          "GitHub Actions": { description:"CI/CD via GitHub", time:"2 days", docs:"https://docs.github.com/en/actions" },
+          "ArgoCD": { description:"GitOps deployment tool", time:"2 days", docs:"https://argo-cd.readthedocs.io/en/stable/" }
+        }
+      },
+      "Containers": {
+        description: "Learn containerization and orchestration.",
+        time: "15 days",
+        children: {
+          "Docker": { description:"Package apps in containers.", time:"3 days", docs:"https://docs.docker.com/" },
+          "Kubernetes": { description:"Orchestrate containers.", time:"7 days", docs:"https://kubernetes.io/docs/home/" },
+          "Helm Charts": { description:"Manage K8s apps as packages.", time:"2 days", docs:"https://helm.sh/docs/" }
+        }
+      }
+    }
   }
 };
 
+// --- DOM references ---
 const container = document.getElementById("mindmap-container");
 const mindmap = document.getElementById("mindmap");
 const svg = document.getElementById("lines");
+const tooltip = document.getElementById("tooltip");
 
 let scale = 1, offsetX = 0, offsetY = 0;
 let isDragging = false, startX, startY;
-let velocityX = 0, velocityY = 0;
-let lastMoveTime = 0, lastMouseX = 0, lastMouseY = 0;
-let inertiaFrame;
 
 // --- PAN & ZOOM ---
 function updateTransform() {
@@ -143,61 +145,47 @@ function updateTransform() {
 }
 container.addEventListener('mousedown', e => {
   isDragging = true;
-  cancelAnimationFrame(inertiaFrame);
   startX = e.clientX - offsetX;
   startY = e.clientY - offsetY;
-  lastMouseX = e.clientX;
-  lastMouseY = e.clientY;
-  lastMoveTime = Date.now();
 });
 container.addEventListener('mousemove', e => {
   if (!isDragging) return;
   offsetX = e.clientX - startX;
   offsetY = e.clientY - startY;
-  const now = Date.now();
-  const deltaTime = now - lastMoveTime;
-  velocityX = (e.clientX - lastMouseX) / deltaTime * 16;
-  velocityY = (e.clientY - lastMouseY) / deltaTime * 16;
-  lastMoveTime = now;
-  lastMouseX = e.clientX;
-  lastMouseY = e.clientY;
   updateTransform();
 });
-function startInertia() {
-  function step() {
-    offsetX += velocityX;
-    offsetY += velocityY;
-    velocityX *= 0.95; velocityY *= 0.95;
-    updateTransform();
-    if (Math.abs(velocityX) > 0.1 || Math.abs(velocityY) > 0.1)
-      inertiaFrame = requestAnimationFrame(step);
-  }
-  inertiaFrame = requestAnimationFrame(step);
-}
-container.addEventListener('mouseup', () => { isDragging = false; startInertia(); });
-container.addEventListener('mouseleave', () => { if (isDragging){isDragging=false; startInertia();} });
+container.addEventListener('mouseup', () => { isDragging = false; });
+container.addEventListener('mouseleave', () => { isDragging = false; });
 container.addEventListener('wheel', e => {
   e.preventDefault();
   const zoomFactor = 0.1;
   const mouseX = e.clientX, mouseY = e.clientY;
   const prevScale = scale;
   scale *= (e.deltaY<0) ? (1+zoomFactor):(1-zoomFactor);
-  scale = Math.min(Math.max(scale,0.2),3);
+  scale = Math.min(Math.max(scale,0.3),2);
   offsetX -= (mouseX-offsetX)*(scale/prevScale-1);
   offsetY -= (mouseY-offsetY)*(scale/prevScale-1);
   updateTransform();
 });
 
-// --- TREE LAYOUT ---
-function createNode(text,x,y){
-  const div=document.createElement("div");
-  div.className="node";
-  div.textContent=text;
-  div.style.left=`${x}px`;
-  div.style.top=`${y}px`;
-  mindmap.appendChild(div);
-  return div;
+// --- NODE CREATION ---
+function createNode(key, info, x, y, parentKey=null) {
+  const node = document.createElement("div");
+  node.className = "node not-started";
+  node.textContent = key;
+  node.style.left = `${x}px`;
+  node.style.top = `${y}px`;
+  node.dataset.key = key;
+  node.dataset.parent = parentKey || "";
+
+  node.onclick = (e) => {
+    e.stopPropagation();
+    showTooltip(node, info, e.pageX, e.pageY);
+  };
+  mindmap.appendChild(node);
+  return node;
 }
+
 function drawLine(x1,y1,x2,y2){
   const line=document.createElementNS("http://www.w3.org/2000/svg","line");
   line.setAttribute("x1",x1); line.setAttribute("y1",y1);
@@ -206,76 +194,66 @@ function drawLine(x1,y1,x2,y2){
   return line;
 }
 
-// Compute layout sizes
-function getSubtreeHeight(children) {
-  if (Array.isArray(children)) return children.length;
-  let sum = 0;
-  for (const key in children) {
-    const c = children[key];
-    sum += getSubtreeHeight(c);
-  }
-  return Math.max(sum, 1);
+// --- Tooltip/Modal ---
+function showTooltip(node, info, x, y) {
+  tooltip.innerHTML = `
+    <strong>${node.textContent}</strong><br/>
+    ${info.description || "No description"}<br/>
+    <small>Time: ${info.time || "N/A"}</small><br/>
+    ${info.docs? `<a href="${info.docs}" target="_blank">Docs</a><br/>`:''}
+    ${info.tutorial? `<a href="${info.tutorial}" target="_blank">Tutorial</a><br/>`:''}
+    <button onclick="setStatus('${node.dataset.key}','learning')">Learning</button>
+    <button onclick="setStatus('${node.dataset.key}','completed')">Completed</button>
+  `;
+  tooltip.style.display = 'block';
+  tooltip.style.left = x + 'px';
+  tooltip.style.top = y + 'px';
 }
 
-function renderTree(nodeText, data, x, y, depth=0, parentCoords=null) {
-  const node=createNode(nodeText, x, y);
-  const nodeHeight = 30;
-  const nodeGapY = 50;
-  const nodeGapX = 220;
-
-  if (parentCoords) {
-    drawLine(parentCoords.x + 50, parentCoords.y + 15, x, y + 15);
-  }
-
-  node.onclick = () => {
-    // Toggle collapse
-    const isExpanded = node.dataset.expanded==="true";
-    if(isExpanded){
-      collapseSubtree(nodeText);
-      node.dataset.expanded="false";
-    } else {
-      node.dataset.expanded="true";
-      renderChildren(node, data, x, y, depth+1);
-    }
-  };
-  return node;
+function setStatus(key,status){
+  const node = mindmap.querySelector(`.node[data-key='${key}']`);
+  node.classList.remove("not-started","learning","completed");
+  node.classList.add(status);
+  tooltip.style.display='none';
 }
 
-function renderChildren(node, data, x, y, depth) {
-  const children = Array.isArray(data)? data : Object.keys(data);
-  let totalHeight = getSubtreeHeight(data) * 40;
+// --- Auto-layout tree ---
+function getSubtreeHeight(node){
+  if(!node.children) return 1;
+  let sum=0;
+  for(let k in node.children){
+    sum+=getSubtreeHeight(node.children[k]);
+  }
+  return sum;
+}
+
+function renderTree(key,data,x,y,parentCoords=null){
+  const node=createNode(key,data,x,y,parentCoords?parentCoords.key:null);
+  if(parentCoords){
+    drawLine(parentCoords.x+50,parentCoords.y+15,x,y+15);
+  }
+  if(!data.children) return;
+
+  const childKeys = Object.keys(data.children);
+  let totalHeight = getSubtreeHeight(data) * 50;
   let currentY = y - totalHeight/2;
-  
-  children.forEach(key=>{
-    const childData = Array.isArray(data)? null : data[key];
-    const childHeight = getSubtreeHeight(childData||key) * 40;
-    const childY = currentY + childHeight/2;
-    const childX = x + 220;
-    renderTree(key, childData||[], childX, childY, depth, {x:x,y:y});
-    currentY += childHeight;
-  });
-}
 
-function collapseSubtree(name){
-  const nodes = [...mindmap.querySelectorAll(".node")];
-  nodes.forEach(n=>{
-    if(n.dataset.parent === name){
-      collapseSubtree(n.textContent);
-      n.remove();
-    }
-  });
-  [...svg.querySelectorAll("line")].forEach(line=>{
-    if(line.dataset.parent===name) line.remove();
+  childKeys.forEach(k=>{
+    const childData = data.children[k];
+    const childHeight = getSubtreeHeight(childData)*50;
+    const childY = currentY+childHeight/2;
+    renderTree(k,childData,x+220,childY,{x:x,y:y,key:key});
+    currentY+=childHeight;
   });
 }
 
 // --- INIT ---
-function initMindmap(){
+function init(){
   const rootX=100;
   const rootY=window.innerHeight/2;
-  renderTree("DevOps", roadmap["DevOps"], rootX, rootY);
+  renderTree("DevOps",roadmap["DevOps"],rootX,rootY);
 }
-initMindmap();
+init();
 updateTransform();
 </script>
 
