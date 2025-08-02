@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DevOps Tree Roadmap</title>
+  <title>DevOps Hierarchical Roadmap</title>
   <style>
     body {
       margin: 0;
@@ -141,7 +141,6 @@ function updateTransform() {
   mindmap.style.transform = `translate(${offsetX}px, ${offsetY}px) scale(${scale})`;
   svg.style.transform = `translate(${offsetX}px, ${offsetY}px) scale(${scale})`;
 }
-
 container.addEventListener('mousedown', e => {
   isDragging = true;
   cancelAnimationFrame(inertiaFrame);
@@ -189,7 +188,7 @@ container.addEventListener('wheel', e => {
   updateTransform();
 });
 
-// --- NODE CREATION & LINES ---
+// --- TREE LAYOUT ---
 function createNode(text,x,y){
   const div=document.createElement("div");
   div.className="node";
@@ -203,55 +202,81 @@ function drawLine(x1,y1,x2,y2){
   const line=document.createElementNS("http://www.w3.org/2000/svg","line");
   line.setAttribute("x1",x1); line.setAttribute("y1",y1);
   line.setAttribute("x2",x2); line.setAttribute("y2",y2);
-  svg.appendChild(line); return line;
+  svg.appendChild(line);
+  return line;
 }
 
-// --- EXPAND/COLLAPSE TREE ---
-function toggleExpand(node, children, depth=0){
-  if(node.dataset.expanded){
-    // collapse
-    node.dataset.expanded = "";
-    const childNodes = document.querySelectorAll(`[data-parent='${node.textContent}']`);
-    childNodes.forEach(n=>{
-      toggleExpand(n,{},depth+1); // recursively collapse
-      mindmap.removeChild(n);
-    });
-    // remove lines
-    document.querySelectorAll(`line[data-parent='${node.textContent}']`).forEach(l=>l.remove());
-    return;
+// Compute layout sizes
+function getSubtreeHeight(children) {
+  if (Array.isArray(children)) return children.length;
+  let sum = 0;
+  for (const key in children) {
+    const c = children[key];
+    sum += getSubtreeHeight(c);
+  }
+  return Math.max(sum, 1);
+}
+
+function renderTree(nodeText, data, x, y, depth=0, parentCoords=null) {
+  const node=createNode(nodeText, x, y);
+  const nodeHeight = 30;
+  const nodeGapY = 50;
+  const nodeGapX = 220;
+
+  if (parentCoords) {
+    drawLine(parentCoords.x + 50, parentCoords.y + 15, x, y + 15);
   }
 
-  node.dataset.expanded = "true";
-  const rect=node.getBoundingClientRect();
-  const startX=rect.left+rect.width/2-container.offsetLeft;
-  const startY=rect.top+rect.height-container.offsetTop;
-  const gapY = 50;
-  const gapX = 180;
+  node.onclick = () => {
+    // Toggle collapse
+    const isExpanded = node.dataset.expanded==="true";
+    if(isExpanded){
+      collapseSubtree(nodeText);
+      node.dataset.expanded="false";
+    } else {
+      node.dataset.expanded="true";
+      renderChildren(node, data, x, y, depth+1);
+    }
+  };
+  return node;
+}
 
-  const keys = Array.isArray(children)? children : Object.keys(children);
-  keys.forEach((key,i)=>{
-    const x=startX+gapX;
-    const y=startY+i*(gapY+30)+gapY;
-    const childNode=createNode(key,x,y);
-    childNode.dataset.parent=node.textContent;
-    const line=drawLine(startX, startY, x, y+15);
-    line.dataset.parent=node.textContent;
+function renderChildren(node, data, x, y, depth) {
+  const children = Array.isArray(data)? data : Object.keys(data);
+  let totalHeight = getSubtreeHeight(data) * 40;
+  let currentY = y - totalHeight/2;
+  
+  children.forEach(key=>{
+    const childData = Array.isArray(data)? null : data[key];
+    const childHeight = getSubtreeHeight(childData||key) * 40;
+    const childY = currentY + childHeight/2;
+    const childX = x + 220;
+    renderTree(key, childData||[], childX, childY, depth, {x:x,y:y});
+    currentY += childHeight;
+  });
+}
 
-    childNode.onclick=()=>{
-      if(Array.isArray(children[key])) toggleExpand(childNode, children[key], depth+1);
-      else if(typeof children[key]==="object") toggleExpand(childNode, children[key], depth+1);
-    };
+function collapseSubtree(name){
+  const nodes = [...mindmap.querySelectorAll(".node")];
+  nodes.forEach(n=>{
+    if(n.dataset.parent === name){
+      collapseSubtree(n.textContent);
+      n.remove();
+    }
+  });
+  [...svg.querySelectorAll("line")].forEach(line=>{
+    if(line.dataset.parent===name) line.remove();
   });
 }
 
 // --- INIT ---
 function initMindmap(){
-  const centerX=100;
-  const centerY=window.innerHeight/2-20;
-  const root=createNode("DevOps",centerX,centerY);
-  root.onclick=()=>toggleExpand(root,roadmap["DevOps"],0);
+  const rootX=100;
+  const rootY=window.innerHeight/2;
+  renderTree("DevOps", roadmap["DevOps"], rootX, rootY);
 }
-initMindmap(); updateTransform();
+initMindmap();
+updateTransform();
 </script>
 
 </body>
