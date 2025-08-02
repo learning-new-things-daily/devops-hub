@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DevOps Roadmap - Mindmap with Inertia</title>
+  <title>DevOps Roadmap - Galaxy Mindmap</title>
   <style>
     body {
       margin: 0;
@@ -114,13 +114,15 @@ let lastMoveTime = 0;
 let lastMouseX = 0, lastMouseY = 0;
 let inertiaFrame;
 
-// Apply transforms
+// Orbiting nodes storage
+let orbitingNodes = [];
+
+// --- PAN & ZOOM WITH INERTIA ---
 function updateTransform() {
   mindmap.style.transform = `translate(${offsetX}px, ${offsetY}px) scale(${scale})`;
   svg.style.transform = `translate(${offsetX}px, ${offsetY}px) scale(${scale})`;
 }
 
-// Handle drag start
 container.addEventListener('mousedown', e => {
   isDragging = true;
   cancelAnimationFrame(inertiaFrame);
@@ -136,7 +138,6 @@ container.addEventListener('mousemove', e => {
   offsetX = e.clientX - startX;
   offsetY = e.clientY - startY;
 
-  // calculate velocity
   const now = Date.now();
   const deltaTime = now - lastMoveTime;
   velocityX = (e.clientX - lastMouseX) / deltaTime * 16;
@@ -154,7 +155,6 @@ function startInertia() {
     offsetY += velocityY;
     velocityX *= 0.95;
     velocityY *= 0.95;
-
     updateTransform();
 
     if (Math.abs(velocityX) > 0.1 || Math.abs(velocityY) > 0.1) {
@@ -164,7 +164,6 @@ function startInertia() {
   inertiaFrame = requestAnimationFrame(step);
 }
 
-// End drag
 container.addEventListener('mouseup', () => {
   isDragging = false;
   startInertia();
@@ -196,6 +195,7 @@ container.addEventListener('wheel', e => {
   updateTransform();
 });
 
+// --- NODE CREATION & LINES ---
 function createNode(text, x, y) {
   const div = document.createElement("div");
   div.className = "node";
@@ -217,7 +217,8 @@ function drawLine(x1, y1, x2, y2) {
   return line;
 }
 
-function toggleExpand(node, children) {
+// --- EXPANSION WITH DEPTH-BASED ORBIT ---
+function toggleExpand(node, children, depth = 1) {
   if (!node.dataset.expanded) {
     node.dataset.expanded = "true";
     const rect = node.getBoundingClientRect();
@@ -225,7 +226,7 @@ function toggleExpand(node, children) {
     const centerY = rect.top + rect.height / 2 - container.offsetTop;
 
     const count = Object.keys(children).length;
-    const radius = 180;
+    const radius = 150 + depth * 30;
     let i = 0;
 
     for (const key in children) {
@@ -234,13 +235,24 @@ function toggleExpand(node, children) {
       const y = centerY + radius * Math.sin(angle);
 
       const childNode = createNode(key, x, y);
-      drawLine(centerX, centerY, x + 40, y + 20);
+      const line = drawLine(centerX, centerY, x + 40, y + 20);
+
+      // Orbit speed depends on depth (outer = faster)
+      orbitingNodes.push({
+        element: childNode,
+        line: line,
+        parentX: centerX,
+        parentY: centerY,
+        angle: angle,
+        radius: radius,
+        speed: 0.002 * depth + Math.random() * 0.002
+      });
 
       childNode.onclick = () => {
         if (Array.isArray(children[key])) {
-          expandArray(childNode, children[key]);
+          expandArray(childNode, children[key], depth + 1);
         } else {
-          toggleExpand(childNode, children[key]);
+          toggleExpand(childNode, children[key], depth + 1);
         }
       };
       i++;
@@ -248,14 +260,14 @@ function toggleExpand(node, children) {
   }
 }
 
-function expandArray(node, arr) {
+function expandArray(node, arr, depth = 1) {
   if (node.dataset.expanded) return;
   node.dataset.expanded = "true";
 
   const rect = node.getBoundingClientRect();
   const centerX = rect.left + rect.width / 2 - container.offsetLeft;
   const centerY = rect.top + rect.height / 2 - container.offsetTop;
-  const radius = 120;
+  const radius = 100 + depth * 30;
   const count = arr.length;
 
   arr.forEach((item, i) => {
@@ -263,20 +275,45 @@ function expandArray(node, arr) {
     const x = centerX + radius * Math.cos(angle);
     const y = centerY + radius * Math.sin(angle);
     const childNode = createNode(item, x, y);
-    drawLine(centerX, centerY, x + 40, y + 20);
+    const line = drawLine(centerX, centerY, x + 40, y + 20);
+
+    orbitingNodes.push({
+      element: childNode,
+      line: line,
+      parentX: centerX,
+      parentY: centerY,
+      angle: angle,
+      radius: radius,
+      speed: 0.002 * depth + Math.random() * 0.002
+    });
   });
 }
 
-// Initialize
+// Orbit animation
+function animateOrbit() {
+  orbitingNodes.forEach(n => {
+    n.angle += n.speed;
+    const x = n.parentX + n.radius * Math.cos(n.angle);
+    const y = n.parentY + n.radius * Math.sin(n.angle);
+    n.element.style.left = `${x}px`;
+    n.element.style.top = `${y}px`;
+    n.line.setAttribute("x2", x + 40);
+    n.line.setAttribute("y2", y + 20);
+  });
+  requestAnimationFrame(animateOrbit);
+}
+
+// --- INIT ---
 function initMindmap() {
   const centerX = window.innerWidth / 2 - 50;
   const centerY = window.innerHeight / 2 - 20;
   const root = createNode("DevOps", centerX, centerY);
-  root.onclick = () => toggleExpand(root, roadmap["DevOps"]);
+  root.onclick = () => toggleExpand(root, roadmap["DevOps"], 1);
 }
 
 initMindmap();
 updateTransform();
+animateOrbit();
 </script>
 
 </body>
