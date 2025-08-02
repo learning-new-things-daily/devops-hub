@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DevOps Roadmap Mindmap</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #0d1117;
+      color: #fff;
+      overflow-x: hidden;
+    }
+
+    h1 {
+      text-align: center;
+      padding: 20px;
+      color: #00c4ff;
+    }
+
+    .mindmap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .node {
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 12px;
+      padding: 12px 18px;
+      margin: 8px 0;
+      cursor: pointer;
+      text-align: center;
+      min-width: 180px;
+      transition: all 0.3s;
+    }
+
+    .node:hover {
+      background: #21262d;
+      transform: scale(1.03);
+    }
+
+    .children {
+      display: none;
+      flex-direction: column;
+      margin-left: 40px;
+      border-left: 2px dashed #30363d;
+      padding-left: 20px;
+    }
+
+    .children.show {
+      display: flex;
+      animation: fadeIn 0.5s ease-in;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px);}
+      to { opacity: 1; transform: translateY(0);}
+    }
+  </style>
+</head>
+<body>
+
+<h1>DevOps Roadmap Mindmap</h1>
+<div class="mindmap">
+  <div class="node" onclick="toggleChildren(this)">DevOps</div>
+  <div class="children">
+    <div class="node" onclick="toggleChildren(this)">Version Control</div>
+    <div class="children">
+      <div class="node">Git</div>
+      <div class="node">GitHub/GitLab/Bitbucket</div>
+    </div>
+
+    <div class="node" onclick="toggleChildren(this)">CI/CD</div>
+    <div class="children">
+      <div class="node">Jenkins</div>
+      <div class="node">GitHub Actions</div>
+      <div class="node">GitLab CI/CD</div>
+      <div class="node">BuildPiper</div>
+    </div>
+
+    <div class="node" onclick="toggleChildren(this)">Infrastructure</div>
+    <div class="children">
+      <div class="node" onclick="toggleChildren(this)">Cloud Providers</div>
+      <div class="children">
+        <div class="node">AWS</div>
+        <div class="node">Azure</div>
+        <div class="node">GCP</div>
+      </div>
+      <div class="node" onclick="toggleChildren(this)">IaC</div>
+      <div class="children">
+        <div class="node">Terraform</div>
+        <div class="node">CloudFormation</div>
+        <div class="node">Pulumi</div>
+      </div>
+    </div>
+
+    <div class="node" onclick="toggleChildren(this)">Containers & Orchestration</div>
+    <div class="children">
+      <div class="node">Docker</div>
+      <div class="node">Kubernetes</div>
+      <div class="node">Helm</div>
+    </div>
+
+    <div class="node" onclick="toggleChildren(this)">Monitoring & Logging</div>
+    <div class="children">
+      <div class="node">Prometheus & Grafana</div>
+      <div class="node">ELK/EFK Stack</div>
+      <div class="node">Datadog</div>
+    </div>
+
+    <div class="node" onclick="toggleChildren(this)">Security & DevSecOps</div>
+    <div class="children">
+      <div class="node">Snyk</div>
+      <div class="node">Trivy</div>
+      <div class="node">HashiCorp Vault</div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function toggleChildren(element) {
+    const next = element.nextElementSibling;
+    if (next && next.classList.contains('children')) {
+      next.classList.toggle('show');
+    }
+  }
+</script>
+
+</body>
+</html>
