@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>DevOps Galaxy Mindmap</title>
   <style>
@@ -12,7 +12,6 @@
       background: #0d1117;
       color: #fff;
     }
-
     #mindmap-container {
       width: 100vw;
       height: 100vh;
@@ -20,18 +19,13 @@
       position: relative;
       cursor: grab;
     }
-
-    #mindmap-container:active {
-      cursor: grabbing;
-    }
-
+    #mindmap-container:active { cursor: grabbing; }
     #mindmap {
       position: absolute;
       top: 0;
       left: 0;
       transform-origin: 0 0;
     }
-
     svg {
       position: absolute;
       top: 0; left: 0;
@@ -39,7 +33,6 @@
       height: 100%;
       pointer-events: none;
     }
-
     .node {
       position: absolute;
       background: #161b22;
@@ -53,17 +46,8 @@
       opacity: 0;
       transform: scale(0);
     }
-
-    .node.show {
-      opacity: 1;
-      transform: scale(1);
-    }
-
-    .node:hover {
-      background: #21262d;
-      transform: scale(1.1);
-    }
-
+    .node.show { opacity: 1; transform: scale(1); }
+    .node:hover { background: #21262d; transform: scale(1.1); }
     line {
       stroke: #00c4ff;
       stroke-width: 2;
@@ -72,10 +56,7 @@
       stroke-dashoffset: 500;
       animation: drawLine 1s forwards;
     }
-
-    @keyframes drawLine {
-      to { stroke-dashoffset: 0; }
-    }
+    @keyframes drawLine { to { stroke-dashoffset: 0; } }
   </style>
 </head>
 <body>
@@ -88,15 +69,67 @@
 <script>
 const roadmap = {
   "DevOps": {
-    "Version Control": ["Git", "GitHub/GitLab/Bitbucket"],
-    "CI/CD": ["Jenkins", "GitHub Actions", "GitLab CI/CD", "BuildPiper"],
+    "Version Control": [
+      "Git Basics",
+      "Branching Strategies",
+      "GitHub/GitLab/Bitbucket",
+      "Git Hooks & Git Flow"
+    ],
+    "CI/CD": [
+      "Jenkins",
+      "GitHub Actions",
+      "GitLab CI/CD",
+      "BuildPiper",
+      "CircleCI / Argo Workflows",
+      "Canary & Blue/Green Deployments"
+    ],
     "Infrastructure": {
-      "Cloud Providers": ["AWS", "Azure", "GCP"],
-      "IaC": ["Terraform", "CloudFormation", "Pulumi"]
+      "Cloud Providers": {
+        "AWS": ["EC2","S3","IAM","Lambda"],
+        "Azure": ["VM","Blob Storage","Functions"],
+        "GCP": ["Compute Engine","Cloud Storage","Cloud Functions"]
+      },
+      "IaC": ["Terraform","CloudFormation","Pulumi","Ansible (Infra)"]
     },
-    "Containers & Orchestration": ["Docker", "Kubernetes", "Helm"],
-    "Monitoring & Logging": ["Prometheus & Grafana", "ELK/EFK Stack", "Datadog"],
-    "Security & DevSecOps": ["Snyk", "Trivy", "HashiCorp Vault"]
+    "Containers & Orchestration": [
+      "Docker",
+      "Kubernetes (Pods, Services, Ingress, CRDs)",
+      "Helm Charts",
+      "OpenShift / Rancher",
+      "Container Security (Trivy, Falco)"
+    ],
+    "Monitoring & Logging": [
+      "Prometheus & Grafana",
+      "ELK/EFK Stack",
+      "Datadog",
+      "New Relic",
+      "Jaeger / OpenTelemetry"
+    ],
+    "Security & DevSecOps": [
+      "Snyk",
+      "Trivy",
+      "HashiCorp Vault",
+      "SonarQube",
+      "OWASP ZAP",
+      "Secret Scanning (Gitleaks)"
+    ],
+    "Automation & Scripting": [
+      "Python (Automation)",
+      "Bash / Shell",
+      "PowerShell (Windows)",
+      "Cron Jobs / Schedulers"
+    ],
+    "Collaboration & Project Management": [
+      "Jira / Azure DevOps Boards",
+      "Confluence / Documentation",
+      "ChatOps (Slack, Teams)"
+    ],
+    "Observability & Incident Response": [
+      "Alertmanager",
+      "PagerDuty / OpsGenie",
+      "ServiceNow ITSM",
+      "SLOs / SLIs / SLAs"
+    ]
   }
 };
 
@@ -104,20 +137,14 @@ const container = document.getElementById("mindmap-container");
 const mindmap = document.getElementById("mindmap");
 const svg = document.getElementById("lines");
 
-let scale = 1;
-let offsetX = 0;
-let offsetY = 0;
-let isDragging = false;
-let startX, startY;
+let scale = 1, offsetX = 0, offsetY = 0;
+let isDragging = false, startX, startY;
 let velocityX = 0, velocityY = 0;
-let lastMoveTime = 0;
-let lastMouseX = 0, lastMouseY = 0;
+let lastMoveTime = 0, lastMouseX = 0, lastMouseY = 0;
 let inertiaFrame;
-
-// Orbiting nodes storage
 let orbitingNodes = [];
 
-// --- PAN & ZOOM WITH INERTIA ---
+// --- PAN & ZOOM ---
 function updateTransform() {
   mindmap.style.transform = `translate(${offsetX}px, ${offsetY}px) scale(${scale})`;
   svg.style.transform = `translate(${offsetX}px, ${offsetY}px) scale(${scale})`;
@@ -132,12 +159,10 @@ container.addEventListener('mousedown', e => {
   lastMouseY = e.clientY;
   lastMoveTime = Date.now();
 });
-
 container.addEventListener('mousemove', e => {
   if (!isDragging) return;
   offsetX = e.clientX - startX;
   offsetY = e.clientY - startY;
-
   const now = Date.now();
   const deltaTime = now - lastMoveTime;
   velocityX = (e.clientX - lastMouseX) / deltaTime * 16;
@@ -145,131 +170,86 @@ container.addEventListener('mousemove', e => {
   lastMoveTime = now;
   lastMouseX = e.clientX;
   lastMouseY = e.clientY;
-
   updateTransform();
 });
-
 function startInertia() {
   function step() {
     offsetX += velocityX;
     offsetY += velocityY;
-    velocityX *= 0.95;
-    velocityY *= 0.95;
+    velocityX *= 0.95; velocityY *= 0.95;
     updateTransform();
-
-    if (Math.abs(velocityX) > 0.1 || Math.abs(velocityY) > 0.1) {
+    if (Math.abs(velocityX) > 0.1 || Math.abs(velocityY) > 0.1)
       inertiaFrame = requestAnimationFrame(step);
-    }
   }
   inertiaFrame = requestAnimationFrame(step);
 }
-
-container.addEventListener('mouseup', () => {
-  isDragging = false;
-  startInertia();
-});
-
-container.addEventListener('mouseleave', () => {
-  if (isDragging) {
-    isDragging = false;
-    startInertia();
-  }
-});
-
-// Zoom
+container.addEventListener('mouseup', () => { isDragging = false; startInertia(); });
+container.addEventListener('mouseleave', () => { if (isDragging){isDragging=false; startInertia();} });
 container.addEventListener('wheel', e => {
   e.preventDefault();
   const zoomFactor = 0.1;
-  const mouseX = e.clientX;
-  const mouseY = e.clientY;
-
+  const mouseX = e.clientX, mouseY = e.clientY;
   const prevScale = scale;
-  if (e.deltaY < 0) scale *= 1 + zoomFactor;
-  else scale *= 1 - zoomFactor;
-  scale = Math.min(Math.max(scale, 0.2), 3);
-
-  // Zoom towards mouse pointer
-  offsetX -= (mouseX - offsetX) * (scale / prevScale - 1);
-  offsetY -= (mouseY - offsetY) * (scale / prevScale - 1);
-
+  scale *= (e.deltaY<0) ? (1+zoomFactor):(1-zoomFactor);
+  scale = Math.min(Math.max(scale,0.2),3);
+  offsetX -= (mouseX-offsetX)*(scale/prevScale-1);
+  offsetY -= (mouseY-offsetY)*(scale/prevScale-1);
   updateTransform();
 });
 
 // --- NODE CREATION & LINES ---
-function createNode(text, x, y) {
-  const div = document.createElement("div");
-  div.className = "node";
-  div.textContent = text;
-  div.style.left = `${x}px`;
-  div.style.top = `${y}px`;
+function createNode(text,x,y){
+  const div=document.createElement("div");
+  div.className="node";
+  div.textContent=text;
+  div.style.left=`${x}px`; div.style.top=`${y}px`;
   mindmap.appendChild(div);
-  setTimeout(() => div.classList.add("show"), 50);
+  setTimeout(()=>div.classList.add("show"),50);
   return div;
 }
-
-function drawLine(x1, y1, x2, y2) {
-  const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
-  line.setAttribute("x1", x1);
-  line.setAttribute("y1", y1);
-  line.setAttribute("x2", x2);
-  line.setAttribute("y2", y2);
-  svg.appendChild(line);
-  return line;
+function drawLine(x1,y1,x2,y2){
+  const line=document.createElementNS("http://www.w3.org/2000/svg","line");
+  line.setAttribute("x1",x1); line.setAttribute("y1",y1);
+  line.setAttribute("x2",x2); line.setAttribute("y2",y2);
+  svg.appendChild(line); return line;
 }
 
-// --- EXPAND/COLLAPSE WITH DEPTH-BASED ORBIT ---
-function toggleExpand(node, children, depth = 1) {
-  if (!node.dataset.expanded) {
-    // Expand
-    node.dataset.expanded = "true";
-    node.dataset.children = JSON.stringify(Object.keys(children));
+// --- EXPAND/COLLAPSE ---
+function toggleExpand(node, children, depth=1){
+  if(!node.dataset.expanded){
+    node.dataset.expanded="true";
+    node.dataset.children=JSON.stringify(Object.keys(children));
+    const rect=node.getBoundingClientRect();
+    const centerX=rect.left+rect.width/2-container.offsetLeft;
+    const centerY=rect.top+rect.height/2-container.offsetTop;
+    const count=Object.keys(children).length;
+    const radius=150+depth*30; let i=0;
 
-    const rect = node.getBoundingClientRect();
-    const centerX = rect.left + rect.width / 2 - container.offsetLeft;
-    const centerY = rect.top + rect.height / 2 - container.offsetTop;
-
-    const count = Object.keys(children).length;
-    const radius = 150 + depth * 30;
-    let i = 0;
-
-    for (const key in children) {
-      const angle = (i / count) * 2 * Math.PI;
-      const x = centerX + radius * Math.cos(angle);
-      const y = centerY + radius * Math.sin(angle);
-
-      const childNode = createNode(key, x, y);
-      childNode.dataset.parent = node.textContent; // link to parent
-      const line = drawLine(centerX, centerY, x + 40, y + 20);
-
-      // Orbit speed depends on depth (outer = faster)
+    for(const key in children){
+      const angle=(i/count)*2*Math.PI;
+      const x=centerX+radius*Math.cos(angle);
+      const y=centerY+radius*Math.sin(angle);
+      const childNode=createNode(key,x,y);
+      childNode.dataset.parent=node.textContent;
+      const line=drawLine(centerX,centerY,x+40,y+20);
       orbitingNodes.push({
-        element: childNode,
-        line: line,
-        parent: node.textContent,
-        parentX: centerX,
-        parentY: centerY,
-        angle: angle,
-        radius: radius,
-        speed: 0.002 * depth + Math.random() * 0.002
+        element:childNode,line:line,parent:node.textContent,
+        parentX:centerX,parentY:centerY,angle:angle,radius:radius,
+        speed:0.002*depth+Math.random()*0.002
       });
-
-      childNode.onclick = () => {
-        if (Array.isArray(children[key])) {
-          toggleArray(childNode, children[key], depth + 1);
+      childNode.onclick=()=>{
+        if(Array.isArray(children[key])){
+          toggleArray(childNode,children[key],depth+1);
         } else {
-          toggleExpand(childNode, children[key], depth + 1);
+          toggleExpand(childNode,children[key],depth+1);
         }
       };
       i++;
     }
   } else {
-    // Collapse
-    node.dataset.expanded = "";
-    const childrenKeys = JSON.parse(node.dataset.children || "[]");
-
-    // Remove child nodes and lines
-    orbitingNodes = orbitingNodes.filter(n => {
-      if (n.parent === node.textContent) {
+    node.dataset.expanded="";
+    orbitingNodes = orbitingNodes.filter(n=>{
+      if(n.parent===node.textContent){
         mindmap.removeChild(n.element);
         svg.removeChild(n.line);
         return false;
@@ -278,44 +258,30 @@ function toggleExpand(node, children, depth = 1) {
     });
   }
 }
-
-function toggleArray(node, arr, depth = 1) {
-  if (!node.dataset.expanded) {
-    node.dataset.expanded = "true";
-    node.dataset.children = JSON.stringify(arr);
-
-    const rect = node.getBoundingClientRect();
-    const centerX = rect.left + rect.width / 2 - container.offsetLeft;
-    const centerY = rect.top + rect.height / 2 - container.offsetTop;
-    const radius = 100 + depth * 30;
-    const count = arr.length;
-
-    arr.forEach((item, i) => {
-      const angle = (i / count) * 2 * Math.PI;
-      const x = centerX + radius * Math.cos(angle);
-      const y = centerY + radius * Math.sin(angle);
-      const childNode = createNode(item, x, y);
-      childNode.dataset.parent = node.textContent;
-      const line = drawLine(centerX, centerY, x + 40, y + 20);
-
+function toggleArray(node, arr, depth=1){
+  if(!node.dataset.expanded){
+    node.dataset.expanded="true"; node.dataset.children=JSON.stringify(arr);
+    const rect=node.getBoundingClientRect();
+    const centerX=rect.left+rect.width/2-container.offsetLeft;
+    const centerY=rect.top+rect.height/2-container.offsetTop;
+    const radius=100+depth*30; const count=arr.length;
+    arr.forEach((item,i)=>{
+      const angle=(i/count)*2*Math.PI;
+      const x=centerX+radius*Math.cos(angle);
+      const y=centerY+radius*Math.sin(angle);
+      const childNode=createNode(item,x,y);
+      childNode.dataset.parent=node.textContent;
+      const line=drawLine(centerX,centerY,x+40,y+20);
       orbitingNodes.push({
-        element: childNode,
-        line: line,
-        parent: node.textContent,
-        parentX: centerX,
-        parentY: centerY,
-        angle: angle,
-        radius: radius,
-        speed: 0.002 * depth + Math.random() * 0.002
+        element:childNode,line:line,parent:node.textContent,
+        parentX:centerX,parentY:centerY,angle:angle,radius:radius,
+        speed:0.002*depth+Math.random()*0.002
       });
     });
   } else {
-    // Collapse array children
-    node.dataset.expanded = "";
-    const childrenKeys = JSON.parse(node.dataset.children || "[]");
-
-    orbitingNodes = orbitingNodes.filter(n => {
-      if (n.parent === node.textContent) {
+    node.dataset.expanded="";
+    orbitingNodes = orbitingNodes.filter(n=>{
+      if(n.parent===node.textContent){
         mindmap.removeChild(n.element);
         svg.removeChild(n.line);
         return false;
@@ -325,31 +291,26 @@ function toggleArray(node, arr, depth = 1) {
   }
 }
 
-// Orbit animation
-function animateOrbit() {
-  orbitingNodes.forEach(n => {
-    n.angle += n.speed;
-    const x = n.parentX + n.radius * Math.cos(n.angle);
-    const y = n.parentY + n.radius * Math.sin(n.angle);
-    n.element.style.left = `${x}px`;
-    n.element.style.top = `${y}px`;
-    n.line.setAttribute("x2", x + 40);
-    n.line.setAttribute("y2", y + 20);
+// --- ORBIT ANIMATION ---
+function animateOrbit(){
+  orbitingNodes.forEach(n=>{
+    n.angle+=n.speed;
+    const x=n.parentX+n.radius*Math.cos(n.angle);
+    const y=n.parentY+n.radius*Math.sin(n.angle);
+    n.element.style.left=`${x}px`; n.element.style.top=`${y}px`;
+    n.line.setAttribute("x2",x+40); n.line.setAttribute("y2",y+20);
   });
   requestAnimationFrame(animateOrbit);
 }
 
 // --- INIT ---
-function initMindmap() {
-  const centerX = window.innerWidth / 2 - 50;
-  const centerY = window.innerHeight / 2 - 20;
-  const root = createNode("DevOps", centerX, centerY);
-  root.onclick = () => toggleExpand(root, roadmap["DevOps"], 1);
+function initMindmap(){
+  const centerX=window.innerWidth/2-50;
+  const centerY=window.innerHeight/2-20;
+  const root=createNode("DevOps",centerX,centerY);
+  root.onclick=()=>toggleExpand(root,roadmap["DevOps"],1);
 }
-
-initMindmap();
-updateTransform();
-animateOrbit();
+initMindmap(); updateTransform(); animateOrbit();
 </script>
 
 </body>
