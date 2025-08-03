@@ -3,22 +3,36 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>DevOps Roadmap - Interactive Mindmap</title>
+  <title>DevOps Roadmap - Interactive Learning</title>
   <style>
     body { background:#0d1117; color:#fff; font-family:Arial; margin:0; }
     #top-bar {
-      display:flex; align-items:center; padding:10px 20px; background:#161b22;
+      display:flex; flex-wrap:wrap; align-items:center;
+      padding:10px 20px; background:#161b22;
       position:sticky; top:0; z-index:1000;
+    }
+    #top-bar button, #top-bar select { margin:5px; }
+    #completion-tracker { margin:5px 0; flex:1; }
+    #progress-donut {
+      width:40px !important;
+      height:40px !important;
+      margin-left:20px;
+      cursor:pointer;
     }
     #mindmap-container { padding:20px; }
     .node {
       display:inline-block; padding:6px 10px; margin:5px; border-radius:6px;
       background:#333; cursor:pointer; transition:0.2s;
+      font-size:14px;
+    }
+    @media (max-width:600px) {
+      .node { font-size:12px; padding:4px 6px; }
     }
     .node.completed { background:#4CAF50; }
     .node.learning { background:#f1c40f; color:#000; }
     .children { display:none; margin-left:30px; }
     .children.visible { display:block; }
+    a { text-decoration:none; }
   </style>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -42,7 +56,7 @@
     Estimated Completion: TBD
   </span>
 
-  <canvas id="progress-donut" width="50" height="50" style="margin-left:20px;cursor:pointer;"></canvas>
+  <canvas id="progress-donut"></canvas>
 </div>
 
 <div id="mindmap-container"></div>
@@ -52,21 +66,68 @@ const roadmap = {
   "DevOps": {
     time: "0 days",
     children: {
-      "Linux Basics": { time: "5 days" },
-      "Git & Version Control": { time: "4 days" },
-      "CI/CD Pipelines": { time: "7 days" },
-      "Docker & Containers": { time: "7 days" },
-      "Kubernetes": { time: "10 days" },
-      "Cloud Platforms (AWS/Azure/GCP)": { time: "8 days" },
-      "Monitoring & Logging": { time: "5 days" },
-      "IaC (Terraform/Ansible)": { time: "6 days" }
+      "Linux Basics": { 
+        time: "5 days",
+        links: [
+          { title: "Linux Journey", url: "https://linuxjourney.com/" },
+          { title: "The Linux Command Line", url: "https://linuxcommand.org/" }
+        ]
+      },
+      "Git & Version Control": { 
+        time: "4 days",
+        links: [
+          { title: "Pro Git Book", url: "https://git-scm.com/book/en/v2" },
+          { title: "Git Branching Tutorial", url: "https://learngitbranching.js.org/" }
+        ]
+      },
+      "CI/CD Pipelines": { 
+        time: "7 days",
+        links: [
+          { title: "CI/CD Overview", url: "https://www.redhat.com/en/topics/devops/what-is-ci-cd" },
+          { title: "GitHub Actions Docs", url: "https://docs.github.com/en/actions" }
+        ]
+      },
+      "Docker & Containers": { 
+        time: "7 days",
+        links: [
+          { title: "Docker Official Docs", url: "https://docs.docker.com/get-started/" },
+          { title: "Play With Docker", url: "https://labs.play-with-docker.com/" }
+        ]
+      },
+      "Kubernetes": { 
+        time: "10 days",
+        links: [
+          { title: "Kubernetes Official Docs", url: "https://kubernetes.io/docs/home/" },
+          { title: "Play With Kubernetes", url: "https://labs.play-with-k8s.com/" }
+        ]
+      },
+      "Cloud Platforms (AWS/Azure/GCP)": { 
+        time: "8 days",
+        links: [
+          { title: "AWS Training", url: "https://aws.amazon.com/training/" },
+          { title: "Azure Fundamentals", url: "https://learn.microsoft.com/en-us/certifications/azure-fundamentals/" },
+          { title: "Google Cloud Training", url: "https://cloud.google.com/training" }
+        ]
+      },
+      "Monitoring & Logging": { 
+        time: "5 days",
+        links: [
+          { title: "Prometheus Docs", url: "https://prometheus.io/docs/introduction/overview/" },
+          { title: "Grafana Docs", url: "https://grafana.com/docs/" }
+        ]
+      },
+      "IaC (Terraform/Ansible)": { 
+        time: "6 days",
+        links: [
+          { title: "Terraform Basics", url: "https://developer.hashicorp.com/terraform/tutorials" },
+          { title: "Ansible Docs", url: "https://docs.ansible.com/" }
+        ]
+      }
     }
   }
 };
 
 let nodeStatus = JSON.parse(localStorage.getItem("nodeStatus") || "{}");
-
-// === Build Mindmap ===
 const container = document.getElementById("mindmap-container");
 
 function buildTree(obj, parentKey="") {
@@ -77,41 +138,115 @@ function buildTree(obj, parentKey="") {
     node.dataset.key = key;
     node.textContent = key;
 
-    const status = nodeStatus[key]?.state || "not-started";
-    if(status==="completed") node.classList.add("completed");
-    if(status==="learning") node.classList.add("learning");
-
     const childrenDiv = document.createElement("div");
     childrenDiv.className = "children";
 
+    const detailsDiv = document.createElement("div");
+    detailsDiv.style.display = "none";
+    detailsDiv.style.margin = "5px 0 10px 15px";
+    detailsDiv.style.padding = "10px";
+    detailsDiv.style.border = "1px solid #444";
+    detailsDiv.style.borderRadius = "6px";
+    detailsDiv.style.background = "#1c1c1c";
+
+    const learningChk = document.createElement("input");
+    learningChk.type = "checkbox";
+    const learningLbl = document.createElement("label");
+    learningLbl.textContent = " Learning";
+    learningLbl.style.marginRight = "15px";
+
+    const completedChk = document.createElement("input");
+    completedChk.type = "checkbox";
+    const completedLbl = document.createElement("label");
+    completedLbl.textContent = " Completed";
+
+    const notes = document.createElement("textarea");
+    notes.placeholder = "Add your notes or links here...";
+    notes.style.display = "block";
+    notes.style.width = "95%";
+    notes.style.marginTop = "8px";
+    notes.style.background = "#111";
+    notes.style.color = "#fff";
+    notes.style.border = "1px solid #333";
+    notes.style.borderRadius = "4px";
+
+    const status = nodeStatus[key]?.state || "not-started";
+    if(status==="completed") { completedChk.checked = true; node.classList.add("completed"); }
+    if(status==="learning") { learningChk.checked = true; node.classList.add("learning"); }
+    if(nodeStatus[key]?.notes) notes.value = nodeStatus[key].notes;
+
+    learningChk.addEventListener("change", () => {
+      if (learningChk.checked) {
+        completedChk.checked = false;
+        setStatus(key,"learning",notes.value);
+      } else if (!completedChk.checked) {
+        setStatus(key,"not-started",notes.value);
+      }
+    });
+    completedChk.addEventListener("change", () => {
+      if (completedChk.checked) {
+        learningChk.checked = false;
+        setStatus(key,"completed",notes.value);
+      } else if (!learningChk.checked) {
+        setStatus(key,"not-started",notes.value);
+      }
+    });
+    notes.addEventListener("input", () => {
+      setStatus(key,nodeStatus[key]?.state || "not-started",notes.value);
+    });
+
+    detailsDiv.appendChild(learningChk);
+    detailsDiv.appendChild(learningLbl);
+    detailsDiv.appendChild(completedChk);
+    detailsDiv.appendChild(completedLbl);
+    detailsDiv.appendChild(notes);
+
+    if (val.links && val.links.length > 0) {
+      const linksDiv = document.createElement("div");
+      linksDiv.style.marginTop = "8px";
+      linksDiv.innerHTML = "<b style='color:#4CAF50'>Learning Links:</b>";
+      val.links.forEach(link => {
+        const a = document.createElement("a");
+        a.href = link.url;
+        a.target = "_blank";
+        a.style.color = "#1e90ff";
+        a.style.display = "block";
+        a.style.marginTop = "3px";
+        a.textContent = "🔗 " + link.title;
+        linksDiv.appendChild(a);
+      });
+      detailsDiv.appendChild(linksDiv);
+    }
+
     node.onclick = () => {
       childrenDiv.classList.toggle("visible");
-      const current = nodeStatus[key]?.state || "not-started";
-      const next = current==="not-started" ? "learning"
-                : current==="learning" ? "completed" : "not-started";
-      setStatus(key,next);
+      detailsDiv.style.display = detailsDiv.style.display==="none" ? "block" : "none";
     };
 
     if(val.children) childrenDiv.appendChild(buildTree(val.children,key));
+
     div.appendChild(node);
+    div.appendChild(detailsDiv);
     div.appendChild(childrenDiv);
   }
   return div;
 }
 container.appendChild(buildTree(roadmap));
 
-// === Status Management ===
-function setStatus(key,status){
-  nodeStatus[key] = { state: status };
+function setStatus(key,status,notes="") {
+  nodeStatus[key] = { state: status, notes: notes || nodeStatus[key]?.notes || "" };
   if(status==="completed") nodeStatus[key].completedAt = new Date().toLocaleDateString();
   localStorage.setItem("nodeStatus",JSON.stringify(nodeStatus));
+
   const node = container.querySelector(`[data-key="${key}"]`);
   node.classList.remove("completed","learning");
   if(status==="completed") node.classList.add("completed");
   if(status==="learning") node.classList.add("learning");
+
+  updateCompletionTracker();
+  updateDonutChart();
 }
 
-// === Time Calculation ===
 function parseDays(timeStr) {
   if (!timeStr) return 0;
   const match = timeStr.match(/(\d+)/);
@@ -131,7 +266,6 @@ function calculateTime(node,keyPrefix="") {
   return results;
 }
 
-// === Progress Tracker ===
 function updateCompletionTracker() {
   const pace=parseFloat(document.getElementById("pace-select").value)||1;
   const allTimes=calculateTime(roadmap["DevOps"]);
@@ -146,44 +280,38 @@ function updateCompletionTracker() {
     `Estimated Completion: ${completionDateStr} (Remaining ${remainingDays} days)`;
 }
 
-// === Donut Chart ===
 let donutChart;
 let showRemainingDays=false;
+const centerTextPlugin = {
+  id:'centerText',
+  afterDraw(chart){
+    const {ctx, chartArea:{width,height}}=chart;
+    ctx.save();
+    const total=chart.data.datasets[0].data.reduce((a,b)=>a+b,0);
+    const completed=chart.data.datasets[0].data[0];
+    const percent=total>0?Math.round((completed/total)*100):0;
+    const allTimes=calculateTime(roadmap["DevOps"]);
+    const totalDays=allTimes.reduce((s,n)=>s+n.days,0);
+    const completedDays=allTimes.filter(n=>n.state==="completed").reduce((s,n)=>s+n.days,0);
+    const remainingDays=totalDays-completedDays;
+    const text=showRemainingDays?`${remainingDays}d`:`${percent}%`;
+    ctx.font='bold 14px Arial';
+    ctx.fillStyle='#fff';
+    ctx.textAlign='center';ctx.textBaseline='middle';
+    ctx.fillText(text,width/2,height/2);
+  }
+};
 function initDonutChart(){
   const ctx=document.getElementById('progress-donut').getContext('2d');
-  const centerTextPlugin={
-    id:'centerText',
-    afterDraw(chart){
-      const {ctx, chartArea:{width,height}}=chart;
-      ctx.save();
-      const total=chart.data.datasets[0].data.reduce((a,b)=>a+b,0);
-      const completed=chart.data.datasets[0].data[0];
-      const percent=total>0?Math.round((completed/total)*100):0;
-      const allTimes=calculateTime(roadmap["DevOps"]);
-      const totalDays=allTimes.reduce((s,n)=>s+n.days,0);
-      const completedDays=allTimes.filter(n=>n.state==="completed").reduce((s,n)=>s+n.days,0);
-      const remainingDays=totalDays-completedDays;
-      const text=showRemainingDays?`${remainingDays}d`:`${percent}%`;
-      ctx.font='bold 14px Arial';
-      ctx.fillStyle='#fff';
-      ctx.textAlign='center';ctx.textBaseline='middle';
-      ctx.fillText(text,width/2,height/2);
-    }
-  };
   donutChart=new Chart(ctx,{
     type:'doughnut',
     data:{labels:['Completed','Remaining'],
       datasets:[{data:[0,100],backgroundColor:['#4CAF50','#333'],borderWidth:0}]},
     options:{
+      responsive:true,
+      maintainAspectRatio:true,
       cutout:'70%',
-      plugins:{legend:{display:false},tooltip:{callbacks:{
-        label:function(context){
-          const label=context.label;
-          const val=context.raw;
-          return `${label}: ${val} topic(s)`;
-        }
-      }}},
-      animation:{duration:300},
+      plugins:{ legend:{display:false}, tooltip:{enabled:true}},
       onClick(){
         showRemainingDays=!showRemainingDays;
         donutChart.update();
@@ -201,20 +329,34 @@ function updateDonutChart(){
   donutChart.update();
 }
 
-// === Hook events ===
-document.getElementById("pace-select").addEventListener("change",updateCompletionTracker);
-const originalSetStatus=setStatus;
-setStatus=function(key,status){
-  originalSetStatus(key,status);
-  updateCompletionTracker();
-  updateDonutChart();
-};
+document.getElementById("pdfBtn").addEventListener("click", async () => {
+  const { jsPDF } = window.jspdf;
+  const pdf = new jsPDF('p','pt','a4');
 
-// === Init ===
+  pdf.text("DevOps Roadmap Progress Report",20,20);
+  pdf.text(document.getElementById("completion-tracker").textContent,20,40);
+
+  let y=60;
+  for(const key in nodeStatus){
+    const st=nodeStatus[key];
+    pdf.text(`${key}: ${st.state.toUpperCase()}${st.notes ? " | Notes: "+st.notes : ""}`,20,y);
+    y+=20;
+    if(y>750){pdf.addPage(); y=20;}
+  }
+
+  const canvas = await html2canvas(document.body,{backgroundColor:'#0d1117',scale:1});
+  const imgData = canvas.toDataURL("image/png");
+  pdf.addPage();
+  pdf.addImage(imgData,'PNG',10,20,580,400);
+
+  pdf.save("DevOps_Roadmap_Report.pdf");
+});
+
 document.addEventListener("DOMContentLoaded",()=>{
   initDonutChart();
   updateDonutChart();
   updateCompletionTracker();
+  document.getElementById("pace-select").addEventListener("change",updateCompletionTracker);
 });
 </script>
 </body>
