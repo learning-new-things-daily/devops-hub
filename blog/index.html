@@ -1,169 +1,311 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Blog - DevOps Hub</title>
-  <meta name="description" content="Explore DevOps guides, GitHub workflows, and real-world CI/CD tips." />
-  <meta property="og:title" content="DevOps Hub Blog" />
-  <meta property="og:description" content="Explore DevOps guides, GitHub workflows, and real-world CI/CD tips." />
-  <meta property="og:image" content="https://yourdomain.com/assets/logo.png" />
-  <link rel="stylesheet" href="../assets/styles/main.css" />
+  <title>DevOps Roadmap - Interactive Mindmap</title>
+  <style>
+    body { background:#0d1117; color:#fff; font-family:Arial; margin:0; }
+    #top-bar {
+      display:flex; flex-wrap:wrap; align-items:center;
+      padding:10px 20px; background:#161b22;
+      position:sticky; top:0; z-index:1000;
+    }
+    #top-bar button, #top-bar select { margin:5px; }
+    #completion-tracker { margin:5px 0; flex:1; }
+    #progress-donut {
+      width:40px !important;
+      height:40px !important;
+      margin-left:20px;
+      cursor:pointer;
+    }
+    #mindmap-container { padding:20px; }
+    .node {
+      display:inline-block; padding:6px 10px; margin:5px; border-radius:6px;
+      background:#333; cursor:pointer; transition:0.2s;
+      font-size:14px;
+    }
+    @media (max-width:600px) {
+      .node { font-size:12px; padding:4px 6px; }
+    }
+    .node.completed { background:#4CAF50; }
+    .node.learning { background:#f1c40f; color:#000; }
+    .children { display:none; margin-left:30px; }
+    .children.visible { display:block; }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
+<body>
 
-<body class="bg-white text-gray-900 dark:bg-gray-900 dark:text-gray-100 transition-colors duration-300">
+<div id="top-bar">
+  <button id="pdfBtn">Export PDF</button>
 
-  <!-- Header -->
-  <header class="bg-indigo-700 text-white p-5 shadow sticky top-0 z-50">
-    <div class="max-w-6xl mx-auto flex justify-between items-center">
-      <h1 class="text-2xl font-bold tracking-tight">🚀 DevOps Hub</h1>
-      <nav class="space-x-6">
-        <a href="../index.html" class="hover:underline">Home</a>
-        <a href="../scripts/index.html" class="hover:underline">Scripts</a>
-        <a href="../contact.html" class="hover:underline">Hire Me</a>
-        <button onclick="toggleDarkMode()" class="ml-4 bg-gray-800 text-white px-3 py-1 rounded" id="themeToggle">🌚</button>
-      </nav>
-    </div>
-  </header>
+  <label for="pace-select" style="color:white;font-size:14px;margin-left:20px;">
+    Learning Pace:
+  </label>
+  <select id="pace-select" style="margin-left:5px;">
+    <option value="1">1 day per roadmap day (Default)</option>
+    <option value="0.5">2 roadmap days per real day (Fast)</option>
+    <option value="2">0.5 roadmap day per real day (Slow)</option>
+  </select>
 
-  <!-- Main Content -->
-  <main class="max-w-5xl mx-auto px-6 py-10">
-    <h2 class="text-3xl font-semibold mb-4">📰 Blog Posts</h2>
+  <span id="completion-tracker" style="color:white;font-size:14px;margin-left:20px;">
+    Estimated Completion: TBD
+  </span>
 
-    <!-- Search Bar -->
-    <input type="text" placeholder="Search posts..." oninput="filterPosts(this.value)" class="w-full p-3 mb-6 rounded border dark:border-gray-700 bg-gray-50 dark:bg-gray-800 dark:text-gray-100"/>
+  <canvas id="progress-donut"></canvas>
+</div>
 
-    <!-- Blog List -->
-    <div id="blogList" class="grid md:grid-cols-2 sm:grid-cols-1 gap-6">
+<div id="mindmap-container"></div>
 
-      <!-- Blog Card 1 -->
-      <div class="bg-white dark:bg-gray-800 p-5 rounded shadow hover:shadow-lg transition group transform hover:scale-105 border-l-4 border-transparent hover:border-indigo-500 flex flex-col md:flex-row md:items-start space-y-4 md:space-y-0 md:space-x-4">
-        <img src="DevOps/assets/blog/ansible.svg" alt="Ansible Tricks" class="rounded w-full md:w-40 md:h-28 object-cover flex-shrink-0" loading="lazy"/>
-        <div>
-          <h3 class="text-xl font-semibold text-indigo-600 group-hover:underline mb-2">
-            <a href="ansible-tricks.html">10 Ansible Tricks for Seamless Automation</a>
-          </h3>
-          <p class="text-xs text-gray-500 dark:text-gray-400 mb-1">📅 June 18, 2025 · 🏷️ Ansible, Automation · ⏱️ 3 min read</p>
-          <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">Boost your automation workflows with these clever tips.</p>
-        </div>
-      </div>
-
-      <!-- Blog Card 2 -->
-      <div class="bg-white dark:bg-gray-800 p-5 rounded shadow hover:shadow-lg transition group transform hover:scale-105 border-l-4 border-transparent hover:border-indigo-500 flex flex-col md:flex-row md:items-start space-y-4 md:space-y-0 md:space-x-4">
-        <img src="DevOps/assets/blog/ci-cd.png" alt="CI/CD Guide" class="rounded w-full md:w-40 md:h-28 object-cover flex-shrink-0" loading="lazy"/>
-        <div>
-          <h3 class="text-xl font-semibold text-indigo-600 group-hover:underline mb-2">
-            <a href="ci-cd-pipeline.html">CI/CD with GitHub Actions: A Hands-On Guide</a>
-          </h3>
-          <p class="text-xs text-gray-500 dark:text-gray-400 mb-1">📅 June 22, 2025 · 🏷️ CI/CD, GitHub Actions · ⏱️ 4 min read</p>
-          <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">Build modern delivery pipelines from scratch.</p>
-        </div>
-      </div>
-
-      <!-- Blog Card 3 -->
-      <div class="bg-white dark:bg-gray-800 p-5 rounded shadow hover:shadow-lg transition group transform hover:scale-105 border-l-4 border-transparent hover:border-indigo-500 flex flex-col md:flex-row md:items-start space-y-4 md:space-y-0 md:space-x-4">
-        <img src="DevOps/assets/blog/git-submodules.png" alt="Git Submodules" class="rounded w-full md:w-40 md:h-28 object-cover flex-shrink-0" loading="lazy"/>
-        <div>
-          <h3 class="text-xl font-semibold text-indigo-600 group-hover:underline mb-2">
-            <a href="Auto-Sync_Git_Submodules_with_GitHub_Actions.html">Auto-Sync Git Submodules with GitHub Actions</a>
-          </h3>
-          <p class="text-xs text-gray-500 dark:text-gray-400 mb-1">📅 June 25, 2025 · 🏷️ Git, Submodules · ⏱️ 2 min read</p>
-          <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">Automate submodule syncing without breaking your builds.</p>
-        </div>
-      </div>
-
-      <!-- Blog Card 4 -->
-      <div class="bg-white dark:bg-gray-800 p-5 rounded shadow hover:shadow-lg transition group transform hover:scale-105 border-l-4 border-transparent hover:border-indigo-500 flex flex-col md:flex-row md:items-start space-y-4 md:space-y-0 md:space-x-4">
-        <img src="DevOps/assets/blog/docker-patch.png" alt="Docker Patch" class="rounded w-full md:w-40 md:h-28 object-cover flex-shrink-0" loading="lazy"/>
-        <div>
-          <h3 class="text-xl font-semibold text-indigo-600 group-hover:underline mb-2">
-            <a href="DevOps/How_I_Patched_Docker_Image_Without_Breaking_Its_Original_Behavior.html">How I Patched a Docker Image Without Breaking Its Original Behavior</a>
-          </h3>
-          <p class="text-xs text-gray-500 dark:text-gray-400 mb-1">📅 July 1, 2025 · 🏷️ Docker, Containers · ⏱️ 5 min read</p>
-          <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">Use safe overrides to patch base Docker images.</p>
-          <span class="text-xs bg-yellow-300 text-black px-2 py-0.5 rounded">🌟 Featured</span>
-        </div>
-      </div>
-
-      <!-- Blog Card 5 -->
-      <div class="bg-white dark:bg-gray-800 p-5 rounded shadow hover:shadow-lg transition group transform hover:scale-105 border-l-4 border-transparent hover:border-indigo-500 flex flex-col md:flex-row md:items-start space-y-4 md:space-y-0 md:space-x-4">
-        <img src="DevOps/assets/blog/invisible-devops.png" alt="Invisible DevOps" class="rounded w-full md:w-40 md:h-28 object-cover flex-shrink-0" loading="lazy"/>
-        <div>
-          <h3 class="text-xl font-semibold text-indigo-600 group-hover:underline mb-2">
-            <a href="DevOps/DevOps_The_Invisible_Force_Behind_Seamless_Tech.html">DevOps: The Invisible Force Behind Seamless Tech</a>
-          </h3>
-          <p class="text-xs text-gray-500 dark:text-gray-400 mb-1">📅 July 7, 2025 · 🏷️ DevOps, Culture · ⏱️ 4 min read</p>
-          <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">Explore how DevOps silently powers your digital experiences.</p>
-        </div>
-      </div>
-
-      <!-- Blog Card 6 -->
-      <div class="bg-white dark:bg-gray-800 p-5 rounded shadow hover:shadow-lg transition group transform hover:scale-105 border-l-4 border-transparent hover:border-indigo-500 flex flex-col md:flex-row md:items-start space-y-4 md:space-y-0 md:space-x-4">
-        <img src="DevOps/assets/blog/github-default-branch.png" alt="GitHub Branch Rename" class="rounded w-full md:w-40 md:h-28 object-cover flex-shrink-0" loading="lazy"/>
-        <div>
-          <h3 class="text-xl font-semibold text-indigo-600 group-hover:underline mb-2">
-            <a href="DevOps/github_default_branch_change_blog.html">Changing the Default Branch Name in GitHub</a>
-          </h3>
-          <p class="text-xs text-gray-500 dark:text-gray-400 mb-1">📅 July 14, 2025 · 🏷️ GitHub, Git · ⏱️ 2 min read</p>
-          <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">A step-by-step guide to renaming the default branch safely.</p>
-        </div>
-      </div>
-
-      <!-- Blog Card 7 -->
-      <div class="bg-white dark:bg-gray-800 p-5 rounded shadow hover:shadow-lg transition group transform hover:scale-105 border-l-4 border-transparent hover:border-indigo-500 flex flex-col md:flex-row md:items-start space-y-4 md:space-y-0 md:space-x-4">
-        <img src="DevOps/assets/blog/devops-roadmap-mindmap.png" alt="Devops Roadmap Mindmap" class="rounded w-full md:w-40 md:h-28 object-cover flex-shrink-0" loading="lazy"/>
-        <div>
-          <h3 class="text-xl font-semibold text-indigo-600 group-hover:underline mb-2">
-            <a href="devops-roadmap-mindmap.html">DevOps Roadmap Mindmap</a>
-          </h3>
-          <p class="text-xs text-gray-500 dark:text-gray-400 mb-1">📅 August 02, 2025 · 🏷️ GitHub, Git · ⏱️ 5 min read</p>
-          <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">A single-page HTML showcasing a DevOps roadmap as an interactive expanding mindmap where clicking nodes will expand subtopics.</p>
-        </div>
-      </div>
-
-    </div>
-
-    <!-- Subscribe Box -->
-    <div class="mt-10 bg-indigo-100 dark:bg-indigo-900 p-4 rounded text-center">
-      📬 Subscribe for updates! 
-      <input type="email" placeholder="you@example.com" class="p-2 rounded text-black dark:text-white bg-white dark:bg-gray-700" />
-    </div>
-  </main>
-
-  <!-- Footer -->
-  <footer class="text-center p-6 text-gray-500 dark:text-gray-400">
-    &copy; 2025 DevOps Hub · <a href="/privacy.html" class="underline">Privacy</a>
-  </footer>
-
-  <!-- Scroll to Top -->
-  <button onclick="scrollTo(0,0)" class="fixed bottom-6 right-6 bg-indigo-600 text-white p-3 rounded-full shadow-lg">↑</button>
-
-  <!-- Scripts -->
-  <script>
-    function toggleDarkMode() {
-      document.body.classList.toggle("dark");
-      const theme = document.body.classList.contains("dark") ? "dark" : "light";
-      localStorage.setItem("theme", theme);
-      document.getElementById("themeToggle").textContent = theme === "dark" ? "🌞" : "🌚";
+<script>
+const roadmap = {
+  "DevOps": {
+    time: "0 days",
+    children: {
+      "Linux Basics": { time: "5 days" },
+      "Git & Version Control": { time: "4 days" },
+      "CI/CD Pipelines": { time: "7 days" },
+      "Docker & Containers": { time: "7 days" },
+      "Kubernetes": { time: "10 days" },
+      "Cloud Platforms (AWS/Azure/GCP)": { time: "8 days" },
+      "Monitoring & Logging": { time: "5 days" },
+      "IaC (Terraform/Ansible)": { time: "6 days" }
     }
+  }
+};
 
-    if (localStorage.getItem("theme") === "dark") {
-      document.body.classList.add("dark");
-      document.getElementById("themeToggle").textContent = "🌞";
-    }
+let nodeStatus = JSON.parse(localStorage.getItem("nodeStatus") || "{}");
 
-    function filterPosts(query) {
-      query = query.toLowerCase();
-      document.querySelectorAll('#blogList > div').forEach(card => {
-        const match = card.innerText.toLowerCase().includes(query);
-        card.style.display = match ? '' : 'none';
-        if (match) {
-          card.innerHTML = card.innerHTML.replace(/<mark>|<\/mark>/g, '');
-          const regex = new RegExp(`(${query})`, 'gi');
-          card.innerHTML = card.innerHTML.replace(regex, '<mark>$1</mark>');
-        }
-      });
+// === Build Tree with Safe Expand + Details Panel ===
+const container = document.getElementById("mindmap-container");
+
+function buildTree(obj, parentKey="") {
+  const div = document.createElement("div");
+  for (const [key, val] of Object.entries(obj)) {
+    const node = document.createElement("div");
+    node.className = "node";
+    node.dataset.key = key;
+    node.textContent = key;
+
+    const childrenDiv = document.createElement("div");
+    childrenDiv.className = "children";
+
+    // --- Expanded detail panel ---
+    const detailsDiv = document.createElement("div");
+    detailsDiv.style.display = "none";
+    detailsDiv.style.margin = "5px 0 10px 15px";
+    detailsDiv.style.padding = "10px";
+    detailsDiv.style.border = "1px solid #444";
+    detailsDiv.style.borderRadius = "6px";
+    detailsDiv.style.background = "#1c1c1c";
+
+    const learningChk = document.createElement("input");
+    learningChk.type = "checkbox";
+    const learningLbl = document.createElement("label");
+    learningLbl.textContent = " Learning";
+    learningLbl.style.marginRight = "15px";
+
+    const completedChk = document.createElement("input");
+    completedChk.type = "checkbox";
+    const completedLbl = document.createElement("label");
+    completedLbl.textContent = " Completed";
+
+    // --- Notes field ---
+    const notes = document.createElement("textarea");
+    notes.placeholder = "Add your notes or links here...";
+    notes.style.display = "block";
+    notes.style.width = "95%";
+    notes.style.marginTop = "8px";
+    notes.style.background = "#111";
+    notes.style.color = "#fff";
+    notes.style.border = "1px solid #333";
+    notes.style.borderRadius = "4px";
+
+    // Load from localStorage
+    const status = nodeStatus[key]?.state || "not-started";
+    if(status==="completed") { completedChk.checked = true; node.classList.add("completed"); }
+    if(status==="learning") { learningChk.checked = true; node.classList.add("learning"); }
+    if(nodeStatus[key]?.notes) notes.value = nodeStatus[key].notes;
+
+    // Save on change
+    learningChk.addEventListener("change", () => {
+      if (learningChk.checked) {
+        completedChk.checked = false;
+        setStatus(key,"learning",notes.value);
+      } else if (!completedChk.checked) {
+        setStatus(key,"not-started",notes.value);
+      }
+    });
+    completedChk.addEventListener("change", () => {
+      if (completedChk.checked) {
+        learningChk.checked = false;
+        setStatus(key,"completed",notes.value);
+      } else if (!learningChk.checked) {
+        setStatus(key,"not-started",notes.value);
+      }
+    });
+    notes.addEventListener("input", () => {
+      setStatus(key,nodeStatus[key]?.state || "not-started",notes.value);
+    });
+
+    detailsDiv.appendChild(learningChk);
+    detailsDiv.appendChild(learningLbl);
+    detailsDiv.appendChild(completedChk);
+    detailsDiv.appendChild(completedLbl);
+    detailsDiv.appendChild(notes);
+
+    // Expand/Collapse click
+    node.onclick = () => {
+      childrenDiv.classList.toggle("visible");
+      detailsDiv.style.display = detailsDiv.style.display==="none" ? "block" : "none";
+    };
+
+    if(val.children) childrenDiv.appendChild(buildTree(val.children,key));
+
+    div.appendChild(node);
+    div.appendChild(detailsDiv);
+    div.appendChild(childrenDiv);
+  }
+  return div;
+}
+container.appendChild(buildTree(roadmap));
+
+// === Status Management ===
+function setStatus(key,status,notes="") {
+  nodeStatus[key] = { state: status, notes: notes || nodeStatus[key]?.notes || "" };
+  if(status==="completed") nodeStatus[key].completedAt = new Date().toLocaleDateString();
+  localStorage.setItem("nodeStatus",JSON.stringify(nodeStatus));
+
+  const node = container.querySelector(`[data-key="${key}"]`);
+  node.classList.remove("completed","learning");
+  if(status==="completed") node.classList.add("completed");
+  if(status==="learning") node.classList.add("learning");
+
+  updateCompletionTracker();
+  updateDonutChart();
+}
+
+// === Time Calculation ===
+function parseDays(timeStr) {
+  if (!timeStr) return 0;
+  const match = timeStr.match(/(\d+)/);
+  return match ? parseInt(match[1],10) : 0;
+}
+function calculateTime(node,keyPrefix="") {
+  let results=[];
+  const nodeKey=keyPrefix||Object.keys(roadmap)[0];
+  const statusObj=nodeStatus[nodeKey]||{state:"not-started"};
+  const time=parseDays(node.time);
+  results.push({ key: nodeKey, state: statusObj.state, days: time });
+  if(node.children){
+    for(const [childKey,childNode] of Object.entries(node.children)){
+      results=results.concat(calculateTime(childNode,childKey));
     }
-  </script>
+  }
+  return results;
+}
+
+// === Progress Tracker ===
+function updateCompletionTracker() {
+  const pace=parseFloat(document.getElementById("pace-select").value)||1;
+  const allTimes=calculateTime(roadmap["DevOps"]);
+  const totalDays=allTimes.reduce((s,n)=>s+n.days,0);
+  const completedDays=allTimes.filter(n=>n.state==="completed").reduce((s,n)=>s+n.days,0);
+  const remainingDays=totalDays-completedDays;
+  const today=new Date();
+  const completionDate=new Date(today);
+  completionDate.setDate(today.getDate()+Math.ceil(remainingDays*pace));
+  const completionDateStr=completionDate.toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});
+  document.getElementById("completion-tracker").textContent=
+    `Estimated Completion: ${completionDateStr} (Remaining ${remainingDays} days)`;
+}
+
+// === Donut Chart ===
+let donutChart;
+let showRemainingDays=false;
+const centerTextPlugin = {
+  id:'centerText',
+  afterDraw(chart){
+    const {ctx, chartArea:{width,height}}=chart;
+    ctx.save();
+    const total=chart.data.datasets[0].data.reduce((a,b)=>a+b,0);
+    const completed=chart.data.datasets[0].data[0];
+    const percent=total>0?Math.round((completed/total)*100):0;
+    const allTimes=calculateTime(roadmap["DevOps"]);
+    const totalDays=allTimes.reduce((s,n)=>s+n.days,0);
+    const completedDays=allTimes.filter(n=>n.state==="completed").reduce((s,n)=>s+n.days,0);
+    const remainingDays=totalDays-completedDays;
+    const text=showRemainingDays?`${remainingDays}d`:`${percent}%`;
+    ctx.font='bold 14px Arial';
+    ctx.fillStyle='#fff';
+    ctx.textAlign='center';ctx.textBaseline='middle';
+    ctx.fillText(text,width/2,height/2);
+  }
+};
+function initDonutChart(){
+  const ctx=document.getElementById('progress-donut').getContext('2d');
+  donutChart=new Chart(ctx,{
+    type:'doughnut',
+    data:{labels:['Completed','Remaining'],
+      datasets:[{data:[0,100],backgroundColor:['#4CAF50','#333'],borderWidth:0}]},
+    options:{
+      responsive:true,
+      maintainAspectRatio:true,
+      cutout:'70%',
+      plugins:{ legend:{display:false}, tooltip:{enabled:true}},
+      onClick(){
+        showRemainingDays=!showRemainingDays;
+        donutChart.update();
+      }
+    },
+    plugins:[centerTextPlugin]
+  });
+}
+function updateDonutChart(){
+  const nodes=container.querySelectorAll(".node");
+  const total=nodes.length;
+  const completed=Object.values(nodeStatus).filter(s=>s.state==="completed").length;
+  const remaining=total-completed;
+  donutChart.data.datasets[0].data=[completed,remaining];
+  donutChart.update();
+}
+
+// === PDF Export ===
+document.getElementById("pdfBtn").addEventListener("click", async () => {
+  const { jsPDF } = window.jspdf;
+  const pdf = new jsPDF('p','pt','a4');
+
+  pdf.text("DevOps Roadmap Progress Report",20,20);
+  pdf.text(document.getElementById("completion-tracker").textContent,20,40);
+
+  // Add notes for each topic
+  let y=60;
+  for(const key in nodeStatus){
+    const st=nodeStatus[key];
+    pdf.text(`${key}: ${st.state.toUpperCase()}${st.notes ? " | Notes: "+st.notes : ""}`,20,y);
+    y+=20;
+    if(y>750){pdf.addPage(); y=20;}
+  }
+
+  // Snapshot of the roadmap
+  const canvas = await html2canvas(document.body,{backgroundColor:'#0d1117',scale:1});
+  const imgData = canvas.toDataURL("image/png");
+  pdf.addPage();
+  pdf.addImage(imgData,'PNG',10,20,580,400);
+
+  pdf.save("DevOps_Roadmap_Report.pdf");
+});
+
+// === Init ===
+document.addEventListener("DOMContentLoaded",()=>{
+  initDonutChart();
+  updateDonutChart();
+  updateCompletionTracker();
+  document.getElementById("pace-select").addEventListener("change",updateCompletionTracker);
+});
+</script>
 </body>
 </html>
