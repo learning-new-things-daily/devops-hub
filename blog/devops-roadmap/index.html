@@ -7,41 +7,147 @@
   <link rel="stylesheet" href="style.css">
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#0d1117">
+
+  <!-- External Libraries -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #0d1117;
+      color: white;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      color: #4CAF50;
+    }
+    #controls {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-bottom: 20px;
+      gap: 10px;
+    }
+    #controls button, #controls label {
+      background: #222;
+      color: #fff;
+      border: 1px solid #555;
+      padding: 8px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    #controls button:hover {
+      background: #333;
+    }
+    select {
+      background: #111;
+      color: #fff;
+      border: 1px solid #555;
+      padding: 5px;
+      margin-top: 5px;
+    }
+    #completion-tracker {
+      text-align: center;
+      margin-bottom: 15px;
+      font-size: 16px;
+    }
+    #progress-donut {
+      display: block;
+      margin: 20px auto;
+      max-width: 250px;
+    }
+    #mindmap-container {
+      margin-top: 20px;
+    }
+    .node {
+      background: #444;
+      padding: 8px 12px;
+      border-radius: 6px;
+      margin: 5px 0;
+      cursor: pointer;
+      color: #fff;
+      display: inline-block;
+      min-width: 120px;
+    }
+    .node.learning { border: 2px dashed yellow; }
+    .node.completed { border: 2px solid #4CAF50; }
+    .children {
+      display: none;
+      margin-left: 25px;
+      margin-top: 5px;
+    }
+    .children.visible {
+      display: block;
+    }
+    textarea {
+      font-family: inherit;
+      font-size: 13px;
+    }
+    #xp-bar {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    #install-banner {
+      display:none;
+      position:fixed;
+      bottom:20px;
+      left:50%;
+      transform:translateX(-50%);
+      background:#222;
+      padding:10px 20px;
+      border-radius:10px;
+      color:white;
+    }
+    #install-banner button {
+      margin-left: 10px;
+      background: #4CAF50;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
   <h1>📊 DevOps Learning Roadmap Tracker</h1>
 
-  <div id="controls" style="margin-bottom:15px;">
+  <div id="controls">
     <button id="pdfBtn">📄 Export Progress as PDF</button>
-    <button id="backupBtn">💾 Download Backup Now</button>
-    <label style="margin-left:20px;">
-      <input type="checkbox" id="autoBackupToggle"> Enable Auto Backup
+    <button id="backupBtn">💾 Download Backup</button>
+    <label>
+      <input type="checkbox" id="autoBackupToggle"> Auto Backup
     </label>
-    
-    <!-- Import Backup -->
-    <button id="importBtn" style="margin-left:20px;">📂 Import Backup</button>
+    <button id="importBtn">📂 Import Backup</button>
     <input type="file" id="importFile" accept=".zip" style="display:none">
   </div>
 
-  <div id="completion-tracker" style="margin-bottom:15px;color:#fff;"></div>
+  <div id="completion-tracker"></div>
 
-  <label for="pace-select" style="color:#fff;">Learning Pace Multiplier:</label>
-  <select id="pace-select">
-    <option value="1">1x (Normal)</option>
-    <option value="0.5">0.5x (Faster)</option>
-    <option value="2">2x (Slower)</option>
-  </select>
+  <div style="text-align:center;margin-bottom:15px;">
+    <label for="pace-select">Learning Pace Multiplier:</label><br>
+    <select id="pace-select">
+      <option value="1">1x (Normal)</option>
+      <option value="0.5">0.5x (Faster)</option>
+      <option value="2">2x (Slower)</option>
+    </select>
+  </div>
 
-  <canvas id="progress-donut" width="200" height="200" style="margin:20px 0;"></canvas>
+  <canvas id="progress-donut" width="200" height="200"></canvas>
 
+  <!-- Mindmap -->
   <div id="mindmap-container"></div>
 
-  <div id="install-banner" style="display:none;position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#222;padding:10px 20px;border-radius:10px;color:white;">
-    Install this app? <button id="install-btn">Install</button>
+  <!-- PWA Install Banner -->
+  <div id="install-banner">
+    Install this app? 
+    <button id="install-btn">Install</button>
   </div>
 
   <script src="script.js"></script>

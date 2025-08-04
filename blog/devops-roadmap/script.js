@@ -17,6 +17,24 @@ document.addEventListener("DOMContentLoaded", async () => {
   let userXP = parseInt(localStorage.getItem("userXP") || "0");
   let userLevel = parseInt(localStorage.getItem("userLevel") || "1");
   let badges = JSON.parse(localStorage.getItem("badges") || "[]");
+  let streak = parseInt(localStorage.getItem("streak") || "0");
+  let lastLogin = localStorage.getItem("lastLogin") || "";
+
+  // ======== DAILY STREAK LOGIC ========
+  const today = new Date().toLocaleDateString();
+  if (lastLogin !== today) {
+    const yesterday = new Date();
+    yesterday.setDate(new Date().getDate() - 1);
+    const yesterdayStr = yesterday.toLocaleDateString();
+    if (lastLogin === yesterdayStr) {
+      streak += 1; // continue streak
+    } else {
+      streak = 1; // reset streak
+    }
+    lastLogin = today;
+    localStorage.setItem("streak", streak);
+    localStorage.setItem("lastLogin", today);
+  }
 
   // ======== CREATE XP BAR ========
   const xpBar = document.createElement("div");
@@ -34,13 +52,29 @@ document.addEventListener("DOMContentLoaded", async () => {
     const nextLevelXP = userLevel * 100;
     const progress = Math.min(100, (userXP / nextLevelXP) * 100);
 
+    const badgeIcons = badges.map(b => {
+      if (b === "Bronze") return "🥉";
+      if (b === "Silver") return "🥈";
+      if (b === "Gold") return "🥇";
+      return "🏅";
+    }).join(" ");
+
     xpBar.innerHTML = `
       <div>⭐ Level ${userLevel} | XP: ${userXP}/${nextLevelXP}</div>
       <div style="background:#444;width:100%;height:10px;border-radius:5px;margin-top:5px;">
         <div style="width:${progress}%;height:10px;border-radius:5px;background:#4CAF50;"></div>
       </div>
-      <div style="margin-top:5px;">🏅 Badges: ${badges.join(", ") || "None yet"}</div>
+      <div style="margin-top:5px;">🏅 Badges: ${badgeIcons || "None yet"}</div>
+      <div style="margin-top:5px;">🔥 Streak: ${streak} day${streak>1?'s':''}</div>
     `;
+  }
+
+  function fireConfetti() {
+    confetti({
+      particleCount: 120,
+      spread: 70,
+      origin: { y: 0.6 }
+    });
   }
 
   function gainXP(amount) {
@@ -49,6 +83,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (newLevel > userLevel) {
       userLevel = newLevel;
       alert(`🎉 Level Up! You are now Level ${userLevel}!`);
+      fireConfetti();
     }
     localStorage.setItem("userXP", userXP);
     localStorage.setItem("userLevel", userLevel);
@@ -66,11 +101,12 @@ document.addEventListener("DOMContentLoaded", async () => {
       badges = [...badges, ...earned];
       localStorage.setItem("badges", JSON.stringify(badges));
       alert(`🏅 New Badge(s) Earned: ${earned.join(", ")}`);
+      fireConfetti();
     }
     updateXPBar();
   }
 
-  // Color palette for top-level topics
+  // ======== NODE TREE COLORS ========
   const nodeColors = [
     "#1abc9c", "#3498db", "#9b59b6",
     "#e67e22", "#e74c3c", "#f1c40f",
@@ -141,7 +177,6 @@ document.addEventListener("DOMContentLoaded", async () => {
           learningChk.checked = false;
           setStatus(key,"completed",notes.value);
 
-          // === XP: gain XP on first completion ===
           const days = parseDays(val.time);
           if (!nodeStatus[key]?.xpGranted) {
             gainXP(days * 10);
@@ -149,7 +184,6 @@ document.addEventListener("DOMContentLoaded", async () => {
             localStorage.setItem("nodeStatus", JSON.stringify(nodeStatus));
           }
           checkBadges();
-
         } else if (!learningChk.checked) {
           setStatus(key,"not-started",notes.value);
         }

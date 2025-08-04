@@ -1,190 +1,207 @@
-/* ====== Global ====== */
+/* === GLOBAL === */
 body {
-  background: #0d1117;
-  color: #fff;
-  font-family: Arial, sans-serif;
+  font-family: 'Segoe UI', Tahoma, sans-serif;
+  background-color: #0d1117;
+  color: #ffffff;
   margin: 0;
+  padding: 20px;
+  line-height: 1.5;
 }
 
-/* ====== Top Control Bar ====== */
+h1 {
+  text-align: center;
+  color: #4CAF50;
+  font-size: 28px;
+  margin-bottom: 20px;
+  text-shadow: 0 0 10px rgba(76, 175, 80, 0.5);
+}
+
+/* === CONTROLS BAR === */
 #controls {
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
-  justify-content: flex-start;
-  padding: 10px 20px;
-  background: #161b22;
-  position: sticky;
-  top: 0;
-  z-index: 1000;
+  justify-content: center;
+  margin-bottom: 20px;
   gap: 10px;
 }
 
-#controls button,
-#controls select,
+#controls button, 
 #controls label {
-  background: #21262d;
-  color: white;
-  border: 1px solid #30363d;
-  padding: 6px 12px;
+  background: #222;
+  color: #fff;
+  border: 1px solid #555;
+  padding: 8px 12px;
   border-radius: 6px;
   cursor: pointer;
   font-size: 14px;
-  transition: 0.2s;
+  transition: background 0.3s, transform 0.2s;
 }
 
-#controls button:hover,
-#controls select:hover {
-  background: #30363d;
-}
-
-#controls input[type="checkbox"] {
-  transform: scale(1.2);
-  margin-right: 5px;
-}
-
-/* Completion Tracker */
-#completion-tracker {
-  margin: 5px 0;
-  flex: 1;
-  font-size: 14px;
-}
-
-/* ====== Floating Donut Chart ====== */
-#progress-donut {
-  width: 120px !important;
-  height: 120px !important;
-  position: fixed;
-  top: 10px;
-  right: 10px;
-  background: #161b22;
-  border-radius: 50%;
-  padding: 5px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.5);
-  z-index: 2000;
-  cursor: pointer;
-}
-
-/* ====== Mindmap Nodes ====== */
-#mindmap-container {
-  padding: 20px;
-}
-
-.node {
-  display: inline-block;
-  padding: 6px 10px;
-  margin: 5px;
-  border-radius: 6px;
+#controls button:hover {
   background: #333;
-  cursor: pointer;
-  transition: 0.2s;
-  font-size: 14px;
-}
-
-.node:hover {
   transform: scale(1.05);
 }
 
-.node.completed {
-  background: #4CAF50 !important;
-  color: #fff !important;
+select {
+  background: #111;
+  color: #fff;
+  border: 1px solid #555;
+  padding: 5px;
+  margin-top: 5px;
+  border-radius: 4px;
 }
 
+/* === COMPLETION TRACKER === */
+#completion-tracker {
+  text-align: center;
+  margin-bottom: 15px;
+  font-size: 16px;
+  color: #fff;
+}
+
+/* === PROGRESS DONUT === */
+#progress-donut {
+  display: block;
+  margin: 20px auto;
+  max-width: 250px;
+}
+
+/* === XP BAR === */
+#xp-bar {
+  text-align: center;
+  margin-bottom: 20px;
+  background: #222;
+  border: 1px solid #555;
+  border-radius: 6px;
+  padding: 10px;
+  font-size: 14px;
+}
+
+#xp-bar div:first-child {
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #ffd700;
+}
+
+/* XP Progress Bar Container */
+#xp-bar div:nth-child(2) {
+  position: relative;
+  background: #444;
+  width: 100%;
+  height: 10px;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+/* XP Fill Animation */
+#xp-bar div:nth-child(2) div {
+  height: 100%;
+  border-radius: 5px;
+  background: linear-gradient(90deg, #4CAF50, #00ff88);
+  width: 0;
+  animation: fillXP 1s forwards;
+}
+
+/* XP Fill Keyframe */
+@keyframes fillXP {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+/* === MINDMAP TREE === */
+#mindmap-container {
+  margin-top: 20px;
+  padding-left: 10px;
+}
+
+/* Node Base */
+.node {
+  background: #444;
+  padding: 8px 12px;
+  border-radius: 6px;
+  margin: 5px 0;
+  cursor: pointer;
+  color: #fff;
+  display: inline-block;
+  min-width: 120px;
+  transition: transform 0.2s, box-shadow 0.3s;
+}
+
+.node:hover {
+  transform: scale(1.03);
+  box-shadow: 0 0 10px rgba(255,255,255,0.2);
+}
+
+/* Learning Node - Yellow Pulsing */
 .node.learning {
-  background: #f1c40f !important;
-  color: #000 !important;
+  border: 2px dashed yellow;
+  animation: pulseLearning 1.2s infinite;
 }
 
-/* ====== Parent-Child Lines ====== */
+@keyframes pulseLearning {
+  0% { box-shadow: 0 0 5px yellow; }
+  50% { box-shadow: 0 0 15px yellow; }
+  100% { box-shadow: 0 0 5px yellow; }
+}
+
+/* Completed Node - Green Glow */
+.node.completed {
+  border: 2px solid #4CAF50;
+  animation: glowCompleted 1.5s infinite;
+}
+
+@keyframes glowCompleted {
+  0% { box-shadow: 0 0 5px #4CAF50; }
+  50% { box-shadow: 0 0 15px #00ff88; }
+  100% { box-shadow: 0 0 5px #4CAF50; }
+}
+
+/* Children Container */
 .children {
   display: none;
-  margin-left: 40px;
-  padding-left: 20px;
-  border-left: 2px dashed rgba(255, 255, 255, 0.3);
-  position: relative;
-}
-.children.visible { display: block; }
-
-.children .node {
-  position: relative;
+  margin-left: 25px;
+  margin-top: 5px;
+  border-left: 1px dashed #555;
+  padding-left: 10px;
 }
 
-/* Connector dot for child */
-.children .node::before {
-  content: "";
-  position: absolute;
-  left: -22px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 10px;
-  height: 10px;
-  background: currentColor;
-  border-radius: 50%;
+.children.visible {
+  display: block;
 }
 
-/* Links inside details */
-a {
-  text-decoration: none;
-  color: #1e90ff;
-}
-a:hover {
-  text-decoration: underline;
+/* Notes Area */
+textarea {
+  font-family: inherit;
+  font-size: 13px;
+  background: #111;
+  color: #fff;
+  border: 1px solid #333;
+  border-radius: 4px;
+  width: 95%;
+  margin-top: 8px;
+  padding: 5px;
 }
 
-/* ====== Install Banner ====== */
+/* Install Banner */
 #install-banner {
-  display: none;
-  position: fixed;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: #222;
-  padding: 10px 20px;
-  border-radius: 10px;
-  color: white;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-  z-index: 3000;
+  display:none;
+  position:fixed;
+  bottom:20px;
+  left:50%;
+  transform:translateX(-50%);
+  background:#222;
+  padding:10px 20px;
+  border-radius:10px;
+  color:white;
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
 }
 
-#install-btn {
+#install-banner button {
   margin-left: 10px;
-  padding: 5px 12px;
+  background: #4CAF50;
   border: none;
-  background: #4CAF50;
-  color: white;
-  border-radius: 6px;
+  padding: 5px 10px;
+  border-radius: 5px;
   cursor: pointer;
-}
-
-#install-btn:hover {
-  background: #45a049;
-}
-
-/* ====== Responsive Adjustments ====== */
-@media (max-width: 600px) {
-  .node {
-    font-size: 12px;
-    padding: 4px 6px;
-  }
-
-  #progress-donut {
-    width: 90px !important;
-    height: 90px !important;
-    top: 5px;
-    right: 5px;
-  }
-
-  #controls {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-}
-
-.badge {
-  background: #4CAF50;
-  color: white;
-  padding: 3px 8px;
-  border-radius: 6px;
-  font-size: 12px;
-  margin-left: 5px;
+  color: #fff;
 }
