@@ -1,3 +1,4 @@
+<!-- index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,105 +16,6 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #0d1117;
-      color: white;
-      margin: 0;
-      padding: 20px;
-    }
-    h1 {
-      text-align: center;
-      color: #4CAF50;
-    }
-    #controls {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      margin-bottom: 20px;
-      gap: 10px;
-    }
-    #controls button, #controls label {
-      background: #222;
-      color: #fff;
-      border: 1px solid #555;
-      padding: 8px 12px;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 14px;
-    }
-    #controls button:hover {
-      background: #333;
-    }
-    select {
-      background: #111;
-      color: #fff;
-      border: 1px solid #555;
-      padding: 5px;
-      margin-top: 5px;
-    }
-    #completion-tracker {
-      text-align: center;
-      margin-bottom: 15px;
-      font-size: 16px;
-    }
-    #progress-donut {
-      display: block;
-      margin: 20px auto;
-      max-width: 250px;
-    }
-    #mindmap-container {
-      margin-top: 20px;
-    }
-    .node {
-      background: #444;
-      padding: 8px 12px;
-      border-radius: 6px;
-      margin: 5px 0;
-      cursor: pointer;
-      color: #fff;
-      display: inline-block;
-      min-width: 120px;
-    }
-    .node.learning { border: 2px dashed yellow; }
-    .node.completed { border: 2px solid #4CAF50; }
-    .children {
-      display: none;
-      margin-left: 25px;
-      margin-top: 5px;
-    }
-    .children.visible {
-      display: block;
-    }
-    textarea {
-      font-family: inherit;
-      font-size: 13px;
-    }
-    #xp-bar {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-    #install-banner {
-      display:none;
-      position:fixed;
-      bottom:20px;
-      left:50%;
-      transform:translateX(-50%);
-      background:#222;
-      padding:10px 20px;
-      border-radius:10px;
-      color:white;
-    }
-    #install-banner button {
-      margin-left: 10px;
-      background: #4CAF50;
-      border: none;
-      padding: 5px 10px;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-  </style>
 </head>
 <body>
   <h1>📊 DevOps Learning Roadmap Tracker</h1>

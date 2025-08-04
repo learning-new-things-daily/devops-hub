@@ -1,3 +1,4 @@
+// script.js
 document.addEventListener("DOMContentLoaded", async () => {
   // ======== LOAD ROADMAP DATA =========
   let roadmap = {};
