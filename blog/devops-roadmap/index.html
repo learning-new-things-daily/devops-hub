@@ -3,82 +3,114 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>DevOps Roadmap - Interactive Learning</title>
+  <title>DevOps Roadmap Tracker</title>
 
-  <!-- PWA Manifest & Icons -->
-  <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#0d1117">
-  <link rel="icon" href="icons/icon-192.png" type="image/png">
-
-  <!-- Styles -->
-  <link rel="stylesheet" href="style.css">
-
-  <!-- External Libraries -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" defer></script>
-
-  <!-- Our Script -->
-  <script src="script.js" defer></script>
-
-  <!-- Service Worker Registration -->
-  <script>
-    if ("serviceWorker" in navigator) {
-      window.addEventListener("load", () => {
-        navigator.serviceWorker.register("service-worker.js")
-          .then(reg => console.log("SW registered:", reg))
-          .catch(err => console.log("SW registration failed:", err));
-      });
+  <style>
+    body {
+      background-color: #0d1117;
+      color: #fff;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
     }
-  </script>
+    h1 {
+      text-align: center;
+      margin: 15px 0;
+    }
+    .node {
+      cursor: pointer;
+      padding: 6px 12px;
+      margin: 4px 0;
+      border-radius: 6px;
+      background: #161b22;
+      transition: 0.3s;
+    }
+    .node:hover {
+      background: #1f2937;
+    }
+    .node.completed {
+      background: #2e7d32;
+    }
+    .node.learning {
+      background: #1e88e5;
+    }
+    .children {
+      display: none;
+      margin-left: 20px;
+    }
+    .children.visible {
+      display: block;
+    }
+    textarea {
+      font-size: 13px;
+      padding: 4px;
+      resize: vertical;
+    }
+    #mindmap-container {
+      max-width: 900px;
+      margin: auto;
+      padding: 15px;
+    }
+    #control-bar {
+      text-align: center;
+      margin: 15px 0;
+    }
+    button {
+      margin: 5px;
+      padding: 8px 14px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      background: #1e90ff;
+      color: white;
+    }
+    button:hover {
+      background: #1565c0;
+    }
+    #completion-tracker {
+      text-align: center;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+    canvas {
+      display: block;
+      margin: 20px auto;
+    }
+  </style>
 </head>
 <body>
+  <h1>🚀 DevOps Roadmap Tracker</h1>
 
-<div id="top-bar">
-  <button id="pdfBtn">Export PDF</button>
+  <div id="control-bar">
+    <button id="exportBtn">💾 Export Progress</button>
+    <input type="file" id="importFile" accept=".json" style="display:none"/>
+    <button id="importBtn">📂 Import Progress</button>
+    <button id="pdfBtn">📄 Download PDF</button>
+    <label style="margin-left:10px;">
+      Pace:
+      <select id="pace-select">
+        <option value="1">1x</option>
+        <option value="0.5">0.5x (faster)</option>
+        <option value="2">2x (slower)</option>
+      </select>
+    </label>
+  </div>
 
-  <label for="pace-select" style="color:white;font-size:14px;margin-left:20px;">
-    Learning Pace:
-  </label>
-  <select id="pace-select" style="margin-left:5px;">
-    <option value="1">1 day per roadmap day (Default)</option>
-    <option value="0.5">2 roadmap days per real day (Fast)</option>
-    <option value="2">0.5 roadmap day per real day (Slow)</option>
-  </select>
+  <div id="completion-tracker"></div>
+  <canvas id="progress-donut" width="220" height="220"></canvas>
 
-  <span id="completion-tracker" style="color:white;font-size:14px;margin-left:20px;">
-    Estimated Completion: TBD
-  </span>
+  <div id="mindmap-container"></div>
 
-  <canvas id="progress-donut"></canvas>
-</div>
+  <!-- PWA Install Banner -->
+  <div id="install-banner" style="display:none; justify-content:center; align-items:center; padding:10px; background:#222; color:white;">
+    <span>📱 Install this app on your device</span>
+    <button id="install-btn" style="margin-left:10px;">Install</button>
+  </div>
 
-<div id="mindmap-container"></div>
-
-<!-- Install Prompt Banner -->
-<div id="install-banner" style="
-  position: fixed;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: #161b22;
-  color: white;
-  padding: 10px 20px;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.5);
-  display: none;
-  z-index: 9999;
-">
-  <span style="margin-right: 10px;">📲 Install DevOps Roadmap?</span>
-  <button id="install-btn" style="
-    background:#4CAF50; 
-    border:none; 
-    color:white; 
-    padding:6px 12px; 
-    border-radius:4px; 
-    cursor:pointer;
-  ">Install</button>
-</div>
-
+  <!-- Dependencies -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
