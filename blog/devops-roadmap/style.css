@@ -1,54 +1,169 @@
+/* ====== Global ====== */
 body {
-  background:#0d1117;
-  color:#fff;
-  font-family:Arial;
-  margin:0;
+  background: #0d1117;
+  color: #fff;
+  font-family: Arial, sans-serif;
+  margin: 0;
 }
 
-#top-bar {
-  display:flex;
-  flex-wrap:wrap;
-  align-items:center;
-  padding:10px 20px;
-  background:#161b22;
-  position:sticky;
-  top:0;
-  z-index:1000;
+/* ====== Top Control Bar ====== */
+#controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 10px 20px;
+  background: #161b22;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  gap: 10px;
 }
 
-#top-bar button,
-#top-bar select { margin:5px; }
+#controls button,
+#controls select,
+#controls label {
+  background: #21262d;
+  color: white;
+  border: 1px solid #30363d;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: 0.2s;
+}
 
-#completion-tracker { margin:5px 0; flex:1; }
+#controls button:hover,
+#controls select:hover {
+  background: #30363d;
+}
 
+#controls input[type="checkbox"] {
+  transform: scale(1.2);
+  margin-right: 5px;
+}
+
+/* Completion Tracker */
+#completion-tracker {
+  margin: 5px 0;
+  flex: 1;
+  font-size: 14px;
+}
+
+/* ====== Floating Donut Chart (Progress Bar) ====== */
 #progress-donut {
-  width:40px !important;
-  height:40px !important;
-  margin-left:20px;
-  cursor:pointer;
+  width: 120px !important;
+  height: 120px !important;
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  background: #161b22;
+  border-radius: 50%;
+  padding: 5px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
+  z-index: 2000;
+  cursor: pointer;
 }
 
-#mindmap-container { padding:20px; }
+/* Make center percentage larger & readable */
+canvas#progress-donut + .chartjs-render-monitor {
+  font-size: 22px !important;
+  font-weight: bold;
+}
+
+/* ====== Mindmap Nodes ====== */
+#mindmap-container {
+  padding: 20px;
+}
 
 .node {
-  display:inline-block;
-  padding:6px 10px;
-  margin:5px;
-  border-radius:6px;
-  background:#333;
-  cursor:pointer;
-  transition:0.2s;
-  font-size:14px;
+  display: inline-block;
+  padding: 6px 10px;
+  margin: 5px;
+  border-radius: 6px;
+  background: #333;
+  cursor: pointer;
+  transition: 0.2s;
+  font-size: 14px;
 }
 
-@media (max-width:600px) {
-  .node { font-size:12px; padding:4px 6px; }
+.node:hover {
+  background: #444;
+  transform: scale(1.05);
 }
 
-.node.completed { background:#4CAF50; }
-.node.learning { background:#f1c40f; color:#000; }
+.node.completed {
+  background: #4CAF50;
+  color: #fff;
+}
 
-.children { display:none; margin-left:30px; }
-.children.visible { display:block; }
+.node.learning {
+  background: #f1c40f;
+  color: #000;
+}
 
-a { text-decoration:none; }
+.children {
+  display: none;
+  margin-left: 30px;
+}
+.children.visible {
+  display: block;
+}
+
+/* Links inside details */
+a {
+  text-decoration: none;
+  color: #1e90ff;
+}
+a:hover {
+  text-decoration: underline;
+}
+
+/* ====== Install Banner ====== */
+#install-banner {
+  display: none;
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #222;
+  padding: 10px 20px;
+  border-radius: 10px;
+  color: white;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+  z-index: 3000;
+}
+
+#install-btn {
+  margin-left: 10px;
+  padding: 5px 12px;
+  border: none;
+  background: #4CAF50;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+#install-btn:hover {
+  background: #45a049;
+}
+
+/* ====== Responsive Adjustments ====== */
+@media (max-width: 600px) {
+  .node {
+    font-size: 12px;
+    padding: 4px 6px;
+  }
+
+  #progress-donut {
+    width: 90px !important;
+    height: 90px !important;
+    top: 5px;
+    right: 5px;
+  }
+
+  #controls {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

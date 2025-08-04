@@ -5,63 +5,39 @@ const roadmap = {
   "DevOps": {
     time: "0 days",
     children: {
-      "Linux Basics": { 
-        time: "5 days",
-        links: [
-          { title: "Linux Journey", url: "https://linuxjourney.com/" },
-          { title: "The Linux Command Line", url: "https://linuxcommand.org/" }
-        ]
-      },
-      "Git & Version Control": { 
-        time: "4 days",
-        links: [
-          { title: "Pro Git Book", url: "https://git-scm.com/book/en/v2" },
-          { title: "Git Branching Tutorial", url: "https://learngitbranching.js.org/" }
-        ]
-      },
-      "CI/CD Pipelines": { 
-        time: "7 days",
-        links: [
-          { title: "CI/CD Overview", url: "https://www.redhat.com/en/topics/devops/what-is-ci-cd" },
-          { title: "GitHub Actions Docs", url: "https://docs.github.com/en/actions" }
-        ]
-      },
-      "Docker & Containers": { 
-        time: "7 days",
-        links: [
-          { title: "Docker Official Docs", url: "https://docs.docker.com/get-started/" },
-          { title: "Play With Docker", url: "https://labs.play-with-docker.com/" }
-        ]
-      },
-      "Kubernetes": { 
-        time: "10 days",
-        links: [
-          { title: "Kubernetes Official Docs", url: "https://kubernetes.io/docs/home/" },
-          { title: "Play With Kubernetes", url: "https://labs.play-with-k8s.com/" }
-        ]
-      },
-      "Cloud Platforms (AWS/Azure/GCP)": { 
-        time: "8 days",
-        links: [
-          { title: "AWS Training", url: "https://aws.amazon.com/training/" },
-          { title: "Azure Fundamentals", url: "https://learn.microsoft.com/en-us/certifications/azure-fundamentals/" },
-          { title: "Google Cloud Training", url: "https://cloud.google.com/training" }
-        ]
-      },
-      "Monitoring & Logging": { 
-        time: "5 days",
-        links: [
-          { title: "Prometheus Docs", url: "https://prometheus.io/docs/introduction/overview/" },
-          { title: "Grafana Docs", url: "https://grafana.com/docs/" }
-        ]
-      },
-      "IaC (Terraform/Ansible)": { 
-        time: "6 days",
-        links: [
-          { title: "Terraform Basics", url: "https://developer.hashicorp.com/terraform/tutorials" },
-          { title: "Ansible Docs", url: "https://docs.ansible.com/" }
-        ]
-      }
+      "Linux Basics": { time: "5 days", links: [
+        { title: "Linux Journey", url: "https://linuxjourney.com/" },
+        { title: "The Linux Command Line", url: "https://linuxcommand.org/" }
+      ]},
+      "Git & Version Control": { time: "4 days", links: [
+        { title: "Pro Git Book", url: "https://git-scm.com/book/en/v2" },
+        { title: "Git Branching Tutorial", url: "https://learngitbranching.js.org/" }
+      ]},
+      "CI/CD Pipelines": { time: "7 days", links: [
+        { title: "CI/CD Overview", url: "https://www.redhat.com/en/topics/devops/what-is-ci-cd" },
+        { title: "GitHub Actions Docs", url: "https://docs.github.com/en/actions" }
+      ]},
+      "Docker & Containers": { time: "7 days", links: [
+        { title: "Docker Official Docs", url: "https://docs.docker.com/get-started/" },
+        { title: "Play With Docker", url: "https://labs.play-with-docker.com/" }
+      ]},
+      "Kubernetes": { time: "10 days", links: [
+        { title: "Kubernetes Official Docs", url: "https://kubernetes.io/docs/home/" },
+        { title: "Play With Kubernetes", url: "https://labs.play-with-k8s.com/" }
+      ]},
+      "Cloud Platforms (AWS/Azure/GCP)": { time: "8 days", links: [
+        { title: "AWS Training", url: "https://aws.amazon.com/training/" },
+        { title: "Azure Fundamentals", url: "https://learn.microsoft.com/en-us/certifications/azure-fundamentals/" },
+        { title: "Google Cloud Training", url: "https://cloud.google.com/training" }
+      ]},
+      "Monitoring & Logging": { time: "5 days", links: [
+        { title: "Prometheus Docs", url: "https://prometheus.io/docs/introduction/overview/" },
+        { title: "Grafana Docs", url: "https://grafana.com/docs/" }
+      ]},
+      "IaC (Terraform/Ansible)": { time: "6 days", links: [
+        { title: "Terraform Basics", url: "https://developer.hashicorp.com/terraform/tutorials" },
+        { title: "Ansible Docs", url: "https://docs.ansible.com/" }
+      ]}
     }
   }
 };
@@ -186,6 +162,7 @@ function setStatus(key,status,notes="") {
   updateDonutChart();
 }
 
+// ====== Completion Tracker & Donut ======
 function parseDays(timeStr) {
   if (!timeStr) return 0;
   const match = timeStr.match(/(\d+)/);
@@ -222,22 +199,22 @@ function updateCompletionTracker() {
 let donutChart;
 let showRemainingDays=false;
 const centerTextPlugin = {
-  id:'centerText',
-  afterDraw(chart){
-    const {ctx, chartArea:{width,height}}=chart;
+  id: 'centerText',
+  afterDraw(chart) {
+    const { ctx, chartArea: { width, height } } = chart;
     ctx.save();
-    const total=chart.data.datasets[0].data.reduce((a,b)=>a+b,0);
-    const completed=chart.data.datasets[0].data[0];
-    const percent=total>0?Math.round((completed/total)*100):0;
-    const allTimes=calculateTime(roadmap["DevOps"]);
-    const totalDays=allTimes.reduce((s,n)=>s+n.days,0);
-    const completedDays=allTimes.filter(n=>n.state==="completed").reduce((s,n)=>s+n.days,0);
-    const remainingDays=totalDays-completedDays;
-    const text=showRemainingDays?`${remainingDays}d`:`${percent}%`;
-    ctx.font='bold 14px Arial';
-    ctx.fillStyle='#fff';
-    ctx.textAlign='center';ctx.textBaseline='middle';
-    ctx.fillText(text,width/2,height/2);
+    
+    const total = chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
+    const completed = chart.data.datasets[0].data[0];
+    const percent = total > 0 ? Math.round((completed / total) * 100) : 0;
+
+    // Calculate font size dynamically based on donut size
+    const fontSize = Math.min(width, height) / 4; 
+    ctx.font = `bold ${fontSize}px Arial`;
+    ctx.fillStyle = '#fff';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(`${percent}%`, width / 2, height / 2);
   }
 };
 function initDonutChart(){
@@ -268,7 +245,6 @@ function updateDonutChart(){
   donutChart.update();
 }
 
-// ======== PDF EXPORT ========
 document.getElementById("pdfBtn").addEventListener("click", async () => {
   const { jsPDF } = window.jspdf;
   const pdf = new jsPDF('p','pt','a4');
@@ -292,79 +268,97 @@ document.getElementById("pdfBtn").addEventListener("click", async () => {
   pdf.save("DevOps_Roadmap_Report.pdf");
 });
 
-// ======== EXPORT / IMPORT FEATURE ========
-document.getElementById("exportBtn").addEventListener("click", () => {
-  const dataStr = JSON.stringify(nodeStatus, null, 2);
-  const blob = new Blob([dataStr], { type: "application/json" });
-  const url = URL.createObjectURL(blob);
+// ====== BACKUP AND RESTORE ======
+const backupBtn = document.getElementById("backupBtn");
+const importBtn = document.getElementById("importBtn");
+const importFile = document.getElementById("importFile");
+const autoBackupToggle = document.getElementById("autoBackupToggle");
 
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = "DevOps_Roadmap_Progress.json";
-  a.click();
+function downloadBackup() {
+  const zip = new JSZip();
+  zip.file("DevOps_Roadmap_Progress.json", JSON.stringify(nodeStatus, null, 2));
+  zip.generateAsync({ type: "blob" }).then(content => {
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(content);
+    a.download = `DevOps_Roadmap_Backup_${new Date().toISOString().slice(0,10)}.zip`;
+    a.click();
+  });
+}
 
-  URL.revokeObjectURL(url);
+backupBtn.addEventListener("click", downloadBackup);
+
+// Auto Backup
+let autoBackupInterval;
+autoBackupToggle.checked = localStorage.getItem("autoBackupEnabled") === "true";
+
+autoBackupToggle.addEventListener("change", () => {
+  localStorage.setItem("autoBackupEnabled", autoBackupToggle.checked);
+  if (autoBackupToggle.checked) {
+    startAutoBackup();
+  } else {
+    clearInterval(autoBackupInterval);
+  }
 });
 
-document.getElementById("importBtn").addEventListener("click", () => {
-  document.getElementById("importFile").click();
-});
+function startAutoBackup() {
+  clearInterval(autoBackupInterval);
+  autoBackupInterval = setInterval(() => {
+    if (autoBackupToggle.checked) downloadBackup();
+  }, 5 * 60 * 1000); // Every 5 min
+}
 
-document.getElementById("importFile").addEventListener("change", (event) => {
+if (autoBackupToggle.checked) startAutoBackup();
+
+// ===== Import Backup =====
+importBtn.addEventListener("click", () => importFile.click());
+
+importFile.addEventListener("change", async (event) => {
   const file = event.target.files[0];
   if (!file) return;
 
-  const reader = new FileReader();
-  reader.onload = (e) => {
-    try {
-      const importedData = JSON.parse(e.target.result);
-
-      nodeStatus = { ...nodeStatus, ...importedData };
-      localStorage.setItem("nodeStatus", JSON.stringify(nodeStatus));
-
-      alert("✅ Progress imported successfully! Page will refresh.");
-      location.reload();
-    } catch (err) {
-      alert("❌ Invalid JSON file.");
+  try {
+    const zip = await JSZip.loadAsync(file);
+    const jsonFile = zip.file("DevOps_Roadmap_Progress.json");
+    if (!jsonFile) {
+      alert("❌ Invalid backup file. JSON not found inside ZIP.");
+      return;
     }
-  };
-  reader.readAsText(file);
+
+    const jsonContent = await jsonFile.async("string");
+    const importedData = JSON.parse(jsonContent);
+
+    for (const key in importedData) {
+      if (!nodeStatus[key] || nodeStatus[key].state !== "completed") {
+        nodeStatus[key] = importedData[key];
+      }
+    }
+
+    localStorage.setItem("nodeStatus", JSON.stringify(nodeStatus));
+    alert("✅ Backup imported successfully!");
+
+    updateCompletionTracker();
+    updateDonutChart();
+
+    document.querySelectorAll(".node").forEach((node) => {
+      const key = node.dataset.key;
+      const status = nodeStatus[key]?.state || "not-started";
+      node.classList.remove("completed", "learning");
+      if (status === "completed") node.classList.add("completed");
+      if (status === "learning") node.classList.add("learning");
+    });
+
+  } catch (err) {
+    console.error("Error importing backup:", err);
+    alert("❌ Failed to import backup.");
+  }
+
+  event.target.value = "";
 });
 
+// ===== INIT =====
 initDonutChart();
 updateDonutChart();
 updateCompletionTracker();
 document.getElementById("pace-select").addEventListener("change",updateCompletionTracker);
 
-});
-
-// ======== PWA Install Prompt ========
-let deferredPrompt;
-const installBanner = document.getElementById("install-banner");
-const installBtn = document.getElementById("install-btn");
-
-window.addEventListener("beforeinstallprompt", (e) => {
-  e.preventDefault();
-  deferredPrompt = e;
-
-  if (/Mobi|Android/i.test(navigator.userAgent)) {
-    const lastDismiss = localStorage.getItem("installDismissed");
-    const now = Date.now();
-    if (!lastDismiss || now - parseInt(lastDismiss) > 7 * 24 * 60 * 60 * 1000) {
-      installBanner.style.display = "flex";
-    }
-  }
-});
-
-installBtn.addEventListener("click", async () => {
-  if (!deferredPrompt) return;
-  deferredPrompt.prompt();
-  const { outcome } = await deferredPrompt.userChoice;
-  console.log(`User response: ${outcome}`);
-
-  installBanner.style.display = "none";
-  if (outcome !== "accepted") {
-    localStorage.setItem("installDismissed", Date.now().toString());
-  }
-  deferredPrompt = null;
 });
