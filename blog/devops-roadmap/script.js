@@ -333,4 +333,93 @@ document.addEventListener("DOMContentLoaded", async () => {
   checkBadges();
   document.getElementById("pace-select").addEventListener("change",updateCompletionTracker);
 
+  // ========= BUTTONS: PDF / BACKUP / IMPORT =========
+  const pdfBtn = document.getElementById("pdfBtn");
+  const backupBtn = document.getElementById("backupBtn");
+  const autoBackupToggle = document.getElementById("autoBackupToggle");
+  const importBtn = document.getElementById("importBtn");
+  const importFile = document.getElementById("importFile");
+
+  // PDF Export
+  pdfBtn.addEventListener("click", async () => {
+    const { jsPDF } = window.jspdf;
+    const controls = document.getElementById("controls");
+    controls.style.display = "none";
+    window.scrollTo(0, 0);
+
+    await html2canvas(document.body, { backgroundColor: "#0d1117" })
+      .then(canvas => {
+        const pdf = new jsPDF("p", "mm", "a4");
+        const imgData = canvas.toDataURL("image/png");
+        const pageWidth = pdf.internal.pageSize.getWidth();
+        const pageHeight = pdf.internal.pageSize.getHeight();
+        const ratio = Math.min(pageWidth / canvas.width, pageHeight / canvas.height);
+        pdf.addImage(imgData, "PNG", 0, 0, canvas.width * ratio, canvas.height * ratio);
+        pdf.save("DevOps_Roadmap_Progress.pdf");
+      })
+      .finally(() => controls.style.display = "flex");
+  });
+
+  // Backup to ZIP
+  backupBtn.addEventListener("click", async () => {
+    const zip = new JSZip();
+    const backupData = {
+      nodeStatus: localStorage.getItem("nodeStatus") || "{}",
+      userXP: localStorage.getItem("userXP") || "0",
+      userLevel: localStorage.getItem("userLevel") || "1",
+      badges: localStorage.getItem("badges") || "[]",
+      streak: localStorage.getItem("streak") || "0",
+      lastLogin: localStorage.getItem("lastLogin") || ""
+    };
+    zip.file("backup.json", JSON.stringify(backupData, null, 2));
+    const blob = await zip.generateAsync({ type: "blob" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `DevOps_Roadmap_Backup_${new Date().toISOString().split("T")[0]}.zip`;
+    a.click();
+    URL.revokeObjectURL(url);
+    fireConfetti();
+  });
+
+  // Auto Backup
+  let autoBackupInterval = null;
+  autoBackupToggle.addEventListener("change", () => {
+    if (autoBackupToggle.checked) {
+      autoBackupInterval = setInterval(() => {
+        localStorage.setItem("autoBackupData", localStorage.getItem("nodeStatus") || "{}");
+        console.log("Auto backup saved to localStorage");
+      }, 60000); // 1 minute
+    } else {
+      clearInterval(autoBackupInterval);
+    }
+  });
+
+  // Import Backup
+  importBtn.addEventListener("click", () => importFile.click());
+
+  importFile.addEventListener("change", async (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const zip = new JSZip();
+    const data = await zip.loadAsync(file);
+    const backupFile = data.file("backup.json");
+    if (!backupFile) {
+      alert("❌ Invalid backup file");
+      return;
+    }
+
+    const jsonText = await backupFile.async("text");
+    const backup = JSON.parse(jsonText);
+
+    // Restore
+    for (const key in backup) {
+      localStorage.setItem(key, backup[key]);
+    }
+
+    alert("✅ Backup imported! Reloading...");
+    fireConfetti();
+    location.reload();
+  });
 });
