@@ -7,57 +7,208 @@
         "links": [
           { "title": "Linux Journey", "url": "https://linuxjourney.com/" },
           { "title": "The Linux Command Line", "url": "https://linuxcommand.org/" }
-        ]
+        ],
+        "children": {
+          "Shell Scripting": {
+            "time": "3 days",
+            "links": [
+              { "title": "Bash Guide", "url": "https://tldp.org/HOWTO/Bash-Prog-Intro-HOWTO.html" },
+              { "title": "Advanced Bash", "url": "https://www.gnu.org/software/bash/manual/" }
+            ]
+          },
+          "File Permissions & Users": {
+            "time": "2 days",
+            "links": [
+              { "title": "Linux File Permissions", "url": "https://linuxize.com/post/linux-file-permissions/" }
+            ]
+          }
+        }
       },
+
       "Git & Version Control": {
         "time": "4 days",
         "links": [
           { "title": "Pro Git Book", "url": "https://git-scm.com/book/en/v2" },
           { "title": "Git Branching Tutorial", "url": "https://learngitbranching.js.org/" }
-        ]
+        ],
+        "children": {
+          "Git Basics": {
+            "time": "2 days",
+            "links": [
+              { "title": "Git Basics", "url": "https://git-scm.com/docs/gittutorial" }
+            ]
+          },
+          "Git Workflows": {
+            "time": "2 days",
+            "links": [
+              { "title": "Git Flow", "url": "https://nvie.com/posts/a-successful-git-branching-model/" },
+              { "title": "Trunk Based Development", "url": "https://trunkbaseddevelopment.com/" }
+            ]
+          }
+        }
       },
+
       "CI/CD Pipelines": {
         "time": "7 days",
         "links": [
           { "title": "CI/CD Overview", "url": "https://www.redhat.com/en/topics/devops/what-is-ci-cd" },
           { "title": "GitHub Actions Docs", "url": "https://docs.github.com/en/actions" }
-        ]
+        ],
+        "children": {
+          "Jenkins": {
+            "time": "3 days",
+            "links": [
+              { "title": "Jenkins Official Docs", "url": "https://www.jenkins.io/doc/" },
+              { "title": "Jenkins Pipeline Tutorial", "url": "https://www.jenkins.io/doc/book/pipeline/" }
+            ]
+          },
+          "GitHub Actions": {
+            "time": "2 days",
+            "links": [
+              { "title": "GitHub Actions Basics", "url": "https://docs.github.com/en/actions/learn-github-actions/understanding-github-actions" },
+              { "title": "GitHub Actions Marketplace", "url": "https://github.com/marketplace?type=actions" }
+            ]
+          },
+          "ArgoCD": {
+            "time": "3 days",
+            "links": [
+              { "title": "ArgoCD Docs", "url": "https://argo-cd.readthedocs.io/en/stable/" },
+              { "title": "ArgoCD GitOps Guide", "url": "https://argo-cd.readthedocs.io/en/stable/user-guide/ci_cd_integration/" }
+            ]
+          },
+          "BuildPiper": {
+            "time": "2 days",
+            "links": [
+              { "title": "BuildPiper Overview", "url": "https://www.buildpiper.io/" },
+              { "title": "BuildPiper Documentation", "url": "https://docs.buildpiper.io/" }
+            ]
+          },
+          "Other CI/CD Tools": {
+            "time": "2 days",
+            "links": [
+              { "title": "CircleCI Docs", "url": "https://circleci.com/docs/" },
+              { "title": "GitLab CI/CD Docs", "url": "https://docs.gitlab.com/ee/ci/" },
+              { "title": "Spinnaker Docs", "url": "https://spinnaker.io/docs/" }
+            ]
+          }
+        }
       },
+
       "Docker & Containers": {
         "time": "7 days",
         "links": [
           { "title": "Docker Official Docs", "url": "https://docs.docker.com/get-started/" },
           { "title": "Play With Docker", "url": "https://labs.play-with-docker.com/" }
-        ]
+        ],
+        "children": {
+          "Docker Compose": {
+            "time": "2 days",
+            "links": [
+              { "title": "Docker Compose Docs", "url": "https://docs.docker.com/compose/" }
+            ]
+          },
+          "Container Security": {
+            "time": "2 days",
+            "links": [
+              { "title": "Docker Security", "url": "https://docs.docker.com/engine/security/" }
+            ]
+          }
+        }
       },
+
       "Kubernetes": {
         "time": "10 days",
         "links": [
           { "title": "Kubernetes Official Docs", "url": "https://kubernetes.io/docs/home/" },
           { "title": "Play With Kubernetes", "url": "https://labs.play-with-k8s.com/" }
-        ]
+        ],
+        "children": {
+          "Helm": {
+            "time": "2 days",
+            "links": [
+              { "title": "Helm Docs", "url": "https://helm.sh/docs/" }
+            ]
+          },
+          "Kustomize": {
+            "time": "2 days",
+            "links": [
+              { "title": "Kustomize Docs", "url": "https://kubectl.docs.kubernetes.io/guides/introduction/kustomize/" }
+            ]
+          }
+        }
       },
+
       "Cloud Platforms (AWS/Azure/GCP)": {
         "time": "8 days",
         "links": [
           { "title": "AWS Training", "url": "https://aws.amazon.com/training/" },
           { "title": "Azure Fundamentals", "url": "https://learn.microsoft.com/en-us/certifications/azure-fundamentals/" },
           { "title": "Google Cloud Training", "url": "https://cloud.google.com/training" }
-        ]
+        ],
+        "children": {
+          "AWS": {
+            "time": "3 days",
+            "links": [
+              { "title": "AWS Docs", "url": "https://docs.aws.amazon.com/" }
+            ]
+          },
+          "Azure": {
+            "time": "3 days",
+            "links": [
+              { "title": "Azure Docs", "url": "https://learn.microsoft.com/en-us/azure/" }
+            ]
+          },
+          "GCP": {
+            "time": "2 days",
+            "links": [
+              { "title": "GCP Docs", "url": "https://cloud.google.com/docs" }
+            ]
+          }
+        }
       },
+
       "Monitoring & Logging": {
         "time": "5 days",
         "links": [
           { "title": "Prometheus Docs", "url": "https://prometheus.io/docs/introduction/overview/" },
           { "title": "Grafana Docs", "url": "https://grafana.com/docs/" }
-        ]
+        ],
+        "children": {
+          "Prometheus": {
+            "time": "2 days",
+            "links": [
+              { "title": "Prometheus Alerts", "url": "https://prometheus.io/docs/alerting/latest/overview/" }
+            ]
+          },
+          "ELK Stack": {
+            "time": "3 days",
+            "links": [
+              { "title": "Elastic Stack Docs", "url": "https://www.elastic.co/guide/index.html" }
+            ]
+          }
+        }
       },
+
       "IaC (Terraform/Ansible)": {
         "time": "6 days",
         "links": [
           { "title": "Terraform Basics", "url": "https://developer.hashicorp.com/terraform/tutorials" },
           { "title": "Ansible Docs", "url": "https://docs.ansible.com/" }
-        ]
+        ],
+        "children": {
+          "Terraform": {
+            "time": "3 days",
+            "links": [
+              { "title": "Terraform Registry", "url": "https://registry.terraform.io/" }
+            ]
+          },
+          "Ansible": {
+            "time": "3 days",
+            "links": [
+              { "title": "Ansible Galaxy", "url": "https://galaxy.ansible.com/" }
+            ]
+          }
+        }
       }
     }
   }

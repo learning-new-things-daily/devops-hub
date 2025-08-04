@@ -50,7 +50,7 @@ body {
   font-size: 14px;
 }
 
-/* ====== Floating Donut Chart (Progress Bar) ====== */
+/* ====== Floating Donut Chart ====== */
 #progress-donut {
   width: 120px !important;
   height: 120px !important;
@@ -63,12 +63,6 @@ body {
   box-shadow: 0 0 10px rgba(0,0,0,0.5);
   z-index: 2000;
   cursor: pointer;
-}
-
-/* Make center percentage larger & readable */
-canvas#progress-donut + .chartjs-render-monitor {
-  font-size: 22px !important;
-  font-weight: bold;
 }
 
 /* ====== Mindmap Nodes ====== */
@@ -88,26 +82,44 @@ canvas#progress-donut + .chartjs-render-monitor {
 }
 
 .node:hover {
-  background: #444;
   transform: scale(1.05);
 }
 
 .node.completed {
-  background: #4CAF50;
-  color: #fff;
+  background: #4CAF50 !important;
+  color: #fff !important;
 }
 
 .node.learning {
-  background: #f1c40f;
-  color: #000;
+  background: #f1c40f !important;
+  color: #000 !important;
 }
 
+/* ====== Parent-Child Lines ====== */
 .children {
   display: none;
-  margin-left: 30px;
+  margin-left: 40px;
+  padding-left: 20px;
+  border-left: 2px dashed rgba(255, 255, 255, 0.3);
+  position: relative;
 }
-.children.visible {
-  display: block;
+.children.visible { display: block; }
+
+.children .node {
+  position: relative;
+}
+
+/* Connector dot for child */
+.children .node::before {
+  content: "";
+  position: absolute;
+  left: -22px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 10px;
+  height: 10px;
+  background: currentColor;
+  border-radius: 50%;
 }
 
 /* Links inside details */
@@ -167,3 +179,4 @@ a:hover {
     align-items: flex-start;
   }
 }
+
