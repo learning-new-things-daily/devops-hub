@@ -1,49 +1,23 @@
 document.addEventListener("DOMContentLoaded", () => {
 
 // ======== ROADMAP DATA =========
-const roadmap = {
-  "DevOps": {
-    time: "0 days",
-    children: {
-      "Linux Basics": { time: "5 days", links: [
-        { title: "Linux Journey", url: "https://linuxjourney.com/" },
-        { title: "The Linux Command Line", url: "https://linuxcommand.org/" }
-      ]},
-      "Git & Version Control": { time: "4 days", links: [
-        { title: "Pro Git Book", url: "https://git-scm.com/book/en/v2" },
-        { title: "Git Branching Tutorial", url: "https://learngitbranching.js.org/" }
-      ]},
-      "CI/CD Pipelines": { time: "7 days", links: [
-        { title: "CI/CD Overview", url: "https://www.redhat.com/en/topics/devops/what-is-ci-cd" },
-        { title: "GitHub Actions Docs", url: "https://docs.github.com/en/actions" }
-      ]},
-      "Docker & Containers": { time: "7 days", links: [
-        { title: "Docker Official Docs", url: "https://docs.docker.com/get-started/" },
-        { title: "Play With Docker", url: "https://labs.play-with-docker.com/" }
-      ]},
-      "Kubernetes": { time: "10 days", links: [
-        { title: "Kubernetes Official Docs", url: "https://kubernetes.io/docs/home/" },
-        { title: "Play With Kubernetes", url: "https://labs.play-with-k8s.com/" }
-      ]},
-      "Cloud Platforms (AWS/Azure/GCP)": { time: "8 days", links: [
-        { title: "AWS Training", url: "https://aws.amazon.com/training/" },
-        { title: "Azure Fundamentals", url: "https://learn.microsoft.com/en-us/certifications/azure-fundamentals/" },
-        { title: "Google Cloud Training", url: "https://cloud.google.com/training" }
-      ]},
-      "Monitoring & Logging": { time: "5 days", links: [
-        { title: "Prometheus Docs", url: "https://prometheus.io/docs/introduction/overview/" },
-        { title: "Grafana Docs", url: "https://grafana.com/docs/" }
-      ]},
-      "IaC (Terraform/Ansible)": { time: "6 days", links: [
-        { title: "Terraform Basics", url: "https://developer.hashicorp.com/terraform/tutorials" },
-        { title: "Ansible Docs", url: "https://docs.ansible.com/" }
-      ]}
-    }
-  }
-};
 
+let roadmap = {};
 let nodeStatus = JSON.parse(localStorage.getItem("nodeStatus") || "{}");
 const container = document.getElementById("mindmap-container");
+fetch("roadmap.json")
+  .then(response => response.json())
+  .then(data => {
+    roadmap = data;
+    container.appendChild(buildTree(roadmap));
+    initDonutChart();
+    updateDonutChart();
+    updateCompletionTracker();
+    document.getElementById("pace-select").addEventListener("change", updateCompletionTracker);
+  })
+  .catch(err => {
+    console.error("Failed to load roadmap.json:", err);
+  });
 
 function buildTree(obj) {
   const div = document.createElement("div");
