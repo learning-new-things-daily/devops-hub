@@ -13,6 +13,63 @@ document.addEventListener("DOMContentLoaded", async () => {
   let nodeStatus = JSON.parse(localStorage.getItem("nodeStatus") || "{}");
   const container = document.getElementById("mindmap-container");
 
+  // ======== GAMIFICATION STATE ========
+  let userXP = parseInt(localStorage.getItem("userXP") || "0");
+  let userLevel = parseInt(localStorage.getItem("userLevel") || "1");
+  let badges = JSON.parse(localStorage.getItem("badges") || "[]");
+
+  // ======== CREATE XP BAR ========
+  const xpBar = document.createElement("div");
+  xpBar.id = "xp-bar";
+  xpBar.style.margin = "15px 0";
+  xpBar.style.padding = "10px";
+  xpBar.style.background = "#222";
+  xpBar.style.border = "1px solid #555";
+  xpBar.style.borderRadius = "6px";
+  xpBar.style.color = "#fff";
+  xpBar.style.fontSize = "14px";
+  document.body.insertBefore(xpBar, container);
+
+  function updateXPBar() {
+    const nextLevelXP = userLevel * 100;
+    const progress = Math.min(100, (userXP / nextLevelXP) * 100);
+
+    xpBar.innerHTML = `
+      <div>⭐ Level ${userLevel} | XP: ${userXP}/${nextLevelXP}</div>
+      <div style="background:#444;width:100%;height:10px;border-radius:5px;margin-top:5px;">
+        <div style="width:${progress}%;height:10px;border-radius:5px;background:#4CAF50;"></div>
+      </div>
+      <div style="margin-top:5px;">🏅 Badges: ${badges.join(", ") || "None yet"}</div>
+    `;
+  }
+
+  function gainXP(amount) {
+    userXP += amount;
+    const newLevel = Math.floor(userXP / 100) + 1;
+    if (newLevel > userLevel) {
+      userLevel = newLevel;
+      alert(`🎉 Level Up! You are now Level ${userLevel}!`);
+    }
+    localStorage.setItem("userXP", userXP);
+    localStorage.setItem("userLevel", userLevel);
+    updateXPBar();
+  }
+
+  function checkBadges() {
+    const completedCount = Object.values(nodeStatus).filter(s => s.state === "completed").length;
+    let earned = [];
+    if (completedCount >= 5 && !badges.includes("Bronze")) earned.push("Bronze");
+    if (completedCount >= 15 && !badges.includes("Silver")) earned.push("Silver");
+    if (completedCount >= 30 && !badges.includes("Gold")) earned.push("Gold");
+
+    if (earned.length > 0) {
+      badges = [...badges, ...earned];
+      localStorage.setItem("badges", JSON.stringify(badges));
+      alert(`🏅 New Badge(s) Earned: ${earned.join(", ")}`);
+    }
+    updateXPBar();
+  }
+
   // Color palette for top-level topics
   const nodeColors = [
     "#1abc9c", "#3498db", "#9b59b6",
@@ -31,7 +88,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       node.textContent = key;
       node.title = `Estimated time: ${val.time || "0 days"}`;
 
-      // Determine color
       let nodeColor = val.color || parentColor || nodeColors[colorIndex++ % nodeColors.length];
       node.style.background = nodeColor;
 
@@ -84,6 +140,16 @@ document.addEventListener("DOMContentLoaded", async () => {
         if (completedChk.checked) {
           learningChk.checked = false;
           setStatus(key,"completed",notes.value);
+
+          // === XP: gain XP on first completion ===
+          const days = parseDays(val.time);
+          if (!nodeStatus[key]?.xpGranted) {
+            gainXP(days * 10);
+            nodeStatus[key].xpGranted = true;
+            localStorage.setItem("nodeStatus", JSON.stringify(nodeStatus));
+          }
+          checkBadges();
+
         } else if (!learningChk.checked) {
           setStatus(key,"not-started",notes.value);
         }
@@ -132,7 +198,11 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   // ======== STATUS MANAGEMENT ========
   function setStatus(key,status,notes="") {
-    nodeStatus[key] = { state: status, notes: notes || nodeStatus[key]?.notes || "" };
+    nodeStatus[key] = { 
+      ...nodeStatus[key],
+      state: status, 
+      notes: notes || nodeStatus[key]?.notes || "" 
+    };
     if(status==="completed") nodeStatus[key].completedAt = new Date().toLocaleDateString();
     localStorage.setItem("nodeStatus",JSON.stringify(nodeStatus));
 
@@ -224,6 +294,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   initDonutChart();
   updateDonutChart();
   updateCompletionTracker();
+  updateXPBar();
+  checkBadges();
   document.getElementById("pace-select").addEventListener("change",updateCompletionTracker);
 
 });
