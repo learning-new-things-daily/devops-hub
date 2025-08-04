@@ -297,3 +297,36 @@ updateCompletionTracker();
 document.getElementById("pace-select").addEventListener("change",updateCompletionTracker);
 
 });
+
+// ======== PWA Install Prompt ========
+let deferredPrompt;
+const installBanner = document.getElementById("install-banner");
+const installBtn = document.getElementById("install-btn");
+
+window.addEventListener("beforeinstallprompt", (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+
+  // Only show on mobile
+  if (/Mobi|Android/i.test(navigator.userAgent)) {
+    // Check if dismissed before
+    const lastDismiss = localStorage.getItem("installDismissed");
+    const now = Date.now();
+    if (!lastDismiss || now - parseInt(lastDismiss) > 7 * 24 * 60 * 60 * 1000) {
+      installBanner.style.display = "flex";
+    }
+  }
+});
+
+installBtn.addEventListener("click", async () => {
+  if (!deferredPrompt) return;
+  deferredPrompt.prompt();
+  const { outcome } = await deferredPrompt.userChoice;
+  console.log(`User response: ${outcome}`);
+
+  installBanner.style.display = "none";
+  if (outcome !== "accepted") {
+    localStorage.setItem("installDismissed", Date.now().toString());
+  }
+  deferredPrompt = null;
+});

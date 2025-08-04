@@ -5,6 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>DevOps Roadmap - Interactive Learning</title>
 
+  <!-- PWA Manifest & Icons -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#0d1117">
+  <link rel="icon" href="icons/icon-192.png" type="image/png">
+
   <!-- Styles -->
   <link rel="stylesheet" href="style.css">
 
@@ -15,6 +20,17 @@
 
   <!-- Our Script -->
   <script src="script.js" defer></script>
+
+  <!-- Service Worker Registration -->
+  <script>
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker.register("service-worker.js")
+          .then(reg => console.log("SW registered:", reg))
+          .catch(err => console.log("SW registration failed:", err));
+      });
+    }
+  </script>
 </head>
 <body>
 
@@ -38,6 +54,31 @@
 </div>
 
 <div id="mindmap-container"></div>
+
+<!-- Install Prompt Banner -->
+<div id="install-banner" style="
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #161b22;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
+  display: none;
+  z-index: 9999;
+">
+  <span style="margin-right: 10px;">📲 Install DevOps Roadmap?</span>
+  <button id="install-btn" style="
+    background:#4CAF50; 
+    border:none; 
+    color:white; 
+    padding:6px 12px; 
+    border-radius:4px; 
+    cursor:pointer;
+  ">Install</button>
+</div>
 
 </body>
 </html>
