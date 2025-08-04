@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       node.title = `Estimated time: ${val.time || "0 days"}`;
 
       // Determine color
-      let nodeColor = parentColor || nodeColors[colorIndex++ % nodeColors.length];
+      let nodeColor = val.color || parentColor || nodeColors[colorIndex++ % nodeColors.length];
       node.style.background = nodeColor;
 
       const childrenDiv = document.createElement("div");
