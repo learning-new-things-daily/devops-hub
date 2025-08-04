@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="250" height="250">
+
+  <!-- 1️⃣ Circle Outline (draw effect) -->
+  <circle cx="256" cy="256" r="240" fill="none" stroke="#000" stroke-width="20"
+          stroke-dasharray="1508" stroke-dashoffset="1508">
+    <animate attributeName="stroke-dashoffset" from="1508" to="0" dur="2s" fill="freeze"/>
+  </circle>
+
+  <!-- 2️⃣ Ansible "A" Outline (draw effect) -->
+  <path d="M355.3 373.7L265.6 151.5c-1.6-4.3-5.8-7.2-10.5-7.2s-8.9 2.9-10.5 7.2l-88.4 222.2
+           c-2.3 5.8.5 12.4 6.3 14.7 5.8 2.3 12.4-.5 14.7-6.3l23.5-59.1h108.8l23.5 59.1
+           c1.8 4.6 6.2 7.4 10.8 7.4 1.4 0 2.8-.3 4.2-.8 5.7-2.4 8.5-8.9 6.1-14.7z
+           M215.7 282.4l40.5-102 40.5 102h-81z"
+        fill="none" stroke="#000" stroke-width="20" stroke-linejoin="round"
+        stroke-dasharray="1200" stroke-dashoffset="1200">
+    <animate attributeName="stroke-dashoffset" from="1200" to="0" dur="2s" begin="0.5s" fill="freeze"/>
+  </path>
+
+  <!-- 3️⃣ Final Filled Logo (fade in) -->
+  <g opacity="0">
+    <circle cx="256" cy="256" r="256" fill="#000"/>
+    <path d="M355.3 373.7L265.6 151.5c-1.6-4.3-5.8-7.2-10.5-7.2s-8.9 2.9-10.5 7.2l-88.4 222.2
+             c-2.3 5.8.5 12.4 6.3 14.7 5.8 2.3 12.4-.5 14.7-6.3l23.5-59.1h108.8l23.5 59.1
+             c1.8 4.6 6.2 7.4 10.8 7.4 1.4 0 2.8-.3 4.2-.8 5.7-2.4 8.5-8.9 6.1-14.7z
+             M215.7 282.4l40.5-102 40.5 102h-81z"
+          fill="#fff"/>
+    <animate attributeName="opacity" from="0" to="1" dur="1s" begin="2.8s" fill="freeze"/>
+  </g>
+
+</svg>

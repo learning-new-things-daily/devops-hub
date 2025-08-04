@@ -1,0 +1,54 @@
+body {
+  background:#0d1117;
+  color:#fff;
+  font-family:Arial;
+  margin:0;
+}
+
+#top-bar {
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  padding:10px 20px;
+  background:#161b22;
+  position:sticky;
+  top:0;
+  z-index:1000;
+}
+
+#top-bar button,
+#top-bar select { margin:5px; }
+
+#completion-tracker { margin:5px 0; flex:1; }
+
+#progress-donut {
+  width:40px !important;
+  height:40px !important;
+  margin-left:20px;
+  cursor:pointer;
+}
+
+#mindmap-container { padding:20px; }
+
+.node {
+  display:inline-block;
+  padding:6px 10px;
+  margin:5px;
+  border-radius:6px;
+  background:#333;
+  cursor:pointer;
+  transition:0.2s;
+  font-size:14px;
+}
+
+@media (max-width:600px) {
+  .node { font-size:12px; padding:4px 6px; }
+}
+
+.node.completed { background:#4CAF50; }
+.node.learning { background:#f1c40f; color:#000; }
+
+.children { display:none; margin-left:30px; }
+.children.visible { display:block; }
+
+a { text-decoration:none; }

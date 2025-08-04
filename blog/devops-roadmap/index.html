@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>DevOps Roadmap - Interactive Learning</title>
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="style.css">
+
+  <!-- External Libraries -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" defer></script>
+
+  <!-- Our Script -->
+  <script src="script.js" defer></script>
+</head>
+<body>
+
+<div id="top-bar">
+  <button id="pdfBtn">Export PDF</button>
+
+  <label for="pace-select" style="color:white;font-size:14px;margin-left:20px;">
+    Learning Pace:
+  </label>
+  <select id="pace-select" style="margin-left:5px;">
+    <option value="1">1 day per roadmap day (Default)</option>
+    <option value="0.5">2 roadmap days per real day (Fast)</option>
+    <option value="2">0.5 roadmap day per real day (Slow)</option>
+  </select>
+
+  <span id="completion-tracker" style="color:white;font-size:14px;margin-left:20px;">
+    Estimated Completion: TBD
+  </span>
+
+  <canvas id="progress-donut"></canvas>
+</div>
+
+<div id="mindmap-container"></div>
+
+</body>
+</html>
