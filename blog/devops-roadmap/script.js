@@ -330,3 +330,126 @@ installBtn.addEventListener("click", async () => {
   }
   deferredPrompt = null;
 });
+
+// ======== GOOGLE DRIVE SYNC ========
+
+// Replace with your Google API credentials
+const CLIENT_ID = "YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com";
+const API_KEY = "YOUR_GOOGLE_API_KEY";
+const DISCOVERY_DOCS = ["https://www.googleapis.com/discovery/v1/apis/drive/v3/rest"];
+const SCOPES = "https://www.googleapis.com/auth/drive.appdata";
+
+const syncBtn = document.getElementById("syncBtn");
+let isSignedIn = false;
+let syncFileId = null;
+
+// Load gapi on window load
+window.addEventListener("load", () => {
+  gapi.load("client:auth2", initClient);
+});
+
+function initClient() {
+  gapi.client
+    .init({
+      apiKey: API_KEY,
+      clientId: CLIENT_ID,
+      discoveryDocs: DISCOVERY_DOCS,
+      scope: SCOPES,
+    })
+    .then(() => {
+      // Listen for sign-in state
+      gapi.auth2.getAuthInstance().isSignedIn.listen(updateSigninStatus);
+      updateSigninStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
+    });
+}
+
+function updateSigninStatus(signedIn) {
+  isSignedIn = signedIn;
+  if (signedIn) {
+    syncBtn.textContent = "☁️ Sync Now";
+    findOrCreateFile();
+  } else {
+    syncBtn.textContent = "☁️ Sign in & Sync";
+  }
+}
+
+syncBtn.addEventListener("click", () => {
+  if (!isSignedIn) {
+    gapi.auth2.getAuthInstance().signIn();
+  } else {
+    uploadProgress();
+  }
+});
+
+// ---- Google Drive Helpers ----
+function findOrCreateFile() {
+  gapi.client.drive.files.list({
+    spaces: 'appDataFolder',
+    fields: 'files(id, name)',
+    q: "name='devops_roadmap_progress.json'",
+  }).then(response => {
+    const files = response.result.files;
+    if (files && files.length > 0) {
+      syncFileId = files[0].id;
+      console.log("Found existing sync file:", syncFileId);
+      downloadProgress();
+    } else {
+      createSyncFile();
+    }
+  });
+}
+
+function createSyncFile() {
+  const fileMetadata = {
+    name: 'devops_roadmap_progress.json',
+    parents: ['appDataFolder']
+  };
+  const fileContent = JSON.stringify(nodeStatus, null, 2);
+  const file = new Blob([fileContent], { type: 'application/json' });
+  const metadata = new FormData();
+  metadata.append('metadata', new Blob([JSON.stringify(fileMetadata)], { type: 'application/json' }));
+  metadata.append('file', file);
+
+  fetch('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart', {
+    method: 'POST',
+    headers: new Headers({ 'Authorization': 'Bearer ' + gapi.auth.getToken().access_token }),
+    body: metadata
+  }).then(r => r.json()).then(file => {
+    syncFileId = file.id;
+    console.log('Created new sync file:', file);
+  });
+}
+
+function uploadProgress() {
+  if (!syncFileId) return createSyncFile();
+  
+  const fileContent = JSON.stringify(nodeStatus, null, 2);
+  fetch(`https://www.googleapis.com/upload/drive/v3/files/${syncFileId}?uploadType=media`, {
+    method: 'PATCH',
+    headers: {
+      'Authorization': 'Bearer ' + gapi.auth.getToken().access_token,
+      'Content-Type': 'application/json'
+    },
+    body: fileContent
+  }).then(r => r.json()).then(resp => {
+    console.log("Progress synced to Drive:", resp);
+  });
+}
+
+function downloadProgress() {
+  if (!syncFileId) return;
+  gapi.client.drive.files.get({
+    fileId: syncFileId,
+    alt: 'media'
+  }).then(response => {
+    const driveData = response.body ? JSON.parse(response.body) : {};
+    console.log("Downloaded progress from Drive:", driveData);
+
+    // Merge local and remote progress
+    nodeStatus = { ...driveData, ...nodeStatus };
+    localStorage.setItem("nodeStatus", JSON.stringify(nodeStatus));
+    
+    updateCompletionTracker();
+    updateDonutChart();
+  });
+}
