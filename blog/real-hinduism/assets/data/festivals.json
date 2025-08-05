@@ -1,0 +1,50 @@
+[
+  {
+    "id": "diwali",
+    "title": "Diwali – Festival of Lights",
+    "date": "October / November",
+    "short": "Victory of light over darkness.",
+    "image": "assets/images/diwali-lights.jpg",
+    "description": "Diwali marks the return of Lord Rama to Ayodhya after defeating Ravana. It symbolizes the victory of light over darkness and knowledge over ignorance. Families light diyas, perform Laxmi puja, and celebrate with sweets and fireworks."
+  },
+  {
+    "id": "holi",
+    "title": "Holi – Festival of Colors",
+    "date": "February / March",
+    "short": "Festival of colors and spring joy.",
+    "image": "assets/images/holi-festival.jpg",
+    "description": "Holi celebrates the arrival of spring and the victory of good over evil. The night before Holi, Holika Dahan is performed to burn negativity. The next day, people play with colors, symbolizing joy, equality, and new beginnings."
+  },
+  {
+    "id": "janmashtami",
+    "title": "Janmashtami – Birth of Lord Krishna",
+    "date": "August",
+    "short": "Birth of Lord Krishna.",
+    "image": "assets/images/janmashtami.jpg",
+    "description": "Janmashtami marks the divine birth of Lord Krishna, the 8th avatar of Vishnu. Devotees fast, sing bhajans, and recreate Krishna's childhood pastimes. Dahi Handi events reflect Krishna’s playful nature."
+  },
+  {
+    "id": "navratri",
+    "title": "Navratri – Nine Nights of Devotion",
+    "date": "March / October",
+    "short": "Dedicated to Goddess Durga.",
+    "image": "assets/images/navratri.jpg",
+    "description": "Navratri is dedicated to Goddess Durga and her nine forms. Each night signifies the triumph of good over evil. People perform Garba, observe fasts, and honor feminine energy (Shakti) during these sacred nine nights."
+  },
+    {
+        "id": "raksha-bandhan",
+        "title": "Raksha Bandhan – Bond of Protection",
+        "date": "August",
+        "short": "Celebration of sibling love.",
+        "image": "assets/images/raksha-bandhan.jpg",
+        "description": "Raksha Bandhan celebrates the bond between brothers and sisters. Sisters tie a protective thread (rakhi) on their brothers' wrists, symbolizing love and duty. Brothers promise to protect their sisters in return."
+    },
+    {
+        "id": "makar-sankranti",
+        "title": "Makar Sankranti – Harvest Festival",
+        "date": "January",
+        "short": "Harvest festival marking the sun's transition.",
+        "image": "assets/images/makar-sankranti.jpg",
+        "description": "Makar Sankranti marks the sun's transition into Capricorn (Makara). It is a harvest festival celebrated with kite flying, feasting on sesame sweets, and taking holy dips in rivers. It signifies new beginnings and prosperity."
+    }
+]

@@ -1,0 +1,38 @@
+[
+  {
+    "id": "nyaya",
+    "title": "Nyaya – Logic and Epistemology",
+    "short": "Focuses on reasoning and valid knowledge.",
+    "description": "Nyaya is the school of logic and epistemology in Hindu philosophy. It provides tools for reasoning and understanding truth using valid means of knowledge, called 'pramanas'."
+  },
+  {
+    "id": "vaisheshika",
+    "title": "Vaisheshika – Atomic Theory and Natural Laws",
+    "short": "Explains the universe through atoms and categories.",
+    "description": "Vaisheshika explains that the physical universe is made up of indivisible atoms (anu) and classifies reality into categories like substance, quality, activity, universality, and individuality."
+  },
+  {
+    "id": "sankhya",
+    "title": "Sankhya – Dualism of Purusha and Prakriti",
+    "short": "Divides reality into consciousness and matter.",
+    "description": "Sankhya is a dualistic philosophy that differentiates between Purusha (consciousness) and Prakriti (matter). Liberation occurs when the soul realizes its distinction from material nature."
+  },
+  {
+    "id": "yoga",
+    "title": "Yoga – Path to Liberation",
+    "short": "Practical method for self-realization.",
+    "description": "Yoga, based on Patanjali's Yoga Sutras, focuses on disciplining the body and mind to achieve liberation. It includes eight steps (Ashtanga Yoga) like meditation, ethics, and concentration."
+  },
+  {
+    "id": "mimamsa",
+    "title": "Mimamsa – Rituals and Dharma",
+    "short": "Emphasizes Vedic rituals and duties.",
+    "description": "Mimamsa explains the significance of performing Vedic rituals and living according to dharma. It focuses on right action to maintain cosmic order and attain spiritual merit."
+  },
+  {
+    "id": "vedanta",
+    "title": "Vedanta – Ultimate Self-Knowledge",
+    "short": "Explores the nature of the self and Brahman.",
+    "description": "Vedanta, based on the Upanishads, Bhagavad Gita, and Brahma Sutras, teaches that the individual self (Atman) is one with the Supreme Reality (Brahman). Liberation comes from self-knowledge."
+  }
+]
