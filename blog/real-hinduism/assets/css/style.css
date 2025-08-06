@@ -282,3 +282,14 @@ nav ul li a:hover, .active {
   background: #ffd700;
   color: #000;
 }
+
+#shareCopy {
+  background-color: #6c757d;
+  border: none;
+  cursor: pointer;
+} 
+
+/* .whatsapp { background-color: #25D366; }
+.twitter { background-color: #1DA1F2; }
+.facebook { background-color: #1877F2; }
+.telegram { background-color: #0088cc; } */
