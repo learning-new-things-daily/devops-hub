@@ -26,20 +26,40 @@
 
   <section class="content">
     <h1>Myths vs Reality</h1>
-    <p>Discover the truth about Hinduism beyond common misconceptions.  
-    Click a card to read the detailed explanation.</p>
-  </section>
+    <p>Discover the truth about Hinduism beyond common misconceptions. 
+      Search or filter by category to explore.</p>
+      <div style="text-align:center; margin:20px 0;">
+        <input type="text" id="myth-search" placeholder="🔍 Search myths..."
+                style="padding:10px;width:60%;max-width:400px;border:1px solid #ccc;border-radius:5px;margin-right:10px;">
+        <select id="myth-category" style="padding:10px;border-radius:5px;">
+          <option value="all">All Categories</option>
+          <option value="scripture">Scripture Myths</option>
+          <option value="social">Social Myths</option>
+          <option value="historical">Historical Myths</option>
+        </select>
+      </div>
 
   <!-- Dynamic Myths Grid -->
-  <section class="myths-grid festival-grid"></section>
+  <section class="myths-grid festival-grid" id="myths-container"></section>
 
   <!-- Modal for Myths -->
   <div class="modal" id="mythModal">
     <div class="modal-content">
       <span class="close-btn" id="closeModal">&times;</span>
       <h2 id="modalTitle"></h2>
+      <p id="modalShort"></p>
       <p id="modalDescription"></p>
-    </div>
+      <div id="modalProofs"></div>
+      <div id="modalReferences"></div>
+      <div class="share-buttons">
+        <p>Share this myth:</p>
+        <button id="shareCopy" class="share-btn">📋 Copy Link</button>
+        <a id="shareWhatsApp" class="share-btn" target="_blank">💬 WhatsApp</a>
+        <a id="shareTwitter" class="share-btn" target="_blank">🐦 Twitter</a>
+        <a id="shareFacebook" class="share-btn" target="_blank">📘 Facebook</a>
+        <a id="shareTelegram" class="share-btn" target="_blank">✈️ Telegram</a>
+      </div>
+    </div>  
   </div>
 
   <footer>

@@ -3,24 +3,125 @@
     "id": "polytheism",
     "title": "Myth: Hinduism is Polytheistic",
     "short": "Reality: One Supreme Reality (Brahman) expressed in many forms.",
-    "description": "Hinduism ultimately speaks of a single Supreme Reality, called Brahman, which manifests as various deities to aid different devotees in their spiritual path. Multiple forms are expressions of the same truth."
+    "description": "Hinduism ultimately speaks of a single Supreme Reality...",
+    "category": "scripture",
+    "proofs": ["Rig Veda 1.164.46 – 'Truth is One, sages call it by many names.'"],
+    "references": [
+      {"text": "Rig Veda 1.164.46", "url": "https://www.hinduwebsite.com/sacredscripts/rig_veda.asp"}
+    ]
   },
   {
+    "id": "sati-pratha",
+    "title": "Myth: Sati Pratha is Core to Hinduism",
+    "short": "Reality: Sati was a social evil, not Vedic practice.",
+    "description": "Sati was never prescribed in Vedas; it emerged in medieval times...",
+    "category": "social",
+    "proofs": [
+      "Rig Veda 10.18.7 encourages widows to return to society, not self-immolate.",
+      "Historical evidence shows Sati emerged in medieval India, not in Vedic times."
+    ],
+    "references": [
+      {"text": "Sati Abolition Act 1829", "url": "https://en.wikipedia.org/wiki/Sati_(practice)"},
+      {"text": "Rig Veda 10.18.7", "url": "https://www.wisdomlib.org/hinduism/book/rig-veda-english-translation/d/doc838695.html  "}
+    ]
+  },
+{
     "id": "idol-worship",
     "title": "Myth: Idol Worship is Blind Faith",
     "short": "Reality: Idols help focus the mind during worship.",
-    "description": "Idols are symbolic representations that help devotees concentrate and meditate on the divine. They are tools for spiritual focus, not objects of superstition."
+    "description": "Idols are symbolic representations that help devotees concentrate and meditate on the divine. They are tools for spiritual focus, not objects of superstition.",
+    "category": "scripture",
+    "proofs": [
+      "Idol worship is explained as a support for the mind in meditation in Bhagavad Gita 12.2-5.",
+      "Ancient temples are designed as symbolic representations of cosmic principles."
+    ],
+    "references": [
+      {
+        "type": "scripture",
+        "text": "Bhagavad Gita 12.2-5"
+      }
+    ]
   },
   {
     "id": "caste-system",
     "title": "Myth: Caste System is Core to Hinduism",
     "short": "Reality: Original Varna system was based on qualities, not birth.",
-    "description": "Ancient Hindu texts describe Varna based on one's nature (Guna) and duties (Karma). Discrimination by birth is a later distortion, not part of true Sanatana Dharma."
+    "description": "Ancient Hindu texts describe Varna based on one's nature (Guna) and duties (Karma). Discrimination by birth is a later distortion, not part of true Sanatana Dharma.",
+    "category": "scripture",
+    "proofs": [
+      "Bhagavad Gita 4.13 – Krishna declares that the Varna system is based on Guna (qualities) and Karma (actions).",
+      "Birth-based caste discrimination is not supported in core scriptures."
+    ],
+    "references": [
+      {
+        "type": "scripture",
+        "text": "Bhagavad Gita 4.13"
+      },
+      {
+        "type": "scripture",
+        "text": "Rig Veda 10.90.12 - Purusha Sukta describes Varna as cosmic functions, not hierarchy"
+      }
+    ]
   },
   {
     "id": "only-rituals",
     "title": "Myth: Hinduism is Only Rituals",
     "short": "Reality: Its essence is self-realization and dharma.",
-    "description": "While rituals exist, Hinduism emphasizes spiritual growth, self-realization, and living in harmony with dharma. Meditation, devotion, and righteous action are central practices."
+    "description": "While rituals exist, Hinduism emphasizes spiritual growth, self-realization, and living in harmony with dharma. Meditation, devotion, and righteous action are central practices.",
+    "category": "scripture",
+    "proofs": [
+      "Katha Upanishad and Bhagavad Gita emphasize knowledge and self-realization over rituals.",
+      "Bhagavad Gita 9.26 teaches devotion and simplicity in worship over ritual complexity."
+    ],
+    "references": [
+      {
+        "type": "scripture",
+        "text": "Bhagavad Gita 9.26"
+      },
+      {
+        "type": "scripture",
+        "text": "Katha Upanishad 2.23"
+      }
+    ]
+  },
+  {
+    "id": "ramayan-vs-ramcharitmanas",
+    "title": "Myth: Ramayana and Ramcharitmanas are the Same",
+    "short": "Reality: They are different works from different times and languages.",
+    "description": "Valmiki's Ramayana is the original Sanskrit epic written in ancient times, focusing on Lord Rama's life and dharma. Tulsidas' Ramcharitmanas, written in Awadhi in the 16th century, retells the story with a devotional and poetic emphasis for the common people.",
+    "category": "scripture",
+    "proofs": [
+      "Valmiki Ramayana has ~24,000 verses in Sanskrit; Ramcharitmanas is in Awadhi with ~12,000 verses.",
+      "Ramcharitmanas is a Bhakti-era retelling emphasizing devotion."
+    ],
+    "references": [
+      {
+        "type": "external",
+        "text": "Valmiki Ramayana vs Ramcharitmanas - ISKCON Article",
+        "url": "https://www.iskconnews.org/ramayana-vs-ramcharitmanas"
+      }
+    ]
+  },
+  {
+    "id": "gita-vs-bhagwat",
+    "title": "Myth: Bhagavad Gita and Shrimad Bhagavatam are the Same",
+    "short": "Reality: They are distinct texts with different focuses.",
+    "description": "The Bhagavad Gita is a 700-verse dialogue between Krishna and Arjuna in the Mahabharata, focusing on dharma and self-realization. The Shrimad Bhagavatam (Bhagavata Purana) is a devotional text narrating the life and teachings of Lord Krishna and other avatars, emphasizing bhakti (devotion).",
+    "category": "scripture",
+    "proofs": [
+      "Bhagavad Gita is part of Mahabharata (Bhishma Parva).",
+      "Shrimad Bhagavatam is one of the 18 Puranas with 12 cantos."
+    ],
+    "references": [
+      {
+        "type": "scripture",
+        "text": "Mahabharata - Bhishma Parva"
+      },
+      {
+        "type": "external",
+        "text": "Difference between Gita and Bhagavatam",
+        "url": "https://vedabase.io/en/library/bg/"
+      }
+    ]
   }
 ]
