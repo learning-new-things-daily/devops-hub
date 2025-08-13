@@ -1,12 +1,39 @@
 /* sty */
 /* === GLOBAL === */
+html {
+  box-sizing: border-box;
+  width: 100vw;
+  overflow-x: hidden;
+}
+
 body {
   font-family: 'Segoe UI', Tahoma, sans-serif;
   background-color: #0d1117;
   color: #ffffff;
   margin: 0;
-  padding: 20px;
+  padding: 8px;
   line-height: 1.5;
+  font-size: 1.08em;
+  -webkit-tap-highlight-color: transparent; /* Remove tap highlight on mobile */
+}
+
+/* Add a container for content width control */
+.main-container {
+  max-width: 900px;
+  margin: auto;
+  background: transparent;
+}
+
+button, .about-btn, select, label, .node {
+  min-width: 44px;
+  min-height: 44px;
+  font-size: 1em;
+  touch-action: manipulation;
+}
+
+input[type="checkbox"], input[type="file"] {
+  min-width: 24px;
+  min-height: 24px;
 }
 
 h1 {
@@ -50,6 +77,10 @@ select {
   padding: 5px;
   margin-top: 5px;
   border-radius: 4px;
+  min-width: 44px;
+  min-height: 44px;
+  font-size: 1em;
+  touch-action: manipulation;
 }
 
 /* === COMPLETION TRACKER === */
@@ -219,9 +250,44 @@ textarea {
   font-size: 1.05em;
   box-shadow: 0 2px 8px rgba(33,150,243,0.12);
   transition: background 0.2s;
+  min-width: 44px;
+  min-height: 44px;
 }
 
 .about-btn:hover, .about-btn:focus {
   background: #1769aa;
   text-decoration: underline;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 600px) {
+  .main-container {
+    max-width: 100vw;
+  }
+  body {
+    font-size: 1em;
+    padding: 4px;
+  }
+  #controls {
+    flex-direction: column;
+    gap: 12px;
+    align-items: stretch;
+  }
+  .about-btn {
+    width: 100%;
+    text-align: center;
+    font-size: 1.1em;
+    padding: 12px 0;
+  }
+  canvas, #mindmap-container {
+    max-width: 100%;
+  }
+  h1 {
+    font-size: 1.4em;
+  }
+}
+
+/* Prevent horizontal scroll on mobile */
+body, html {
+  overflow-x: hidden;
 }
