@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="style.css">
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#0d1117">
+  <meta name="description" content="Track your DevOps learning progress with this interactive roadmap tracker.">
 
   <!-- External Libraries -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -21,12 +22,12 @@
   <h1>📊 DevOps Learning Roadmap Tracker</h1>
 
   <div id="controls">
-    <button id="pdfBtn">📄 Export Progress as PDF</button>
-    <button id="backupBtn">💾 Download Backup</button>
-    <label>
+    <button id="pdfBtn" aria-label="Export progress as PDF">📄 Export Progress as PDF</button>
+    <button id="backupBtn" aria-label="Download backup">💾 Download Backup</button>
+    <label for="autoBackupToggle">
       <input type="checkbox" id="autoBackupToggle"> Auto Backup
     </label>
-    <button id="importBtn">📂 Import Backup</button>
+    <button id="importBtn" aria-label="Import backup">📂 Import Backup</button>
     <input type="file" id="importFile" accept=".zip" style="display:none">
   </div>
 
