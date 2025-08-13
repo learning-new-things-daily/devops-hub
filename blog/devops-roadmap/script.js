@@ -377,7 +377,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     const a = document.createElement("a");
     a.href = url;
     a.download = `DevOps_Roadmap_Backup_${new Date().toISOString().split("T")[0]}.zip`;
+    document.body.appendChild(a); // Ensure it's in the DOM
     a.click();
+    document.body.removeChild(a); // Clean up
     URL.revokeObjectURL(url);
     fireConfetti();
   });
