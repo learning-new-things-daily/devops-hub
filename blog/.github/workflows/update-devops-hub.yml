@@ -20,7 +20,7 @@ jobs:
 
       - name: Clone Devops Hub & Update Submodule
         run: |
-          git clone https://x-access-token:${{ secrets.DEVOPS_HUB_TOKEN }}@github.com/mukulmj/devops-hub.git
+          git clone https://x-access-token:${{ secrets.DEVOPS_HUB_TOKEN }}@github.com/learning-new-things-daily/devops-hub.git
           cd devops-hub
           git submodule update --init --remote blog
           git add blog
