@@ -206,3 +206,22 @@ textarea {
   cursor: pointer;
   color: #fff;
 }
+
+/* About Button */
+.about-btn {
+  display: inline-block;
+  background: #2196F3;
+  color: #fff !important;
+  padding: 8px 18px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 1.05em;
+  box-shadow: 0 2px 8px rgba(33,150,243,0.12);
+  transition: background 0.2s;
+}
+
+.about-btn:hover, .about-btn:focus {
+  background: #1769aa;
+  text-decoration: underline;
+}
