@@ -455,14 +455,31 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (confirm('Have you downloaded a backup? Click OK to continue, Cancel to abort.')) {
       const confirmation = prompt('Type "RESET MY PROGRESS" to confirm:');
       if (confirmation === 'RESET MY PROGRESS') {
-        // Reset progress logic here
-        // Example: localStorage.clear(); or reset your app state variables
+        // Clear relevant localStorage keys
+        localStorage.removeItem("nodeStatus");
+        localStorage.removeItem("userXP");
+        localStorage.removeItem("userLevel");
+        localStorage.removeItem("badges");
+        localStorage.removeItem("streak");
+        localStorage.removeItem("lastLogin");
+
+        // Reset in-memory variables if needed
+        nodeStatus = {};
+        userXP = 0;
+        userLevel = 1;
+        badges = [];
+        streak = 0;
+        lastLogin = "";
 
         // Re-render UI components
-        renderProgress();
-        renderMindmap();
+        updateXPBar();
+        checkBadges();
+        updateCompletionTracker();
+        updateDonutChart();
 
+        // Optionally reload the page for a clean state
         alert('All progress has been reset.');
+        location.reload();
       } else {
         alert('Reset cancelled. Confirmation phrase not matched.');
       }
