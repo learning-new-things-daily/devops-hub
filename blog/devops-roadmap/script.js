@@ -396,7 +396,34 @@ document.addEventListener("DOMContentLoaded", async () => {
   });
 
   // Import Backup
-  importBtn.addEventListener("click", () => importFile.click());
+  document.getElementById('importBtn').addEventListener('click', () => {
+    document.getElementById('importFile').click();
+  });
+
+  document.getElementById('importFile').addEventListener('change', async (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const zip = new JSZip();
+    try {
+      const content = await zip.loadAsync(file);
+      // Assume backup.json is inside the zip
+      const backupData = await content.file('backup.json').async('string');
+      const parsedData = JSON.parse(backupData);
+
+      // Update your app state here, e.g.:
+      // updateProgress(parsedData.progress);
+      // updateMindmap(parsedData.mindmap);
+
+      // Re-render UI components
+      renderProgress();
+      renderMindmap();
+
+      alert('Backup imported successfully!');
+    } catch (err) {
+      alert('Failed to import backup: ' + err.message);
+    }
+  });
 
   importFile.addEventListener("change", async (event) => {
     const file = event.target.files[0];
