@@ -384,14 +384,44 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   // Auto Backup
   let autoBackupInterval = null;
+  let checkpointTimerInterval = null;
+  const checkpointTimer = document.getElementById("checkpoint-timer");
+
   autoBackupToggle.addEventListener("change", () => {
     if (autoBackupToggle.checked) {
+      let secondsLeft = 60;
+      checkpointTimer.textContent = `Next checkpoint in ${secondsLeft}s`;
+
+      checkpointTimerInterval = setInterval(() => {
+        secondsLeft--;
+        checkpointTimer.textContent = `Next checkpoint in ${secondsLeft}s`;
+        if (secondsLeft <= 0) secondsLeft = 60;
+      }, 1000);
+
+      alert(
+        "Checkpoint Save Enabled!\n\n" +
+        "Your progress will be automatically saved as a checkpoint every minute in your browser's local storage.\n" +
+        "This does NOT create a downloadable backup file, but lets you restore your progress if you close or refresh the page.\n\n" +
+        "Tip: For full safety, use the Download Backup button before major resets!"
+      );
       autoBackupInterval = setInterval(() => {
-        localStorage.setItem("autoBackupData", localStorage.getItem("nodeStatus") || "{}");
-        console.log("Auto backup saved to localStorage");
-      }, 60000); // 1 minute
+        const checkpointData = {
+          nodeStatus: localStorage.getItem("nodeStatus") || "{}",
+          userXP: localStorage.getItem("userXP") || "0",
+          userLevel: localStorage.getItem("userLevel") || "1",
+          badges: localStorage.getItem("badges") || "[]",
+          streak: localStorage.getItem("streak") || "0",
+          lastLogin: localStorage.getItem("lastLogin") || ""
+        };
+        localStorage.setItem("checkpointSave", JSON.stringify(checkpointData));
+        console.log("Checkpoint saved to localStorage as 'checkpointSave'");
+        secondsLeft = 60; // reset timer after backup
+      }, 60000); // every 1 minute
     } else {
       clearInterval(autoBackupInterval);
+      clearInterval(checkpointTimerInterval);
+      checkpointTimer.textContent = "";
+      alert("Checkpoint Save Disabled.\n\nYour progress will no longer be auto-saved as checkpoints.");
     }
   });
 

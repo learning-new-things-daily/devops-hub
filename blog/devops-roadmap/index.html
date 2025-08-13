@@ -24,8 +24,9 @@
   <div id="controls">
     <button id="pdfBtn" aria-label="Export progress as PDF">📄 Export Progress as PDF</button>
     <button id="backupBtn" aria-label="Download backup">💾 Download Backup</button>
-    <label for="autoBackupToggle">
-      <input type="checkbox" id="autoBackupToggle"> Auto Backup
+    <label for="autoBackupToggle" style="font-weight:bold;">
+      <input type="checkbox" id="autoBackupToggle"> Enable Checkpoint Save
+      <span style="font-size:0.9em;color:#888;">(auto-save progress every minute)</span>
     </label>
     <button id="importBtn" aria-label="Import backup">📂 Import Backup</button>
     <input type="file" id="importFile" accept=".zip" style="display:none">
@@ -53,6 +54,8 @@
     Install this app? 
     <button id="install-btn">Install</button>
   </div>
+
+  <span id="checkpoint-timer" style="margin-left:10px;color:#4CAF50;font-size:0.95em;"></span>
 
   <script src="script.js"></script>
 </body>
