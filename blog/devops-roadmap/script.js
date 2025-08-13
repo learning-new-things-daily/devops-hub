@@ -449,4 +449,23 @@ document.addEventListener("DOMContentLoaded", async () => {
     fireConfetti();
     location.reload();
   });
+
+  document.getElementById('resetBtn').addEventListener('click', () => {
+    alert('Warning: Resetting will erase ALL your progress. Please take a backup before proceeding!');
+    if (confirm('Have you downloaded a backup? Click OK to continue, Cancel to abort.')) {
+      const confirmation = prompt('Type "RESET MY PROGRESS" to confirm:');
+      if (confirmation === 'RESET MY PROGRESS') {
+        // Reset progress logic here
+        // Example: localStorage.clear(); or reset your app state variables
+
+        // Re-render UI components
+        renderProgress();
+        renderMindmap();
+
+        alert('All progress has been reset.');
+      } else {
+        alert('Reset cancelled. Confirmation phrase not matched.');
+      }
+    }
+  });
 });
