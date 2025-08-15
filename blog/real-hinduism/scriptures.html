@@ -8,7 +8,7 @@
 </head>
 <body>
   <header>
-    <div class="logo">🕉 Real Hinduism</div>
+    <a href="index.html" class="logo" aria-label="Go to Home">🕉 Real Hinduism</a>
     <div class="menu-toggle" id="menu-toggle">☰</div>
     <nav>
         <ul id="nav-links">
@@ -31,15 +31,15 @@
       Click on a scripture to explore its significance.</p>
   </section>
 
-  <!-- Dynamic Scriptures Grid -->
   <section class="scriptures-grid festival-grid"></section>
 
-  <!-- Modal for Scriptures -->
   <div class="modal" id="scripturesModal">
     <div class="modal-content">
       <span class="close-btn" id="closeModal">&times;</span>
       <h2 id="modalTitle"></h2>
       <p id="modalDescription"></p>
+      <div id="modalReferences"></div>
+      <div id="scriptureShare" class="share-buttons"></div> <!-- Add this line -->
     </div>
   </div>
 

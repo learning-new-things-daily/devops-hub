@@ -63,4 +63,13 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     });
   }
+
+  // === Highlight Active Nav Link ===
+  document.querySelectorAll('#nav-links a').forEach(link => {
+    if (window.location.pathname.endsWith(link.getAttribute('href'))) {
+      link.classList.add('active');
+    } else {
+      link.classList.remove('active');
+    }
+  });
 });

@@ -8,21 +8,21 @@
 </head>
 <body>
   <header>
-    <div class="logo">🕉 Real Hinduism</div>
-    <div class="menu-toggle" id="menu-toggle">☰</div>
-    <nav>
-        <ul id="nav-links">
-        <li><a href="index.html">Home</a></li>
-        <li><a href="about.html">About</a></li>
-        <li><a href="scriptures.html">Scriptures</a></li>
-        <li><a href="philosophy.html">Philosophy</a></li>
-        <li><a href="festivals.html">Festivals</a></li>
-        <li><a href="misconceptions.html" class="active">Myths vs Reality</a></li>
-        <li><a href="daily-quote.html">Daily Quote</a></li>
-        <li><a href="resources.html">Resources</a></li>
-        </ul>
-    </nav>
-  </header>
+  <a href="index.html" class="logo" aria-label="Go to Home">🕉 Real Hinduism</a>
+  <div class="menu-toggle" id="menu-toggle">☰</div>
+  <nav>
+    <ul id="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="scriptures.html">Scriptures</a></li>
+      <li><a href="philosophy.html">Philosophy</a></li>
+      <li><a href="festivals.html">Festivals</a></li>
+      <li><a href="misconceptions.html" class="active">Myths vs Reality</a></li>
+      <li><a href="daily-quote.html">Daily Quote</a></li>
+      <li><a href="resources.html">Resources</a></li>
+    </ul>
+  </nav>
+</header>
 
   <section class="content">
     <h1>Myths vs Reality</h1>
@@ -52,12 +52,22 @@
       <div id="modalProofs"></div>
       <div id="modalReferences"></div>
       <div class="share-buttons">
-        <p>Share this myth:</p>
-        <button id="shareCopy" class="share-btn"><i class="fa fa-copy"></i> Copy Link</button>
-        <a id="shareWhatsApp" class="share-btn whatsapp" target="_blank"><i class="fab fa-whatsapp"></i> WhatsApp</a>
-        <a id="shareTwitter" class="share-btn twitter" target="_blank"><i class="fab fa-twitter"></i> Twitter</a>
-        <a id="shareFacebook" class="share-btn facebook" target="_blank"><i class="fab fa-facebook"></i> Facebook</a>
-        <a id="shareTelegram" class="share-btn telegram" target="_blank"><i class="fab fa-telegram"></i> Telegram</a>
+        <h4>Share this myth:</h4>
+        <button id="shareCopy" title="Copy Link" style="background:none;border:none;cursor:pointer;">
+          <img src="assets/icons/png/link.png" alt="Copy Link" style="height:20px;vertical-align:middle;">
+        </button>
+        <a id="shareWhatsApp" class="whatsapp" target="_blank" title="Share on WhatsApp">
+          <img src="assets/icons/png/WhatsApp.png" alt="WhatsApp" style="height:20px;vertical-align:middle;">
+        </a>
+        <a id="shareTwitter" class="twitter" target="_blank" title="Share on Twitter">
+          <img src="assets/icons/png/Twitter.png" alt="Twitter" style="height:20px;vertical-align:middle;">
+        </a>
+        <a id="shareFacebook" class="facebook" target="_blank" title="Share on Facebook">
+          <img src="assets/icons/png/Facebook.png" alt="Facebook" style="height:20px;vertical-align:middle;">
+        </a>
+        <a id="shareTelegram" class="telegram" target="_blank" title="Share on Telegram">
+          <img src="assets/icons/png/Telegram.png" alt="Telegram" style="height:20px;vertical-align:middle;">
+        </a>
       </div>
     </div>  
   </div>

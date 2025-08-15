@@ -23,19 +23,20 @@ document.addEventListener("DOMContentLoaded", async () => {
       quoteElem.innerHTML = quoteHTML;
 
       // Prepare share text and URL
-      const shareText = `${randomQuote.quote_en} — ${randomQuote.reference}`;
-      const shareUrl = window.location.href;
+      const quoteText = quoteElem.textContent;
+      const pageUrl = window.location.origin + window.location.pathname;
+      const shareText = encodeURIComponent(`${quoteText} (${pageUrl})`);
 
       // Share buttons functionality
       shareCopy.onclick = () => {
-        navigator.clipboard.writeText(`${shareText}\n${shareUrl}`)
+        navigator.clipboard.writeText(pageUrl)
           .then(() => alert("✅ Quote link copied to clipboard!"));
       };
 
-      shareWhatsApp.href = `https://wa.me/?text=${encodeURIComponent(shareText + " " + shareUrl)}`;
-      shareTwitter.href = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}`;
-      shareFacebook.href = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}&quote=${encodeURIComponent(shareText)}`;
-      shareTelegram.href = `https://t.me/share/url?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(shareText)}`;
+      shareWhatsApp.href = `https://wa.me/?text=${shareText}`;
+      shareTwitter.href = `https://twitter.com/intent/tweet?text=${shareText}`;
+      shareFacebook.href = `https://www.facebook.com/sharer/sharer.php?u=${pageUrl}`;
+      shareTelegram.href = `https://t.me/share/url?url=${pageUrl}&text=${shareText}`;
 
     } else {
       quoteElem.textContent = "⚠ No quotes available.";

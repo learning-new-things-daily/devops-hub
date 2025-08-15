@@ -28,6 +28,30 @@ document.addEventListener("DOMContentLoaded", async () => {
         modalTitle.textContent = festival.title;
         modalImage.src = festival.image;
         modalDescription.textContent = festival.description;
+
+        // Share buttons
+        const shareDiv = document.getElementById("festivalShare");
+        const pageUrl = window.location.origin + window.location.pathname + "#" + festival.id;
+        const shareText = encodeURIComponent(`${festival.title} - ${festival.short || ""} (${pageUrl})`);
+        shareDiv.innerHTML = `
+          <h4>Share:</h4>
+          <button onclick="navigator.clipboard.writeText('${pageUrl}');" title="Copy Link" style="background:none;border:none;cursor:pointer;">
+            <img src="assets/icons/png/link.png" alt="Copy Link" style="height:20px;vertical-align:middle;">
+          </button>
+          <a href="https://wa.me/?text=${shareText}" target="_blank" class="whatsapp" title="Share on WhatsApp">
+            <img src="assets/icons/png/WhatsApp.png" alt="WhatsApp" style="height:20px;vertical-align:middle;">
+          </a>
+          <a href="https://twitter.com/intent/tweet?text=${shareText}" target="_blank" class="twitter" title="Share on Twitter">
+            <img src="assets/icons/png/Twitter.png" alt="Twitter" style="height:20px;vertical-align:middle;">
+          </a>
+          <a href="https://www.facebook.com/sharer/sharer.php?u=${pageUrl}" target="_blank" class="facebook" title="Share on Facebook">
+            <img src="assets/icons/png/Facebook.png" alt="Facebook" style="height:20px;vertical-align:middle;">
+          </a>
+          <a href="https://t.me/share/url?url=${pageUrl}&text=${shareText}" target="_blank" class="telegram" title="Share on Telegram">
+            <img src="assets/icons/png/Telegram.png" alt="Telegram" style="height:20px;vertical-align:middle;">
+          </a>
+        `;
+
         modal.style.display = "flex";
       });
     });

@@ -7,23 +7,22 @@
   <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
-  <!-- HEADER / NAVBAR -->
-    <header>
-    <div class="logo">🕉 Real Hinduism</div>
-    <div class="menu-toggle" id="menu-toggle">☰</div>
-    <nav>
-        <ul id="nav-links">
-        <li><a href="index.html" class="active">Home</a></li>
-        <li><a href="about.html">About</a></li>
-        <li><a href="scriptures.html">Scriptures</a></li>
-        <li><a href="philosophy.html">Philosophy</a></li>
-        <li><a href="festivals.html">Festivals</a></li>
-        <li><a href="misconceptions.html">Myths vs Reality</a></li>
-        <li><a href="daily-quote.html">Daily Quote</a></li>
-        <li><a href="resources.html">Resources</a></li>
-        </ul>
-    </nav>
-    </header>
+  <header>
+  <a href="index.html" class="logo" aria-label="Go to Home">🕉 Real Hinduism</a>
+  <div class="menu-toggle" id="menu-toggle">☰</div>
+  <nav>
+    <ul id="nav-links">
+      <li><a href="index.html" class="active">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="scriptures.html">Scriptures</a></li>
+      <li><a href="philosophy.html">Philosophy</a></li>
+      <li><a href="festivals.html">Festivals</a></li>
+      <li><a href="misconceptions.html">Myths vs Reality</a></li>
+      <li><a href="daily-quote.html">Daily Quote</a></li>
+      <li><a href="resources.html">Resources</a></li>
+    </ul>
+  </nav>
+</header>
 
   <!-- HERO SECTION -->
   <section class="hero">
@@ -66,6 +65,24 @@
   <!-- FOOTER -->
   <footer>
     <p>© 2025 Real Hinduism. Dedicated to spreading authentic knowledge of Sanatana Dharma.</p>
+    <div class="share-buttons" style="margin-top:12px;">
+      <span style="font-weight:500;">Share this website:</span>
+      <button onclick="navigator.clipboard.writeText(window.location.href);" title="Copy Link" style="background:none;border:none;cursor:pointer;">
+        <img src="assets/icons/png/link.png" alt="Copy Link" style="height:20px;vertical-align:middle;">
+      </button>
+      <a href="https://wa.me/?text=Check%20out%20Real%20Hinduism%20website%3A%20https%3A%2F%2Freal-hinduism.example.com" target="_blank" class="whatsapp" title="Share on WhatsApp">
+        <img src="assets/icons/png/WhatsApp.png" alt="WhatsApp" style="height:20px;vertical-align:middle;">
+      </a>
+      <a href="https://twitter.com/intent/tweet?text=Check%20out%20Real%20Hinduism%20website%3A%20https%3A%2F%2Freal-hinduism.example.com" target="_blank" class="twitter" title="Share on Twitter">
+        <img src="assets/icons/png/Twitter.png" alt="Twitter" style="height:20px;vertical-align:middle;">
+      </a>
+      <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Freal-hinduism.example.com" target="_blank" class="facebook" title="Share on Facebook">
+        <img src="assets/icons/png/Facebook.png" alt="Facebook" style="height:20px;vertical-align:middle;">
+      </a>
+      <a href="https://t.me/share/url?url=https%3A%2F%2Freal-hinduism.example.com&text=Check%20out%20Real%20Hinduism%20website" target="_blank" class="telegram" title="Share on Telegram">
+        <img src="assets/icons/png/Telegram.png" alt="Telegram" style="height:20px;vertical-align:middle;">
+      </a>
+    </div>
   </footer>
 
   <script src="assets/js/main.js"></script>

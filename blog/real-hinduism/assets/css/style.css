@@ -195,27 +195,25 @@ nav ul li a:hover, .active {
   display: none;
   position: fixed;
   z-index: 1000;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  left: 0; top: 0;
+  width: 100vw; height: 100vh;
   background: rgba(0,0,0,0.7);
   justify-content: center;
   align-items: center;
 }
-
+.modal[style*="display: flex"] {
+  display: flex;
+}
 .modal-content {
   background: #fff;
-  padding: 20px;
-  border-radius: 10px;
-  max-width: 600px;
-  width: 90%;
-  max-height: 80%;
-  overflow-y: auto;
+  color: #222;
+  border-radius: 8px;
+  padding: 24px;
+  max-width: 500px;
+  width: 90vw;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.2);
   position: relative;
-  animation: fadeIn 0.4s ease-in-out;
 }
-
 @keyframes fadeIn {
   from {opacity: 0; transform: translateY(-10px);}
   to {opacity: 1; transform: translateY(0);}
@@ -233,11 +231,11 @@ nav ul li a:hover, .active {
 
 .close-btn {
   position: absolute;
-  top: 10px;
-  right: 15px;
-  font-size: 1.5em;
+  top: 12px;
+  right: 18px;
+  font-size: 2em;
   cursor: pointer;
-  color: #333;
+  color: #888;
 }
 
 .close-btn:hover {
@@ -289,7 +287,44 @@ nav ul li a:hover, .active {
   cursor: pointer;
 } 
 
-/* .whatsapp { background-color: #25D366; }
-.twitter { background-color: #1DA1F2; }
-.facebook { background-color: #1877F2; }
-.telegram { background-color: #0088cc; } */
+.ref-link {
+  color: #2196F3;
+  text-decoration: underline;
+  font-weight: 500;
+  margin-top: 10px;
+  display: inline-block;
+}
+.ref-link:hover {
+  color: #1769aa;
+}
+
+.share-buttons {
+  margin-top: 16px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.share-buttons h4 {
+  margin: 0 10px 0 0;
+  font-size: 1em;
+}
+.share-buttons a, .share-buttons button {
+  padding: 0;
+  border: none;
+  background: none;
+  box-shadow: none;
+  font-size: 0.95em;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.share-buttons .whatsapp,
+.share-buttons .twitter,
+.share-buttons .facebook,
+.share-buttons .telegram {
+  background: none;
+  color: inherit;
+}
+.share-buttons a:hover, .share-buttons button:hover {
+  background: none;
+}

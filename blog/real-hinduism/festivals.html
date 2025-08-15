@@ -9,7 +9,7 @@
 <body>
   <!-- HEADER -->
   <header>
-    <div class="logo">🕉 Real Hinduism</div>
+    <a href="index.html" class="logo" aria-label="Go to Home">🕉 Real Hinduism</a>
     <div class="menu-toggle" id="menu-toggle">☰</div>
     <nav>
       <ul id="nav-links">
@@ -30,16 +30,15 @@
     <p>Hindu festivals celebrate <strong>divinity, nature, and traditions</strong>. Click a festival to learn more.</p>
   </section>
 
-  <!-- Dynamic Festival Grid -->
   <section class="festival-grid"></section>
 
-  <!-- Modal for Festival Details -->
   <div class="modal" id="festivalModal">
     <div class="modal-content">
       <span class="close-btn" id="closeModal">&times;</span>
       <h2 id="modalTitle"></h2>
       <img id="modalImage" src="" alt="">
       <p id="modalDescription"></p>
+      <div id="festivalShare" class="share-buttons"></div>
     </div>
   </div>
 

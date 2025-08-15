@@ -10,7 +10,7 @@
 <body>
   <!-- HEADER -->
   <header>
-    <div class="logo">🕉 Real Hinduism</div>
+    <a href="index.html" class="logo" aria-label="Go to Home">🕉 Real Hinduism</a>
     <div class="menu-toggle" id="menu-toggle">☰</div>
     <nav>
       <ul id="nav-links">
@@ -42,12 +42,22 @@
 
     <!-- Share Buttons -->
     <div class="share-buttons" style="margin-top:20px;">
-      <p>Share this quote:</p>
-      <button id="shareCopy" class="share-btn"><i class="fa fa-copy"></i> Copy Link</button>
-      <a id="shareWhatsApp" class="share-btn whatsapp" target="_blank"><i class="fab fa-whatsapp"></i> WhatsApp</a>
-      <a id="shareTwitter" class="share-btn twitter" target="_blank"><i class="fab fa-twitter"></i> Twitter</a>
-      <a id="shareFacebook" class="share-btn facebook" target="_blank"><i class="fab fa-facebook"></i> Facebook</a>
-      <a id="shareTelegram" class="share-btn telegram" target="_blank"><i class="fab fa-telegram"></i> Telegram</a>
+      <h4>Share this quote:</h4>
+      <button id="shareCopy" title="Copy Link" style="background:none;border:none;cursor:pointer;">
+        <img src="assets/icons/png/link.png" alt="Copy Link" style="height:20px;vertical-align:middle;">
+      </button>
+      <a id="shareWhatsApp" class="whatsapp" target="_blank" title="Share on WhatsApp">
+        <img src="assets/icons/png/WhatsApp.png" alt="WhatsApp" style="height:20px;vertical-align:middle;">
+      </a>
+      <a id="shareTwitter" class="twitter" target="_blank" title="Share on Twitter">
+        <img src="assets/icons/png/Twitter.png" alt="Twitter" style="height:20px;vertical-align:middle;">
+      </a>
+      <a id="shareFacebook" class="facebook" target="_blank" title="Share on Facebook">
+        <img src="assets/icons/png/Facebook.png" alt="Facebook" style="height:20px;vertical-align:middle;">
+      </a>
+      <a id="shareTelegram" class="telegram" target="_blank" title="Share on Telegram">
+        <img src="assets/icons/png/Telegram.png" alt="Telegram" style="height:20px;vertical-align:middle;">
+      </a>
     </div>
   </section>
 

@@ -34,5 +34,14 @@
     "title": "Vedanta – Ultimate Self-Knowledge",
     "short": "Explores the nature of the self and Brahman.",
     "description": "Vedanta, based on the Upanishads, Bhagavad Gita, and Brahma Sutras, teaches that the individual self (Atman) is one with the Supreme Reality (Brahman). Liberation comes from self-knowledge."
+  },
+  {
+    "id": "samkhya",
+    "title": "Samkhya",
+    "short": "Dualistic school of Hindu philosophy.",
+    "description": "Samkhya is one of the oldest schools...",
+    "references": [
+      { "text": "Samkhya Philosophy", "url": "https://www.britannica.com/topic/Samkhya" }
+    ]
   }
 ]

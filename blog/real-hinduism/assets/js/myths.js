@@ -91,25 +91,13 @@ document.addEventListener("DOMContentLoaded", async () => {
         ).join("")}</ul>`
       : "";
 
-    const shareUrl = `${window.location.origin}${window.location.pathname}#${myth.id}`;
-    const shareText = `${myth.title} - ${myth.short}`;
-
-    // Copy
-    shareCopy && (shareCopy.onclick = () => {
-      navigator.clipboard.writeText(shareUrl).then(() => alert("✅ Link copied to clipboard!"));
-    });
-
-    // WhatsApp
-    shareWhatsApp && (shareWhatsApp.href = `https://wa.me/?text=${encodeURIComponent(shareText + " " + shareUrl)}`);
-
-    // Twitter
-    shareTwitter && (shareTwitter.href = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}`);
-
-    // Facebook
-    shareFacebook && (shareFacebook.href = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`);
-
-    // Telegram
-    shareTelegram && (shareTelegram.href = `https://t.me/share/url?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(shareText)}`);
+    const pageUrl = window.location.origin + window.location.pathname + "#" + myth.id;
+    const shareText = encodeURIComponent(`${myth.title} - ${myth.short || ""} (${pageUrl})`);
+    document.getElementById("shareWhatsApp").href = `https://wa.me/?text=${shareText}`;
+    document.getElementById("shareTwitter").href = `https://twitter.com/intent/tweet?text=${shareText}`;
+    document.getElementById("shareFacebook").href = `https://www.facebook.com/sharer/sharer.php?u=${pageUrl}`;
+    document.getElementById("shareTelegram").href = `https://t.me/share/url?url=${pageUrl}&text=${shareText}`;
+    document.getElementById("shareCopy").onclick = () => navigator.clipboard.writeText(pageUrl);
 
     modal.style.display = "flex";
     window.location.hash = myth.id;

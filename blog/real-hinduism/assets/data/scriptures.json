@@ -3,19 +3,28 @@
     "id": "vedas",
     "title": "Vedas – Rig, Sama, Yajur, Atharva",
     "short": "Foundation of Hindu spiritual knowledge.",
-    "description": "The Vedas are the oldest Hindu scriptures and are considered Shruti (divine revelations). They include the Rigveda (hymns), Samaveda (chants), Yajurveda (ritual instructions), and Atharvaveda (daily life prayers and rituals)."
+    "description": "The Vedas are the oldest Hindu scriptures and are considered Shruti (divine revelations). They include the Rigveda (hymns), Samaveda (chants), Yajurveda (ritual instructions), and Atharvaveda (daily life prayers and rituals).",
+    "references": [
+      { "text": "Sacred Texts", "url": "https://www.sacred-texts.com/hin/index.htm" }
+    ]
   },
   {
     "id": "upanishads",
     "title": "Upanishads – Philosophical Essence of the Vedas",
     "short": "Explores the nature of self and ultimate reality.",
-    "description": "The Upanishads are philosophical texts explaining the essence of the Vedas. They discuss concepts like Brahman (supreme reality), Atman (soul), and Moksha (liberation)."
+    "description": "The Upanishads are philosophical texts explaining the essence of the Vedas. They discuss concepts like Brahman (supreme reality), Atman (soul), and Moksha (liberation).",
+    "references": [
+      { "text": "Upanishads.org", "url": "https://www.upanishads.org/" }
+    ]
   },
   {
     "id": "bhagavad-gita",
     "title": "Bhagavad Gita – The Song of God",
     "short": "A spiritual guide within the Mahabharata.",
-    "description": "The Bhagavad Gita is a dialogue between Lord Krishna and Arjuna that teaches selfless action, devotion, and self-knowledge. It is one of the most important texts in Hindu philosophy."
+    "description": "The Bhagavad Gita is a dialogue between Lord Krishna and Arjuna that teaches selfless action, devotion, and self-knowledge. It is one of the most important texts in Hindu philosophy.",
+    "references": [
+      { "text": "Holy Bhagavad Gita", "url": "https://www.holy-bhagavad-gita.org/" }
+    ]
   },
   {
     "id": "ramayana",
