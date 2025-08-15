@@ -3,9 +3,46 @@
     "id": "vedas",
     "title": "Vedas – Rig, Sama, Yajur, Atharva",
     "short": "Foundation of Hindu spiritual knowledge.",
-    "description": "The Vedas are the oldest Hindu scriptures and are considered Shruti (divine revelations). They include the Rigveda (hymns), Samaveda (chants), Yajurveda (ritual instructions), and Atharvaveda (daily life prayers and rituals).",
+    "description": "The Vedas are the most ancient and revered scriptures of Hinduism, regarded as Shruti (that which is heard), meaning they are considered divinely revealed knowledge passed down orally through generations before being written. Composed in Sanskrit between roughly 1500–500 BCE, they form the foundation of Hindu philosophy, spirituality, and ritual practice. The Rigveda contains hymns praising various deities and cosmic principles; the Samaveda focuses on melodic chants used in rituals; the Yajurveda provides detailed prose and verse instructions for performing sacred ceremonies; and the Atharvaveda includes hymns, charms, and practical prayers related to health, prosperity, and daily life. Together, they guide spiritual understanding, moral values, and the connection between humanity and the cosmos.",
     "references": [
-      { "text": "Sacred Texts", "url": "https://www.sacred-texts.com/hin/index.htm" }
+      { "text": "Sacred Texts", "url": "https://www.sacred-texts.com/hin/index.htm" },
+      { "text": "Vedas Overview – Britannica", "url": "https://www.britannica.com/topic/Veda" }
+    ]
+  },
+  {
+    "id": "rigveda",
+    "title": "Rigveda",
+    "short": "The oldest Veda, composed of hymns to deities.",
+    "description": "The Rigveda is the oldest of the four Vedas, dating back to around 1500 BCE. It consists of 1,028 hymns (suktas) organized into 10 books (mandalas). These hymns are dedicated to various deities such as Agni (fire), Indra (warrior god), Varuna (cosmic order), and others, reflecting the spiritual, natural, and cosmic forces revered in early Vedic culture. Its verses are highly poetic and philosophical, exploring creation, existence, and the divine order (Rta). The Rigveda is a crucial source for understanding the early spiritual beliefs, social life, and cosmology of the Vedic people.",
+    "references": [
+      { "text": "Rigveda – Sacred Texts", "url": "https://www.sacred-texts.com/hin/rigveda/index.htm" }
+    ]
+  },
+  {
+    "id": "samaveda",
+    "title": "Samaveda",
+    "short": "The Veda of melodies and chants.",
+    "description": "The Samaveda is primarily a collection of melodies (saman) and chants used by priests during Vedic rituals. Most of its verses are taken from the Rigveda but are arranged to suit specific musical patterns for ceremonial purposes. It emphasizes the importance of sound, rhythm, and pronunciation in spiritual practice, highlighting the belief that proper chanting can harmonize the human spirit with the cosmic order. The Samaveda played a key role in the development of Indian classical music and continues to influence Hindu liturgical traditions.",
+    "references": [
+      { "text": "Samaveda – Sacred Texts", "url": "https://www.sacred-texts.com/hin/samaveda/index.htm" }
+    ]
+  },
+  {
+    "id": "yajurveda",
+    "title": "Yajurveda",
+    "short": "The Veda of rituals and sacrificial formulas.",
+    "description": "The Yajurveda contains prose and verse formulas (yajus) that guide priests in performing Vedic sacrifices (yajnas). It is divided into two main recensions: the Shukla (White) Yajurveda and the Krishna (Black) Yajurveda. While the White Yajurveda organizes its verses clearly with the rituals, the Black Yajurveda intersperses explanations within the text. This Veda is deeply practical, providing detailed instructions for offerings, altar construction, mantras, and ceremonial procedures, thus forming the backbone of Vedic ritual practice.",
+    "references": [
+      { "text": "Yajurveda – Sacred Texts", "url": "https://www.sacred-texts.com/hin/yajurveda/index.htm" }
+    ]
+  },
+  {
+    "id": "atharvaveda",
+    "title": "Atharvaveda",
+    "short": "The Veda of everyday life, health, and protection.",
+    "description": "The Atharvaveda differs from the other three Vedas by focusing on the practical and mystical aspects of daily life. It contains hymns, spells, charms, and prayers for health, protection from evil, love, prosperity, and social harmony. While it includes some philosophical hymns similar to the Rigveda, it also has many verses for healing diseases, ensuring success in endeavors, and warding off misfortune. It provides a glimpse into the domestic, medical, and magical traditions of the Vedic age, making it both spiritual and pragmatic in nature.",
+    "references": [
+      { "text": "Atharvaveda – Sacred Texts", "url": "https://www.sacred-texts.com/hin/atharva/index.htm" }
     ]
   },
   {
@@ -14,7 +51,19 @@
     "short": "Explores the nature of self and ultimate reality.",
     "description": "The Upanishads are philosophical texts explaining the essence of the Vedas. They discuss concepts like Brahman (supreme reality), Atman (soul), and Moksha (liberation).",
     "references": [
-      { "text": "Upanishads.org", "url": "https://www.upanishads.org/" }
+      { "text": "Vedic Heritage (Upnishads)", "url": "https://vedicheritage.gov.in/upanishads/" },
+      { "text": "Aitareyopnishads", "url": "https://vedicheritage.gov.in/upanishads/aitareyopanishad/" },
+      { "text": "Ishavasyopnishads", "url": "https://vedicheritage.gov.in/upanishads/ishavasyopanishad/" },
+      { "text": "Brihadaranyakopnishads", "url": "https://vedicheritage.gov.in/upanishads/brihadaranyakopanishad/" },
+      { "text": "Taittiriyaopanishads", "url": "https://vedicheritage.gov.in/upanishads/taittiriya-upanishads/" },
+      { "text": "Shwetashwataropanishad", "url": "https://vedicheritage.gov.in/upanishads/shwetashwataropanishad/" },
+      { "text": "Maitrayaniopanishads", "url": "https://vedicheritage.gov.in/upanishads/maitrayani-upanishad/" },
+      { "text": "Kathopanishads", "url": "https://vedicheritage.gov.in/upanishads/kathopanishad/" },
+      { "text": "Aarsheyaopanishads", "url": "https://vedicheritage.gov.in/upanishads/aarsheyopanishad/" },
+      { "text": "Kenopanishads", "url": "https://vedicheritage.gov.in/upanishads/kenopanisad/" },
+      { "text": "Chandogyopanishad", "url": "https://vedicheritage.gov.in/upanishads/chandogyopanishad/" },
+      { "text": "Prashnopanishad", "url": "https://vedicheritage.gov.in/upanishads/prashnopanishad/" },
+      { "text": "Mundakopanishad", "url": "https://vedicheritage.gov.in/upanishads/mundakopanishad/" }
     ]
   },
   {

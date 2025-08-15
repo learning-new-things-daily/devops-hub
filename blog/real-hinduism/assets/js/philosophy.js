@@ -6,6 +6,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const modalReferences = document.getElementById("modalReferences");
   const philosophyShare = document.getElementById("philosophyShare");
   const closeModal = document.getElementById("closeModal");
+  const searchInput = document.getElementById("philosophy-search");
 
   let philosophies = [];
 
@@ -19,14 +20,18 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   // Render philosophy cards
-  grid.innerHTML = "";
-  philosophies.forEach(philosophy => {
-    const card = document.createElement("div");
-    card.className = "festival-card";
-    card.innerHTML = `<h3>${philosophy.title}</h3><p>${philosophy.short}</p>`;
-    card.addEventListener("click", () => openModal(philosophy));
-    grid.appendChild(card);
-  });
+  function renderPhilosophies(philosophiesToRender) {
+    grid.innerHTML = "";
+    philosophiesToRender.forEach(philosophy => {
+      const card = document.createElement("div");
+      card.className = "festival-card";
+      card.innerHTML = `<h3>${philosophy.title}</h3><p>${philosophy.short}</p>`;
+      card.addEventListener("click", () => openModal(philosophy));
+      grid.appendChild(card);
+    });
+  }
+
+  renderPhilosophies(philosophies);
 
   // Modal open logic
   function openModal(philosophy) {
@@ -69,5 +74,16 @@ document.addEventListener("DOMContentLoaded", async () => {
   });
   window.addEventListener("click", e => {
     if (e.target === modal) modal.style.display = "none";
+  });
+
+  // Search functionality
+  searchInput.addEventListener("input", function() {
+    const query = this.value.trim().toLowerCase();
+    const filtered = philosophies.filter(p =>
+      p.title.toLowerCase().includes(query) ||
+      (p.short && p.short.toLowerCase().includes(query)) ||
+      (p.description && p.description.toLowerCase().includes(query))
+    );
+    renderPhilosophies(filtered);
   });
 });

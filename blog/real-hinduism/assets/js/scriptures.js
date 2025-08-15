@@ -5,6 +5,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const modalDescription = document.getElementById("modalDescription");
   const modalReferences = document.getElementById("modalReferences");
   const closeModal = document.getElementById("closeModal");
+  const searchInput = document.getElementById("scripture-search");
 
   let allScriptures = [];
 
@@ -98,4 +99,15 @@ document.addEventListener("DOMContentLoaded", async () => {
     modal.style.display = "none";
     history.replaceState(null, "", window.location.pathname); // clear hash
   }
+
+  // Search functionality
+  searchInput.addEventListener("input", function() {
+    const query = this.value.trim().toLowerCase();
+    const filtered = allScriptures.filter(s =>
+      s.title.toLowerCase().includes(query) ||
+      (s.short && s.short.toLowerCase().includes(query)) ||
+      (s.description && s.description.toLowerCase().includes(query))
+    );
+    renderScriptures(filtered);
+  });
 });
