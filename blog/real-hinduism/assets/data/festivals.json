@@ -1,11 +1,27 @@
 [
   {
-    "id": "diwali",
-    "title": "Diwali – Festival of Lights",
-    "date": "October / November",
-    "short": "Victory of light over darkness.",
-    "image": "assets/images/diwali-lights.jpg",
-    "description": "Diwali marks the return of Lord Rama to Ayodhya after defeating Ravana. It symbolizes the victory of light over darkness and knowledge over ignorance. Families light diyas, perform Laxmi puja, and celebrate with sweets and fireworks."
+    "id": "makar-sankranti",
+    "title": "Makar Sankranti – Harvest Festival",
+    "date": "January",
+    "short": "Harvest festival marking the sun's transition.",
+    "image": "assets/images/makar-sankranti.jpg",
+    "description": "Makar Sankranti marks the sun's transition into Capricorn (Makara). It is a harvest festival celebrated with kite flying, sesame sweets, and holy dips. It symbolizes new beginnings and prosperity."
+  },
+  {
+    "id": "vasant-panchami",
+    "title": "Vasant Panchami – Saraswati Puja",
+    "date": "January / February",
+    "short": "Festival dedicated to Goddess Saraswati.",
+    "image": "assets/images/vasant-panchami.jpg",
+    "description": "Vasant Panchami is dedicated to Goddess Saraswati, the goddess of knowledge and wisdom. People wear yellow, worship books, and celebrate the onset of spring."
+  },
+  {
+    "id": "maha-shivratri",
+    "title": "Maha Shivratri – Night of Shiva",
+    "date": "February / March",
+    "short": "Night dedicated to Lord Shiva.",
+    "image": "assets/images/maha-shivratri.jpg",
+    "description": "Maha Shivratri is the great night of Lord Shiva. Devotees fast, chant ‘Om Namah Shivaya’, and stay awake throughout the night offering prayers and bilva leaves."
   },
   {
     "id": "holi",
@@ -16,6 +32,46 @@
     "description": "Holi celebrates the arrival of spring and the victory of good over evil. The night before Holi, Holika Dahan is performed to burn negativity. The next day, people play with colors, symbolizing joy, equality, and new beginnings."
   },
   {
+    "id": "ram-navami",
+    "title": "Rama Navami – Birth of Lord Rama",
+    "date": "March / April",
+    "short": "Birth of Lord Rama, 7th avatar of Vishnu.",
+    "image": "assets/images/ram-navami.jpg",
+    "description": "Rama Navami marks the birth of Lord Rama in Ayodhya. Devotees read the Ramayana, organize processions, and perform bhajans in honor of the ideal king."
+  },
+  {
+    "id": "hanuman-jayanti",
+    "title": "Hanuman Jayanti – Birth of Hanuman",
+    "date": "March / April",
+    "short": "Festival honoring Lord Hanuman.",
+    "image": "assets/images/hanuman-jayanti.jpg",
+    "description": "Hanuman Jayanti celebrates the birth of Lord Hanuman, a symbol of devotion, strength, and selfless service. Devotees recite the Hanuman Chalisa and offer sindoor and laddoos."
+  },
+  {
+    "id": "akshaya-tritiya",
+    "title": "Akshaya Tritiya – Day of Eternal Prosperity",
+    "date": "April / May",
+    "short": "Auspicious day for new beginnings.",
+    "image": "assets/images/akshaya-tritiya.jpg",
+    "description": "Akshaya Tritiya is considered highly auspicious for starting new ventures, marriages, and charity. It symbolizes eternal prosperity and is associated with Lord Vishnu and Goddess Lakshmi."
+  },
+  {
+    "id": "jagannath-rath-yatra",
+    "title": "Jagannath Rath Yatra – Chariot Festival",
+    "date": "June / July",
+    "short": "Chariot festival in Puri.",
+    "image": "assets/images/jagannath-rath-yatra.jpg",
+    "description": "Rath Yatra is a grand chariot procession of Lord Jagannath, Balabhadra, and Subhadra in Puri, Odisha. Devotees pull the decorated chariots, signifying unity and devotion."
+  },
+  {
+    "id": "raksha-bandhan",
+    "title": "Raksha Bandhan – Bond of Protection",
+    "date": "August",
+    "short": "Celebration of sibling love.",
+    "image": "assets/images/raksha-bandhan.jpg",
+    "description": "Raksha Bandhan celebrates the bond between brothers and sisters. Sisters tie a protective thread (rakhi) on their brothers' wrists, symbolizing love and duty. Brothers promise to protect their sisters in return."
+  },
+  {
     "id": "janmashtami",
     "title": "Janmashtami – Birth of Lord Krishna",
     "date": "August",
@@ -24,27 +80,75 @@
     "description": "Janmashtami marks the divine birth of Lord Krishna, the 8th avatar of Vishnu. Devotees fast, sing bhajans, and recreate Krishna's childhood pastimes. Dahi Handi events reflect Krishna’s playful nature."
   },
   {
+    "id": "ganesh-chaturthi",
+    "title": "Ganesh Chaturthi – Birth of Ganesha",
+    "date": "August / September",
+    "short": "Festival of Lord Ganesha.",
+    "image": "assets/images/ganesh-chaturthi.jpg",
+    "description": "Ganesh Chaturthi celebrates the birth of Lord Ganesha, remover of obstacles. Clay idols are worshipped at homes and pandals before immersion in water with music and devotion."
+  },
+  {
+    "id": "onam",
+    "title": "Onam – Harvest Festival of Kerala",
+    "date": "August / September",
+    "short": "Welcoming King Mahabali.",
+    "image": "assets/images/onam.jpg",
+    "description": "Onam is Kerala’s biggest festival, celebrating the return of King Mahabali. It includes boat races, Pookalam (flower rangoli), traditional feasts (Onasadya), and cultural dances."
+  },
+  {
     "id": "navratri",
     "title": "Navratri – Nine Nights of Devotion",
     "date": "March / October",
     "short": "Dedicated to Goddess Durga.",
     "image": "assets/images/navratri.jpg",
-    "description": "Navratri is dedicated to Goddess Durga and her nine forms. Each night signifies the triumph of good over evil. People perform Garba, observe fasts, and honor feminine energy (Shakti) during these sacred nine nights."
+    "description": "Navratri is dedicated to Goddess Durga and her nine forms. Each night signifies the triumph of good over evil. People perform Garba, observe fasts, and honor feminine energy (Shakti)."
   },
-    {
-        "id": "raksha-bandhan",
-        "title": "Raksha Bandhan – Bond of Protection",
-        "date": "August",
-        "short": "Celebration of sibling love.",
-        "image": "assets/images/raksha-bandhan.jpg",
-        "description": "Raksha Bandhan celebrates the bond between brothers and sisters. Sisters tie a protective thread (rakhi) on their brothers' wrists, symbolizing love and duty. Brothers promise to protect their sisters in return."
-    },
-    {
-        "id": "makar-sankranti",
-        "title": "Makar Sankranti – Harvest Festival",
-        "date": "January",
-        "short": "Harvest festival marking the sun's transition.",
-        "image": "assets/images/makar-sankranti.jpg",
-        "description": "Makar Sankranti marks the sun's transition into Capricorn (Makara). It is a harvest festival celebrated with kite flying, feasting on sesame sweets, and taking holy dips in rivers. It signifies new beginnings and prosperity."
-    }
+  {
+    "id": "dussehra",
+    "title": "Dussehra – Vijayadashami",
+    "date": "October",
+    "short": "Victory of Lord Rama over Ravana.",
+    "image": "assets/images/dussehra.jpg",
+    "description": "Dussehra, also called Vijayadashami, marks the victory of Lord Rama over Ravana and Goddess Durga’s triumph over Mahishasura. Effigies of Ravana are burnt to symbolize the destruction of evil."
+  },
+  {
+    "id": "karva-chauth",
+    "title": "Karva Chauth – Fasting for Husband’s Long Life",
+    "date": "October / November",
+    "short": "Married women’s fasting festival.",
+    "image": "assets/images/karva-chauth.jpg",
+    "description": "Karva Chauth is a festival where married women fast from sunrise to moonrise for the long life and well-being of their husbands. It involves rituals, prayers, and moon sighting."
+  },
+  {
+    "id": "diwali",
+    "title": "Diwali – Festival of Lights",
+    "date": "October / November",
+    "short": "Victory of light over darkness.",
+    "image": "assets/images/diwali-lights.jpg",
+    "description": "Diwali marks the return of Lord Rama to Ayodhya after defeating Ravana. Families light diyas, worship Goddess Lakshmi, and celebrate with sweets and fireworks, symbolizing the victory of light over darkness."
+  },
+  {
+    "id": "govardhan-puja",
+    "title": "Govardhan Puja – Annakut Festival",
+    "date": "October / November",
+    "short": "Worship of Govardhan Hill.",
+    "image": "assets/images/govardhan-puja.jpg",
+    "description": "Govardhan Puja, the day after Diwali, commemorates Lord Krishna lifting Govardhan Hill to protect villagers from Indra’s wrath. Devotees prepare large food offerings called Annakut."
+  },
+  {
+    "id": "bhai-dooj",
+    "title": "Bhai Dooj – Brothers and Sisters Festival",
+    "date": "October / November",
+    "short": "Festival celebrating sibling bonds.",
+    "image": "assets/images/bhai-dooj.jpg",
+    "description": "Bhai Dooj celebrates the bond between brothers and sisters, similar to Raksha Bandhan. Sisters apply a ceremonial tilak on their brothers’ foreheads and pray for their long life."
+  },
+  {
+    "id": "kartika-purnima",
+    "title": "Karthika Purnima – Festival of Lights",
+    "date": "November / December",
+    "short": "Sacred full moon festival.",
+    "image": "assets/images/karthika-purnima.jpg",
+    "description": "Karthika Purnima is celebrated on the full moon of Kartik month. Devotees light lamps, perform rituals for Lord Shiva and Vishnu, and take holy river baths."
+  }
 ]

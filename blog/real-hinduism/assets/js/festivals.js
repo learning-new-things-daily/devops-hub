@@ -39,7 +39,7 @@ document.addEventListener("DOMContentLoaded", async () => {
           const pageUrl = window.location.origin + window.location.pathname + "#" + festival.id;
           const shareText = encodeURIComponent(`${festival.title} - ${festival.short || ""} (${pageUrl})`);
           shareDiv.innerHTML = `
-            <h4>Share:</h4>
+            <h4>Share this festival:</h4>
             <button onclick="navigator.clipboard.writeText('${pageUrl}');" title="Copy Link" style="background:none;border:none;cursor:pointer;">
               <img src="assets/icons/png/link.png" alt="Copy Link" style="height:20px;vertical-align:middle;">
             </button>
