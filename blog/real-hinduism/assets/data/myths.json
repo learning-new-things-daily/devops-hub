@@ -169,5 +169,92 @@
         "url": "https://www.wisdomlib.org/hinduism/book/the-padma-purana"
       }
     ]
+  },
+  {
+    "id": "lakshmi-ganesha-diwali",
+    "title": "Why are Lakshmi and Ganesha Worshipped on Diwali?",
+    "short": "Lakshmi Ji brings prosperity, while Ganesha Ji ensures wisdom and removes obstacles.",
+    "description": "On the festival of Diwali, Maa Lakshmi, the goddess of wealth and prosperity, is worshipped to invite abundance and fortune into homes. Lord Ganesha, the remover of obstacles and giver of wisdom, is worshipped alongside Lakshmi Ji to ensure that prosperity is attained and used wisely. The combination symbolizes 'Shubh' (auspiciousness) and 'Labh' (benefit), ensuring a balanced and successful life. Spiritually, Diwali night is believed to be the most powerful time to invoke these blessings, as it marks the triumph of light over darkness.",
+    "category": "tradition",
+    "proofs": [
+      "Lakshmi Puja on Diwali is mentioned in Skanda Purana as a way to invite prosperity.",
+      "Lord Ganesha is invoked at the beginning of all auspicious works as per the Ganesha Atharvashirsha.",
+      "The pairing of Lakshmi (wealth) and Ganesha (wisdom) is symbolized in 'Shubh-Labh', seen in scriptures and traditional practices."
+    ],
+    "references": [
+      {
+        "text": "Skanda Purana – Lakshmi Puja on Diwali night",
+        "url": "https://www.wisdomlib.org/hinduism/book/the-skanda-purana"
+      }
+    ]
+  },
+  {
+    "id": "tika-rice",
+    "title": "Myth: Rice in Tika is only for decoration",
+    "short": "Reality: Rice (Akshata) symbolizes prosperity, wholeness, and divine blessings.",
+    "description": "Many people think that adding rice to tika is just a decorative ritual. In reality, the use of rice, called 'Akshata' (unbroken grain), carries deep symbolic meaning. Rice represents life, prosperity, and sustenance. Being unbroken, it signifies completeness and undiminished blessings. When applied on the forehead along with kumkum or chandan, it is placed on the Ajna Chakra (third eye) to invoke divine energy, wisdom, and good fortune. Thus, rice in tika is not merely decoration, but a sacred symbol of prosperity and wholeness.",
+    "category": "ritual",
+    "proofs": [
+      "The Sanskrit term 'Akshata' means unbroken, complete, and undiminished, symbolizing fullness and prosperity.",
+      "Forehead application (between eyebrows) aligns with the Ajna Chakra, invoking spiritual energy and divine grace.",
+      "Traditional Hindu rituals use rice as an offering to deities, linking it with blessings of health, wealth, and wisdom."
+    ],
+    "references": [
+      {
+        "text": "Significance of Akshata in Hindu rituals",
+        "url": "https://www.speakingtree.in/blog/the-significance-of-akshata"
+      }
+    ]
+  },
+  {
+    "id": "33-koti-devas",
+    "title": "Myth: Hinduism has 33 crore (330 million) gods",
+    "short": "Reality: 'Koti' means 'type/category', not 'crore'—there are 33 principal deities symbolizing aspects of the One Supreme Reality.",
+    "description": "A common misconception is that Hinduism believes in 33 crore (330 million) gods. In fact, the Vedas and Upanishads mention '33 koti devas,' where 'koti' means 'type' or 'class,' not 'crore.' These 33 categories of deities (12 Adityas, 11 Rudras, 8 Vasus, and 2 Ashvins) represent different manifestations of the One Supreme (Brahman).",
+    "category": "scripture",
+    "proofs": [
+      "Brihadaranyaka Upanishad 3.9.1 – Enumerates 33 devas: 12 Adityas, 11 Rudras, 8 Vasus, and 2 Ashvins.",
+      "Yajurveda 32.1 – Affirms One Supreme Reality (Brahman) from whom all manifestations arise."
+    ],
+    "references": [
+      {
+        "text": "Brihadaranyaka Upanishad 3.9.1",
+        "url": "https://www.wisdomlib.org/hinduism/book/brihadaranyaka-upanishad/d/doc118240.html"
+      },
+      {
+        "text": "Yajurveda 32.1",
+        "url": "https://www.hinduwebsite.com/sacredscripts/yajurveda.asp"
+      }
+    ]
+  },
+  {
+    "id": "vedas-vs-puranas",
+    "title": "Myth: Vedas and Puranas are the same",
+    "short": "Reality: Vedas are Shruti (eternal revelations), while Puranas are Smriti (remembered stories and teachings). They differ in origin, purpose, and style.",
+    "description": "The Vedas and the Puranas serve different roles in Hindu tradition. The Vedas are the most ancient scriptures, considered Shruti—divine revelations 'heard' by rishis. They focus on hymns, rituals, philosophy, and spiritual truths. The Puranas, on the other hand, are Smriti—texts compiled by sages like Vyasa, presenting mythology, stories of gods and avatars, cosmology, and moral teachings in an accessible way for the masses. Vedas are abstract and philosophical, while Puranas are narrative and devotional.",
+    "category": "scripture",
+    "proofs": [
+      "Rig Veda – oldest scripture of Hinduism, containing hymns and philosophy.",
+      "Brihadaranyaka Upanishad – Vedic philosophy teaching Atman and Brahman.",
+      "Bhagavata Purana – narrates stories of Lord Vishnu and his avatars.",
+      "Shiva Purana – narrates cosmic stories of Lord Shiva."
+    ],
+    "references": [
+      {
+        "text": "Rig Veda (Sacred Texts)",
+        "url": "https://www.sacred-texts.com/hin/rigveda/index.htm"
+      },
+      {
+        "text": "Bhagavata Purana",
+        "url": "https://www.wisdomlib.org/hinduism/book/the-bhagavata-purana"
+      },
+      {
+        "text": "Shiva Purana",
+        "url": "https://www.wisdomlib.org/hinduism/book/shiva-purana-english"
+      }
+    ]
   }
+
+
+
 ]
