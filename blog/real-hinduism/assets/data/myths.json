@@ -123,5 +123,51 @@
         "url": "https://vedabase.io/en/library/bg/"
       }
     ]
+  },
+  {
+    "id": "kalawa-wrist",
+    "title": "Myth: Men and Women Can Wear Kalawa on Any Wrist",
+    "short": "Reality: Hindu scriptures clearly prescribe right wrist for men and left wrist for women.",
+    "description": "The sacred thread (kalawa, mauli, raksha-sutra) is not tied randomly. Hindu scriptures prescribe that men should wear it on the right wrist, while women should wear it on the left wrist. This distinction is rooted in symbolism and ritual science: the right side represents Purusha (masculine, solar, active energy), and the left represents Prakriti (feminine, lunar, nurturing energy). Thus, wearing kalawa on different wrists aligns with cosmic balance and dharmic tradition.",
+    "category": "scripture",
+    "proofs": [
+      "Bhagavata Purana 8.22–23, Skanda Purana – Lakshmi ties a raksha-sutra to King Bali as Vamana blesses him.",
+      "Mahabharata (folk retellings, Vrata Kathas) – Kunti ties a protective thread on Abhimanyu; as long as it remained intact, he was invincible.",
+      "Paraskara Grihya Sutra 2.2.4–6 – 'दक्षिणे पुरुषाणां, वामे स्त्रीणाम्' (dakṣiṇe puruṣāṇām, vāme strīṇām) — For men it is on the right, for women on the left.",
+      "Āpastamba Grihya Sutra 1.1.1.12 – 'शुभकर्मणि दक्षिणहस्तः, स्त्रीणां वामहस्तः' (śubhakarmaṇi dakṣiṇa-hastaḥ, strīṇāṁ vāma-hastaḥ) — In auspicious rituals, the right hand is prescribed for men, and the left hand for women.",
+      "Skanda Purana, Kashi Khanda 16 – 'रक्षासूत्रं पुंसां दक्षिणे, स्त्रीणां वामे विधीयते' (rakṣā-sūtraṁ puṁsāṁ dakṣiṇe, strīṇāṁ vāme vidhīyate) — The protective thread should be tied on the right wrist of men, and on the left wrist of women.",
+      "Dharma Sindhu – 'रक्षासूत्रं पुरुषस्य दक्षिणे, स्त्रियाः वामे बन्धनीयम्' (rakṣā-sūtraṁ puruṣasya dakṣiṇe, striyāḥ vāme bandhanīyam) — The raksha-sutra should be tied on the right wrist of a man, and on the left wrist of a woman.",
+      "Bhavishya Purana, Uttara Parva 137 – 'ब्राह्मे मुहूर्ते रक्षां बध्नन्ति मनुजेषु च। दक्षिणे पुरुषाणां तु, स्त्रीणां वामे प्रकीर्तितम्॥' — At the auspicious hour, the raksha is tied to humans too — on the right wrist of men, and on the left of women."
+    ],
+    "references": [
+      {
+        "text": "Paraskara Grihya Sutra (2.2.4–6)",
+        "url": "https://archive.org/details/paraskar-grihya-sutra-complete-series-17-ed.-sudhakar-malaviya-kashi-sanskrit-granthmala/mode/2up"
+      },
+      {
+        "text": "Āpastamba Grihya Sutra (1.1.1.12)",
+        "url": "https://www.wisdomlib.org/hinduism/book/apastamba-grihya-sutra-sanskrit"
+      },
+      {
+        "text": "Skanda Purana – Kashi Khanda",
+        "url": "https://www.wisdomlib.org/hinduism/book/the-skanda-purana/d/doc423734.html"
+      },
+      {
+        "text": "Dharma Sindhu (Ritual Digest)",
+        "url": "https://www.scribd.com/document/275406598/Dharma-Sindhu-1st-Parichheda"
+      },
+      {
+        "text": "Bhavishya Purana – Uttara Parva 137",
+        "url": "https://www.wisdomlib.org/hinduism/book/bhavishya-purana-sanskrit/d/doc1260577.html"
+      },
+      {
+      "text": "Bhagavata Purana 8.22–23",
+      "url": "https://vedabase.io/en/library/sb/8/22/23/"
+      },
+      {
+        "text": "Padma Purana",
+        "url": "https://www.wisdomlib.org/hinduism/book/the-padma-purana"
+      }
+    ]
   }
 ]
