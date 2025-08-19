@@ -253,8 +253,44 @@
         "url": "https://www.wisdomlib.org/hinduism/book/shiva-purana-english"
       }
     ]
-  }
-
-
-
+  },
+{
+  "id": "jyotirlinga-rashi",
+  "title": "Myth: Each Jyotirlinga is strictly tied to one Zodiac Sign (Rāśi)",
+  "short": "Reality: No direct scriptural proof – the link is symbolic, not literal.",
+  "description": "Many believe that the 12 Jyotirlingas of Shiva directly correspond to the 12 zodiac signs (Rāśis). However, no Vedic or Purāṇic scripture states such a one-to-one fixed mapping. The number 12 itself is cosmic, appearing as 12 months, 12 Ādityas, 12 Rāśis, and 12 Jyotirlingas. Symbolically, this shows that Lord Shiva pervades all directions, all divisions of time, and all phases of life.",
+  "category": "myth-burst",
+  "proofs": [
+    "Śiva Purāṇa lists the 12 Jyotirlingas but does not connect them to zodiac signs.",
+    "Vedic astrology defines 12 Rāśis but never mentions Jyotirlinga mapping.",
+    "Traditional commentators and temple practices sometimes associate Jyotirlingas with Rāśis for symbolic representation, not as an original doctrine."
+  ],
+  "reality_examples": [
+    "Just as the Sun moves through 12 Rāśis in a year, Shiva as eternal light manifests in 12 Jyotirlingas across India.",
+    "Each Jyotirlinga protects devotees in a direction or phase of life, not just a zodiac sign.",
+    "This symbolic alignment helps devotees see Shiva as Kāla (Time) and Jyoti (Light) spread across the universe."
+  ]
+},
+{
+  "id": "barbarik-mahabharata",
+  "title": "Myth: Barbarik fought in the Mahabharata war but was taken back",
+  "short": "Reality: Barbarik never fought in the war. He was stopped before it began.",
+  "description": "There is a popular belief that Barbarik, grandson of Bhima (through Ghatotkacha), participated in the Mahabharata war but was later taken back or withdrawn. The reality from scriptures is different. Before the war started, Lord Krishna, disguised as a Brahmin, tested Barbarik’s vow to fight only on the weaker side. Realizing that this would make him shift sides continuously and lead to the destruction of both armies, Krishna asked for his head in *daan* (sacrifice). Barbarik willingly gave his head before the battle began. His head was placed on a hilltop, from where he witnessed the entire war but never fought in it. Thus, Barbarik did not fight and was not 'taken back'.",
+  "category": "myth",
+  "proofs": [
+    "Skanda Purana – Describes Krishna testing Barbarik and asking for his head.",
+    "Bhavishya Purana – Mentions Barbarik’s boon to witness the war after his sacrifice.",
+    "Local traditions in Rajasthan (Khatu Shyam temple) uphold this version."
+  ],
+  "references": [
+    {
+      "text": "Skanda Purana, Chapter on Barbarik",
+      "url": "https://www.wisdomlib.org/hinduism/book/skanda-purana-english"
+    },
+    {
+      "text": "Khatu Shyam Ji Tradition (Barbarik)",
+      "url": "https://www.khatushyamji.com"
+    }
+  ]
+}
 ]
