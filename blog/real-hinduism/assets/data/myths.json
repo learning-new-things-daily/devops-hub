@@ -358,5 +358,24 @@
     {"text": "ISRO Satellite Observations", "url": "https://www.isro.gov.in/"},
     {"text": "Historical Note – 'Adam’s Bridge' colonial naming", "url": "https://www.thehindu.com/archive/"}
   ]
+},
+{
+  "id": "trinity-origin",
+  "title": "Myth: Brahma, Vishnu, or Mahesh came first",
+  "short": "Reality: All three emerge from the same Supreme Reality (Brahman).",
+  "description": "Many believe that either Brahma (creator), Vishnu (preserver), or Shiva/Mahesh (destroyer) came first. In reality, Hindu scriptures teach that all three are manifestations of the same eternal, formless Brahman – the Supreme Reality beyond time. Depending on the Purana, different versions are given: in Shiva Purana, Shiva is eternal and from him Vishnu and Brahma arise; in Vishnu Purana, Vishnu is supreme and Brahma and Shiva emerge from him; in Devi Bhagavata, the Divine Mother (Shakti) is supreme, and the Trimurti arise from her. The Vedas clarify that the ultimate source is the unmanifested Brahman, beyond form and attributes, from whom all deities emerge.",
+  "category": "scripture",
+  "proofs": [
+    "Rig Veda 10.129 (Nasadiya Sukta) – speaks of the One that existed before creation.",
+    "Shiva Purana – declares Shiva as the eternal source of Brahma and Vishnu.",
+    "Vishnu Purana – states Vishnu as the origin of creation, from whom Brahma arises.",
+    "Devi Bhagavata Purana – places Adi Shakti as the supreme cause of the universe."
+  ],
+  "references": [
+    {"text": "Rig Veda 10.129", "url": "https://www.hinduwebsite.com/sacredscripts/rig_veda.asp"},
+    {"text": "Shiva Purana", "url": "https://archive.org/details/ShivaPurana"},
+    {"text": "Vishnu Purana", "url": "https://archive.org/details/vishnupurana_202003"},
+    {"text": "Devi Bhagavata Purana", "url": "https://archive.org/details/DeviBhagavataPurana"}
+  ]
 }
 ]
