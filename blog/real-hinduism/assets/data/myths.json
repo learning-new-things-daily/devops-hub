@@ -292,5 +292,33 @@
       "url": "https://www.khatushyamji.com"
     }
   ]
+},
+{
+  "id": "women-literacy",
+  "title": "Myth: Ancient Hindu women were not literate or educated",
+  "short": "Reality: Many Hindu women were highly educated, scholars, and even teachers of Vedic wisdom.",
+  "description": "Contrary to the belief that women in ancient Hindu society lacked education, numerous women were Rishikas, philosophers, poets, and saints. The Rigveda itself has hymns authored by women sages. Later scriptures and epics record women debating philosophy, guiding kings, and composing spiritual literature. Even in the medieval period, women like Ubhaya Bhāratī acted as respected judges in philosophical debates.",
+  "category": "myth-burst",
+  "proofs": [
+    "Rigveda mentions women Rishikas like Ghosha, Lopamudra, Apala, Vishvavara, Gargi, and Maitreyi who composed hymns and debated philosophy.",
+    "Brihadaranyaka Upanishad shows Gargi and Maitreyi as leading philosophers.",
+    "Mahabharata (Shanti Parva) records Sulabha debating King Janaka on liberation.",
+    "Ramayana portrays Tara and Mandodari as wise counselors.",
+    "Bhakti saints like Andal, Akka Mahadevi, and Meerabai wrote devotional literature still celebrated today.",
+    "Ubhaya Bhāratī, wife of Mandana Mishra, judged Shankaracharya’s debate and later challenged him herself."
+  ],
+  "reality_examples": [
+    "Gargi – debated Yajnavalkya on metaphysics in Janaka’s court.",
+    "Maitreyi – discussed immortality and Atman with Yajnavalkya.",
+    "Lopamudra – composed Rigvedic hymns with Sage Agastya.",
+    "Apala – Rigvedic hymns on healing despite physical hardship.",
+    "Sulabha – debated King Janaka on liberation in Mahabharata.",
+    "Draupadi – raised questions of Dharma in the Kaurava court.",
+    "Ubhaya Bhāratī – judged Mandana Mishra vs Shankaracharya debate and later tested Shankara’s knowledge.",
+    "Andal – Tamil poet-saint of Bhakti movement.",
+    "Akka Mahadevi – composed vachanas, philosophical poetry in Kannada.",
+    "Meerabai – poetess of divine love for Krishna.",
+    "Auvaiyar – Tamil poetess of Sangam era, wrote moral maxims."
+  ]
 }
 ]
