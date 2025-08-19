@@ -340,5 +340,23 @@
     "The 16,100 women liberated from Narakasura were socially stigmatized; Krishna gave them status and honor by accepting them as his wives.",
     "Symbolically, the 16,000 wives represent 16,000 forms of devotion (bhakti-rasa) through which souls can unite with Krishna."
   ]
+},
+{
+  "id": "ram-setu",
+  "title": "Myth: Ram Setu is just a legend",
+  "short": "Reality: Ram Setu exists as a visible chain of shoals between India and Sri Lanka, described in Ramayana and confirmed by modern studies.",
+  "description": "According to Valmiki Ramayana, Lord Rama’s army built a bridge across the ocean to reach Lanka. This structure, called Ram Setu or Nala Setu, is detailed in Yuddha Kanda. Modern satellite images from NASA and ISRO show a 30 km chain of limestone shoals between Rameshwaram (India) and Mannar (Sri Lanka). Geological and carbon-dating studies suggest its formation is thousands of years old, aligning with the Ramayana timeline. The later colonial name 'Adam’s Bridge' was introduced much after, but the original Hindu tradition always knew it as Ram Setu.",
+  "category": "scripture + science",
+  "proofs": [
+    "Valmiki Ramayana, Yuddha Kanda – Nala builds the bridge with the Vanara army.",
+    "NASA and ISRO satellite images clearly show the chain of shoals.",
+    "Geological Survey of India (2003) reported it is a causeway made of set stones, not just a sandbar."
+  ],
+  "references": [
+    {"text": "Valmiki Ramayana – Yuddha Kanda, Sarga 22-23", "url": "https://www.valmikiramayan.net/yuddha/sarga22/yuddhasans22.htm"},
+    {"text": "NASA on Ram Setu", "url": "https://earthobservatory.nasa.gov/images/139949/adams-bridge"},
+    {"text": "ISRO Satellite Observations", "url": "https://www.isro.gov.in/"},
+    {"text": "Historical Note – 'Adam’s Bridge' colonial naming", "url": "https://www.thehindu.com/archive/"}
+  ]
 }
 ]
