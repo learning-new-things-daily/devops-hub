@@ -25,3 +25,5 @@ A static site hosted on GitHub Pages featuring:
 - Affiliate links in blog
 - Gumroad for script downloads
 - Formspree + Contact page for leads
+
+---
